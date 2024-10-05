@@ -9,7 +9,10 @@ local globals = {
 	CROSSFADE_TIME = 0,
 	
 	BLOCK_CACHE_GRID_SIZE = 3,
-	ANT_BLOCK_RADIUS = 8,
+	BLOCK_RADIUS = {
+		ant = 8,
+		placement = 0,
+	},
 	
 	ZOOM_OUT = 1,
 	CAMERA_SPEED = 2,

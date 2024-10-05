@@ -27,7 +27,7 @@ function api.GetScentRawPos(name, x, y)
 end
 
 function api.GetScent(name, pos, canBeBlocked)
-	if canBeBlocked and BlockHandler.BlockAt(pos) then
+	if canBeBlocked and BlockHandler.BlockAt("ant", pos) then
 		return 0
 	end
 	local scent = self.scents[name]

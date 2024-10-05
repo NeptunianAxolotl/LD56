@@ -34,7 +34,7 @@ function api.MousePressed(x, y, button)
 			local blockType = self.currentBlock.def.name
 			local blockPos = self.currentBlock.pos
 			BlockHandler.RemoveBlock(self.currentBlock)
-			if BlockHandler.FreeToPlaceAt(blockType, mousePos) then
+			if BlockHandler.FreeToPlaceAt("placement", blockType, mousePos) then
 				BlockHandler.SpawnBlock(blockType, mousePos)
 				self.currentBlock = false
 			else

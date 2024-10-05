@@ -9,8 +9,8 @@ local data = {
 		{"basic_nest", {400, 400}},
 	},
 	food = {
-		{"basic_food", {1450, 800}},
-		{"ant_killer", {1450, 800}},
+		{"basic_food", {950, 850}},
+		{"basic_killer", {1650, 700}},
 	},
 	blocks = {
 		{"log", 	{600, 200}},

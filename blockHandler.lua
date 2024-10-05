@@ -15,28 +15,33 @@ function api.Draw(drawQueue)
 end
 
 local function AddToBlockCache(blockData)
-	local left, right, top, bot = blockData.GetBlockBounds(Global.BLOCK_CACHE_GRID_SIZE, Global.ANT_BLOCK_RADIUS)
-	for i = left, right do
-		for j = top, bot do
-			if not self.blockCache[i] then
-				self.blockCache[i] = {}
+	for cacheType = 1, #blockData.def.blockTypes do
+		local cache = self.blockCache[blockData.def.blockTypes[cacheType]]
+		local left, right, top, bot = blockData.GetBlockBounds(Global.BLOCK_CACHE_GRID_SIZE, Global.BLOCK_RADIUS[blockData.def.blockTypes[cacheType]])
+		for i = left, right do
+			for j = top, bot do
+				if not cache[i] then
+					cache[i] = {}
+				end
+				cache[i][j] = (cache[i][j] or 0) + 1
 			end
-			self.blockCache[i][j] = (self.blockCache[i][j] or 0) + 1
 		end
 	end
 end
 
-
 local function RemoveFromBlockCache(blockData)
-	local left, right, top, bot = blockData.GetBlockBounds(Global.BLOCK_CACHE_GRID_SIZE, Global.ANT_BLOCK_RADIUS)
-	for i = left, right do
-		for j = top, bot do
-			if not self.blockCache[i] then
-				self.blockCache[i] = {}
-			end
-			self.blockCache[i][j] = (self.blockCache[i][j] or 0) - 1
-			if self.blockCache[i][j] <= 0 then
-				self.blockCache[i][j] = nil
+	for cacheType = 1, #blockData.def.blockTypes do
+		local cache = self.blockCache[blockData.def.blockTypes[cacheType]]
+		local left, right, top, bot = blockData.GetBlockBounds(Global.BLOCK_CACHE_GRID_SIZE, Global.BLOCK_RADIUS[blockData.def.blockTypes[cacheType]])
+		for i = left, right do
+			for j = top, bot do
+				if not cache[i] then
+					cache[i] = {}
+				end
+				cache[i][j] = (cache[i][j] or 0) - 1
+				if cache[i][j] <= 0 then
+					cache[i][j] = nil
+				end
 			end
 		end
 	end
@@ -58,11 +63,12 @@ function api.GetBlockBounds(pos, defName, snap, radius)
 	return left, right, top, bot
 end
 
-function api.FreeToPlaceAt(defName, pos)
+function api.FreeToPlaceAt(cacheType, defName, pos)
+	local cache = self.blockCache[cacheType]
 	local left, right, top, bot = api.GetBlockBounds(pos, defName, Global.BLOCK_CACHE_GRID_SIZE)
 	for i = left, right do
 		for j = top, bot do
-			if self.blockCache[i] and self.blockCache[i][j] then
+			if cache[i] and cache[i][j] then
 				return false
 			end
 		end
@@ -82,10 +88,11 @@ function api.RemoveBlock(block)
 	block.Destroy()
 end
 
-function api.BlockAt(pos)
+function api.BlockAt(cacheType, pos)
+	local cache = self.blockCache[cacheType]
 	local xSnap = math.floor((pos[1] - Global.BLOCK_CACHE_GRID_SIZE / 2) / Global.BLOCK_CACHE_GRID_SIZE)
 	local ySnap = math.floor((pos[2] - Global.BLOCK_CACHE_GRID_SIZE / 2) / Global.BLOCK_CACHE_GRID_SIZE)
-	return self.blockCache[xSnap] and self.blockCache[xSnap][ySnap] and true
+	return cache[xSnap] and cache[xSnap][ySnap] and true
 end
 
 
@@ -101,7 +108,10 @@ function api.Initialize(world)
 		world = world,
 		blocks = IterableMap.New(),
 		blockAt = {},
-		blockCache = {},
+		blockCache = {
+			ant = {},
+			placement = {},
+		},
 	}
 	
 	local levelData = LevelHandler.GetLevelData()

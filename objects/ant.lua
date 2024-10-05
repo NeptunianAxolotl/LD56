@@ -51,11 +51,11 @@ local function NewAnt(world, creatureDef, position, size)
 		
 		local newPos = util.Add(self.pos, util.PolarToCart(dt * creatureDef.speed * self.speedMult, self.direction))
 		TerrainHandler.WrapPosInPlace(newPos)
-		if BlockHandler.BlockAt(newPos) then
+		if BlockHandler.BlockAt("ant", newPos) then
 			local leftPos = util.Add(self.pos, util.PolarToCart(creatureDef.turnCheckLength, self.direction + creatureDef.turnCheckAngle))
 			local rightPos = util.Add(self.pos, util.PolarToCart(creatureDef.turnCheckLength, self.direction - creatureDef.turnCheckAngle))
-			local blockLeft = BlockHandler.BlockAt(leftPos)
-			local blockRight = BlockHandler.BlockAt(rightPos)
+			local blockLeft = BlockHandler.BlockAt("ant", leftPos)
+			local blockRight = BlockHandler.BlockAt("ant", rightPos)
 			if blockLeft ~= blockRight then
 				if blockLeft then
 					self.direction = self.direction - math.random()
