@@ -1,6 +1,7 @@
 local data = {
 	humanName = "test",
 	nextLevel = "level1",
+	description = "The owner of this house hired you to deal with their ant problem, but your apprentice put the poison inside rather than near the nest! Worse, you were explicitly told not to touch the decorative cake in the front yard. Use a combination of furniture rearrangement, airhorns, and drugs, to send the health of the nest to zero before the cake suffers the same fate. (Press the number keys and click buttons)",
 	width = 2600,
 	height = 1400,
 	nests = {
@@ -72,17 +73,17 @@ local data = {
 			},
 		},
 		{
-			"log",
+			"rug",
 			{
-				1350,
-				680,
+				520,
+				260,
 			},
 		},
 		{
-			"log_90",
+			"wall",
 			{
-				320,
-				1230,
+				2150,
+				730,
 			},
 		},
 		{
@@ -135,10 +136,10 @@ local data = {
 			},
 		},
 		{
-			"log_90",
+			"log",
 			{
-				550,
-				830,
+				2160,
+				930,
 			},
 		},
 		{
@@ -156,17 +157,45 @@ local data = {
 			},
 		},
 		{
-			"log",
+			"log_90",
 			{
-				2160,
-				930,
+				470,
+				1030,
+			},
+		},
+		{
+			"rug",
+			{
+				260,
+				490,
+			},
+		},
+		{
+			"rug",
+			{
+				310,
+				300,
+			},
+		},
+		{
+			"rug",
+			{
+				450,
+				480,
 			},
 		},
 		{
 			"wall",
 			{
-				2150,
-				730,
+				1350,
+				850,
+			},
+		},
+		{
+			"log",
+			{
+				1350,
+				600,
 			},
 		},
 	},
