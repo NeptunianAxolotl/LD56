@@ -7,6 +7,8 @@ local function NewAnt(world, creatureDef, position, size)
 	self.direction = math.random()*math.pi*2
 	self.def = creatureDef
 	self.hasFood = false
+	self.feelerOffset = math.random()*0.8 - 0.4
+	self.speedMult = math.random()*0.2 + 0.9
 	
 	if self.def.init then
 		self.def.init(self)
@@ -23,24 +25,21 @@ local function NewAnt(world, creatureDef, position, size)
 		self.def.update(self, dt)
 		
 		local directionChange = false
-		if math.random() < 0.5 then
-			local leftPos = util.Add(self.pos, util.PolarToCart(creatureDef.feelerLength, self.direction + creatureDef.feelerAngle))
-			local rightPos = util.Add(self.pos, util.PolarToCart(creatureDef.feelerLength, self.direction - creatureDef.feelerAngle))
+		if math.random() < 0.4 then
+			local leftPos = util.Add(self.pos, util.PolarToCart(creatureDef.feelerLength, self.direction + creatureDef.feelerAngle + self.feelerOffset))
+			local rightPos = util.Add(self.pos, util.PolarToCart(creatureDef.feelerLength, self.direction - creatureDef.feelerAngle + self.feelerOffset))
 			TerrainHandler.WrapPosInPlace(leftPos)
 			TerrainHandler.WrapPosInPlace(rightPos)
 			
 			local wantScent = self.hasFood and "explore" or "food"
-			local leftScent = ScentHandler.GetScent(wantScent, leftPos)^2
-			local rightScent = ScentHandler.GetScent(wantScent, rightPos)^2
-			if leftScent > 0 or rightScent > 0 then
-				local bias = 2*(leftScent / (leftScent + rightScent) - 0.5)
-				directionChange = math.random()*2 - 1 + bias*3
-				if math.random() < 0.1 then
-					directionChange = 1*(math.random()*20 - 10)
-				end
+			local leftScent = (ScentHandler.GetScent(wantScent, leftPos) + 0.5)^2
+			local rightScent = (ScentHandler.GetScent(wantScent, rightPos) + 0.5)^2
+			local bias = 2*(leftScent / (leftScent + rightScent) - 0.5)
+			directionChange = math.random()*2 - 1 + bias*3
+			if math.random() < 0.1 then
+				directionChange = 1*(math.random()*20 - 10)
 			end
-		end
-		if not directionChange then
+		else
 			if math.random() < 0.1 then
 				directionChange = math.random()*26 - 13
 			else
@@ -49,11 +48,11 @@ local function NewAnt(world, creatureDef, position, size)
 		end
 		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
 		
-		self.pos = util.Add(self.pos, util.PolarToCart(dt * creatureDef.speed, self.direction))
+		self.pos = util.Add(self.pos, util.PolarToCart(dt * creatureDef.speed * self.speedMult, self.direction))
 		TerrainHandler.WrapPosInPlace(self.pos)
 		
 		if self.hasFood then
-			ScentHandler.AddScent("food", self.pos, 30, dt)
+			ScentHandler.AddScent("food", self.pos, 36, dt*1.5)
 		else
 			ScentHandler.AddScent("explore", self.pos, 30, dt)
 		end
