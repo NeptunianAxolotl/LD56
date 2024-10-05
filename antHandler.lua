@@ -3,24 +3,28 @@ local self = {}
 local api = {}
 
 local CreatureDefs = require("defs/creatureDefs")
+local NestDefs = require("defs/nestDefs")
+local FoodDefs = require("defs/foodDefs")
+
 local NewAnt = require("objects/ant")
 local NewNest = require("objects/nest")
 local NewFoodSource = require("objects/foodSource")
 
-local function SpawnAnt()
-	local pos = {400, 400}
-	local new = NewAnt(self.world, CreatureDefs.defs['ant'], pos)
+function api.SpawnAnt(defName, pos)
+	local new = NewAnt(self.world, CreatureDefs.defs[defName], pos)
 	
 	IterableMap.Add(self.ants, new)
 	print(IterableMap.Count(self.ants))
 end
 
-local function SpawnAntsUpdate(dt)
-	self.spawnTimer = self.spawnTimer + dt
-	while self.spawnTimer > 1 / self.spawnFrequency do
-		SpawnAnt()
-		self.spawnTimer = self.spawnTimer - 1 / self.spawnFrequency
-	end
+function api.AddNest(defName, pos)
+	local nest = NewNest(self.world, NestDefs.defs[defName], pos)
+	IterableMap.Add(self.nests, nest)
+end
+
+function api.AddFoodSource(defName, pos)
+	local foodSource = NewFoodSource(self.world, FoodDefs.defs[defName], pos)
+	IterableMap.Add(self.foodSources, foodSource)
 end
 
 local function ClosestToWithDist(data, maxDistSq, pos, filterFunc)
@@ -53,18 +57,7 @@ function api.NearFoodSource(pos, dist)
 	return GetClosest(self.foodSources, pos, dist)
 end
 
-function api.AddNest(pos)
-	local nest = NewNest(self.world, pos)
-	IterableMap.Add(self.nests, nest)
-end
-
-function api.AddFoodSource(pos)
-	local foodSource = NewFoodSource(self.world, pos)
-	IterableMap.Add(self.foodSources, foodSource)
-end
-
 function api.Update(dt)
-	SpawnAntsUpdate(dt)
 	IterableMap.ApplySelf(self.ants, "Update", dt)
 	IterableMap.ApplySelf(self.nests, "Update", dt)
 	IterableMap.ApplySelf(self.foodSources, "Update", dt)
@@ -79,15 +72,20 @@ function api.Initialize(world)
 	self = {
 		world = world,
 		ants = IterableMap.New(),
-		spawnFrequency = 6,
-		spawnTimer = 0,
 		currentTime = 0,
 		nests = IterableMap.New(),
 		foodSources = IterableMap.New(),
 	}
 	
-	api.AddNest({400, 400})
-	api.AddFoodSource({1200, 700})
+	local levelData = LevelHandler.GetLevelData()
+	for i = 1, #levelData.nests do
+		local nest = levelData.nests[i]
+		api.AddNest(nest[1], nest[2])
+	end
+	for i = 1, #levelData.food do
+		local food = levelData.food[i]
+		api.AddFoodSource(food[1], food[2])
+	end
 end
 
 return api
