@@ -48,8 +48,13 @@ local function NewAnt(world, creatureDef, position, size)
 		end
 		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
 		
-		self.pos = util.Add(self.pos, util.PolarToCart(dt * creatureDef.speed * self.speedMult, self.direction))
-		TerrainHandler.WrapPosInPlace(self.pos)
+		local newPos = util.Add(self.pos, util.PolarToCart(dt * creatureDef.speed * self.speedMult, self.direction))
+		if BlockHandler.BlockAt(newPos) then
+			self.direction = self.direction + math.pi + math.random()*4 - 2
+		else
+			self.pos = newPos
+			TerrainHandler.WrapPosInPlace(self.pos)
+		end
 		
 		if self.hasFood then
 			ScentHandler.AddScent("food", self.pos, 36, dt*1.5)

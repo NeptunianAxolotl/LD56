@@ -1,7 +1,6 @@
 
 local data = {
 	speed = 60,
-	radius = 10,
 	nestDist = 50,
 	foodDist = 50,
 	feelerLength = 60,

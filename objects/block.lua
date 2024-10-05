@@ -15,6 +15,21 @@ local function NewBlock(world, blockDef, position)
 		end
 	end
 	
+	function self.GetBlockBounds(snap, radius)
+		radius = radius or 0
+		local left = self.pos[1] - self.def.width/2 - radius
+		local right = self.pos[1] + self.def.width/2 + radius
+		local top = self.pos[2] - self.def.height/2 - radius
+		local bot = self.pos[2] + self.def.height/2 + radius
+		if snap then
+			left = math.floor(left / snap)
+			right = math.ceil(right / snap)
+			top = math.floor(top / snap)
+			bot = math.ceil(bot / snap)
+		end
+		return left, right, top, bot
+	end
+	
 	function self.Draw(drawQueue, selectedPoint, hoveredPoint, elementType)
 		drawQueue:push({y=10; f=function()
 			self.def.draw(self, drawQueue)
