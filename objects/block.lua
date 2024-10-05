@@ -16,18 +16,23 @@ local function NewBlock(world, blockDef, position)
 	end
 	
 	function self.GetBlockBounds(snap, radius)
-		radius = radius or 0
-		local left = self.pos[1] - self.def.width/2 - radius
-		local right = self.pos[1] + self.def.width/2 + radius
-		local top = self.pos[2] - self.def.height/2 - radius
-		local bot = self.pos[2] + self.def.height/2 + radius
-		if snap then
-			left = math.floor(left / snap)
-			right = math.ceil(right / snap)
-			top = math.floor(top / snap)
-			bot = math.ceil(bot / snap)
+		return BlockHandler.GetBlockBounds(self.pos, self.def.name, snap, radius)
+	end
+	
+	function self.HitTest(pos)
+		if self.pos[1] - self.def.width/2 > pos[1] then
+			return false
 		end
-		return left, right, top, bot
+		if self.pos[2] - self.def.height/2 > pos[2] then
+			return false
+		end
+		if self.pos[1] + self.def.width/2 < pos[1] then
+			return false
+		end
+		if self.pos[2] + self.def.height/2 < pos[2] then
+			return false
+		end
+		return true
 	end
 	
 	function self.Draw(drawQueue, selectedPoint, hoveredPoint, elementType)

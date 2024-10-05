@@ -3,10 +3,12 @@ local data = {
 	speed = 60,
 	nestDist = 50,
 	foodDist = 50,
-	feelerLength = 60,
 	searchNestDist = 100,
 	searchFoodDist = 100,
+	feelerLength = 60,
 	feelerAngle = 0.5,
+	turnCheckLength = 5,
+	turnCheckAngle = 0.7,
 	init = function (self)
 	end,
 	update = function (self, dt)

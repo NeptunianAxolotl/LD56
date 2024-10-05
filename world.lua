@@ -4,6 +4,7 @@ DialogueHandler = require("dialogueHandler")
 TerrainHandler = require("terrainHandler")
 ShadowHandler = require("shadowHandler")
 
+ItemHandler = require("itemHandler")
 BlockHandler = require("blockHandler")
 AntHandler = require("antHandler")
 ScentHandler = require("scentHandler")
@@ -87,6 +88,9 @@ function api.KeyPressed(key, scancode, isRepeat)
 	if GameHandler.KeyPressed and GameHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
+	if ItemHandler.KeyPressed(key, scancode, isRepeat) then
+		return
+	end
 end
 
 function api.MousePressed(x, y, button)
@@ -107,6 +111,13 @@ function api.MousePressed(x, y, button)
 	x, y = CameraHandler.GetCameraTransform():inverse():transformPoint(x, y)
 	
 	-- Send event to game components
+	if BlockHandler.MousePressed(x, y, button) then
+		return true
+	end
+	if ItemHandler.MousePressed(x, y, button) then
+		return true
+	end
+	
 	if Global.DEBUG_PRINT_CLICK_POS and button == 2 then
 		print("{")
 		print([[    name = "BLA",]])
@@ -198,6 +209,7 @@ function api.Update(dt)
 	InterfaceUtil.Update(dt)
 	PlayerHandler.Update(dt)
 	BlockHandler.Update(dt)
+	ItemHandler.Update(dt)
 	AntHandler.Update(dt)
 	ScentHandler.Update(dt)
 	--ShadowHandler.Update(api)
@@ -226,6 +238,7 @@ function api.Draw()
 	PlayerHandler.Draw(drawQueue)
 	TerrainHandler.Draw(drawQueue)
 	BlockHandler.Draw(drawQueue)
+	ItemHandler.Draw(drawQueue)
 	AntHandler.Draw(drawQueue)
 	ScentHandler.Draw(drawQueue)
 	
@@ -250,6 +263,7 @@ function api.Draw()
 	EffectsHandler.DrawInterface()
 	DialogueHandler.DrawInterface()
 	ChatHandler.DrawInterface()
+	ItemHandler.DrawInterface()
 	
 	love.graphics.replaceTransform(self.emptyTransform)
 end
@@ -275,6 +289,7 @@ function api.Initialize(cosmos, levelData)
 	
 	TerrainHandler.Initialize(api, levelData)
 	BlockHandler.Initialize(api)
+	ItemHandler.Initialize(api)
 	AntHandler.Initialize(api)
 	ScentHandler.Initialize(api)
 	--ShadowHandler.Initialize(api)

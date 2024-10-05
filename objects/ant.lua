@@ -50,11 +50,23 @@ local function NewAnt(world, creatureDef, position, size)
 		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
 		
 		local newPos = util.Add(self.pos, util.PolarToCart(dt * creatureDef.speed * self.speedMult, self.direction))
+		TerrainHandler.WrapPosInPlace(newPos)
 		if BlockHandler.BlockAt(newPos) then
-			self.direction = self.direction + math.pi + math.random()*4 - 2
+			local leftPos = util.Add(self.pos, util.PolarToCart(creatureDef.turnCheckLength, self.direction + creatureDef.turnCheckAngle))
+			local rightPos = util.Add(self.pos, util.PolarToCart(creatureDef.turnCheckLength, self.direction - creatureDef.turnCheckAngle))
+			local blockLeft = BlockHandler.BlockAt(leftPos)
+			local blockRight = BlockHandler.BlockAt(rightPos)
+			if blockLeft ~= blockRight then
+				if blockLeft then
+					self.direction = self.direction - math.random()
+				else
+					self.direction = self.direction + math.random()
+				end
+			else
+				self.direction = self.direction + math.random() - 0.5
+			end
 		else
 			self.pos = newPos
-			TerrainHandler.WrapPosInPlace(self.pos)
 		end
 		
 		if self.hasFood then
