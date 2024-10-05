@@ -28,7 +28,7 @@ function api.Initialize(world)
 	local initPlayerData = {
 		pos = {500, 200}
 	}
-	self.playerShip = NewPlayerShip(initPlayerData, self.world.GetPhysicsWorld())
+	--self.playerShip = NewPlayerShip(initPlayerData, self.world.GetPhysicsWorld())
 end
 
 return api
