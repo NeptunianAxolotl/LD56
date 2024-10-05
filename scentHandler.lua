@@ -84,7 +84,7 @@ local function DrawScent(name, red, green, blue)
 end
 
 function api.Draw(drawQueue)
-	drawQueue:push({y=0; f=function()
+	drawQueue:push({y=2; f=function()
 		DrawScent("explore", 1, 0, 0)
 		DrawScent("food", 0, 1, 1)
 	end})

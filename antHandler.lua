@@ -66,6 +66,8 @@ end
 
 function api.Draw(drawQueue)
 	IterableMap.ApplySelf(self.ants, "Draw", drawQueue)
+	IterableMap.ApplySelf(self.nests, "Draw", drawQueue)
+	IterableMap.ApplySelf(self.foodSources, "Draw", drawQueue)
 end
 
 function api.Initialize(world)

@@ -21,6 +21,7 @@ local globals = {
 	INC_OFFSET = -15,
 	SCENT_GRID_SIZE = 10,
 	
+	AIRHORN_RADIUS = 80,
 	INIT_LEVEL = "test_level",
 	
 	GRAVITY_MULT = 900,

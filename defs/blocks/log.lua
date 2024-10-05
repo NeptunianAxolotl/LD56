@@ -3,6 +3,7 @@ local data = {
 	width = 100,
 	height = 200,
 	blockTypes = {"ant", "placement"},
+	canBeMoved = true,
 	init = function (self)
 	end,
 	update = function (self, dt)

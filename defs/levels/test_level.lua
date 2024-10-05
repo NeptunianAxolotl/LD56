@@ -10,7 +10,7 @@ local data = {
 	},
 	food = {
 		{"basic_food", {950, 850}},
-		{"basic_killer", {1650, 700}},
+		{"basic_poison", {1650, 700}},
 	},
 	blocks = {
 		{"log", 	{600, 200}},

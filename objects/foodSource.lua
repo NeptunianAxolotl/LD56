@@ -16,7 +16,7 @@ local function NewNest(world, myDef, position)
 		ScentHandler.AddScent("food", self.pos, 120, dt*2)
 	end
 	
-	function self.Draw(drawQueue, selectedPoint, hoveredPoint, elementType)
+	function self.Draw(drawQueue)
 		drawQueue:push({y=18; f=function()
 			self.def.draw(self, drawQueue)
 		end})

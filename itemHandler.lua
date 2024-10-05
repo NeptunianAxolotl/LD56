@@ -7,7 +7,7 @@ end
 
 function api.Draw(drawQueue)
 	if self.currentItem == "renovate" and self.currentBlock then
-		drawQueue:push({y=18; f=function()
+		drawQueue:push({y=60; f=function()
 			love.graphics.setColor(0.7, 0.8, 0.2, 0.5)
 			love.graphics.rectangle("fill",
 				self.currentBlock.pos[1] - self.currentBlock.def.width/2,
@@ -22,6 +22,17 @@ function api.Draw(drawQueue)
 				mousePos[2] - self.currentBlock.def.height/2,
 				self.currentBlock.def.width,
 				self.currentBlock.def.height
+			)
+		end})
+	elseif self.currentItem == "airhorn" then
+		drawQueue:push({y=60; f=function()
+			local mousePos = self.world.GetMousePosition()
+			love.graphics.setColor(0.2, 0.8, 1, 0.5)
+			love.graphics.circle("line",
+				mousePos[1],
+				mousePos[2],
+				Global.AIRHORN_RADIUS,
+				60
 			)
 		end})
 	end
@@ -61,11 +72,13 @@ function api.MousePressed(x, y, button)
 			end
 		else
 			local block = BlockHandler.GetBlockObjectAt(mousePos)
-			if block then
+			if block and block.def.canBeMoved then
 				self.currentBlock = block
 				return true
 			end
 		end
+	elseif self.currentItem == "airhorn" then
+	
 	end
 end
 

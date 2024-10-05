@@ -4,10 +4,17 @@ local function NewNest(world, myDef, position)
 	local self = {}
 	self.pos = position
 	self.def = myDef
+	self.health = self.def.health
 	self.spawnTimer = 0
 	
 	function self.Destroy()
 		self.destroyed = true
+	end
+	
+	function self.ApplyFood(foodType, foodValue)
+		if foodType == "poison" then
+			self.health = self.health - foodValue
+		end
 	end
 	
 	function self.Update(dt)
@@ -22,9 +29,12 @@ local function NewNest(world, myDef, position)
 		end
 	end
 	
-	function self.Draw(drawQueue, selectedPoint, hoveredPoint, elementType)
+	function self.Draw(drawQueue)
 		drawQueue:push({y=18; f=function()
 			self.def.draw(self, drawQueue)
+			Font.SetSize(2)
+			love.graphics.setColor(0.7, 0.8, 0.2, 0.5)
+			love.graphics.print("health " .. self.health, self.pos[1] - 80, self.pos[2])
 		end})
 	end
 	

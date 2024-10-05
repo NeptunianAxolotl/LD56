@@ -35,7 +35,7 @@ local function NewBlock(world, blockDef, position)
 		return true
 	end
 	
-	function self.Draw(drawQueue, selectedPoint, hoveredPoint, elementType)
+	function self.Draw(drawQueue)
 		drawQueue:push({y=10; f=function()
 			self.def.draw(self, drawQueue)
 			love.graphics.setColor(1, 0, 1, 1)

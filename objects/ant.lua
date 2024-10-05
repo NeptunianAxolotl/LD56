@@ -80,6 +80,7 @@ local function NewAnt(world, creatureDef, position, size)
 				local nearNest, nestDist = AntHandler.NearNest(self.pos, self.def.searchNestDist)
 				if nearNest then
 					if nestDist < self.def.nestDist then
+						nearNest.ApplyFood(self.hasFood, self.foodValue)
 						self.hasFood = false
 						self.direction = self.direction + math.pi
 					else
@@ -88,11 +89,11 @@ local function NewAnt(world, creatureDef, position, size)
 				end
 			end
 			if not self.hasFood then
-				
 				local nearFood, foodDist = AntHandler.NearFoodSource(self.pos, self.def.searchNestDist)
 				if nearFood then
 					if foodDist < self.def.foodDist then
-						self.hasFood = true
+						self.hasFood = nearFood.def.foodType
+						self.foodValue = nearFood.def.foodValue
 						self.direction = self.direction + math.pi
 					else
 						self.direction = util.Angle(util.Subtract(nearFood.pos, self.pos))
@@ -102,7 +103,7 @@ local function NewAnt(world, creatureDef, position, size)
 		end
 	end
 	
-	function self.Draw(drawQueue, selectedPoint, hoveredPoint, elementType)
+	function self.Draw(drawQueue)
 		drawQueue:push({y=18; f=function()
 			self.def.draw(self, drawQueue)
 		end})
