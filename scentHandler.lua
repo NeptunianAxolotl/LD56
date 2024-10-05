@@ -26,7 +26,10 @@ function api.GetScentRawPos(name, x, y)
 	return strength * math.pow(scent.linger, self.currentTime - touch)
 end
 
-function api.GetScent(name, pos)
+function api.GetScent(name, pos, canBeBlocked)
+	if canBeBlocked and BlockHandler.BlockAt(pos) then
+		return 0
+	end
 	local scent = self.scents[name]
 	local x = math.floor(pos[1]/scent.gridSize)
 	local y = math.floor(pos[2]/scent.gridSize)
