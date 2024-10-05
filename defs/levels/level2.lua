@@ -1,5 +1,6 @@
 local data = {
 	humanName = "test",
+	prevLevel = "level1",
 	width = 1800,
 	height = 1000,
 	cameraPos = {900, 500},
