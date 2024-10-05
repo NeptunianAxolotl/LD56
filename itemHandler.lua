@@ -3,14 +3,38 @@ local self = {}
 local api = {}
 
 local BlockDefs = require("defs/blockDefs")
+local ItemDefs = require("defs/itemDefs")
 
-function api.Update(dt)
-	if self.itemCooldown then
-		self.itemCooldown = self.itemCooldown - dt
-		if self.itemCooldown <= 0 then
-			self.itemCooldown = false
+local function ApplyRecharge(dt, name)
+	if self.charges[name] < Global.MAX_CHARGES[name] then
+		self.recharge[name] = self.recharge[name] - dt
+		if self.recharge[name] < 0 then
+			self.charges[name] = self.charges[name] + 1
+			self.recharge[name] = Global.RECHARGE_TIME[name]
 		end
 	end
+end
+
+function api.Update(dt)
+	for i = 1, #ItemDefs.itemList do
+		ApplyRecharge(dt, ItemDefs.itemList[i])
+	end
+end
+
+function api.GetCharges(name)
+	return self.charges[name]
+end
+
+function api.UseCharge(name)
+	self.charges[name] = self.charges[name] - 1
+end
+
+function api.GetChargeString(name)
+	local str = ""
+	for i = 1, self.charges[name] do
+		str = str .. "#"
+	end
+	return str
 end
 
 function api.Draw(drawQueue)
@@ -74,15 +98,24 @@ end
 function api.DrawInterface()
 	Font.SetSize(2)
 	local yOffset = 20
-		love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.setColor(0, 0, 0, 1)
 	love.graphics.print("1. Renovation" .. (self.currentItem == "renovate" and " <--" or ""), 90, yOffset)
-	if self.itemCooldown then
+	yOffset = yOffset + 40
+	
+	if api.GetCharges("airhorn") == 0 then
 		love.graphics.setColor(0.4, 0.4, 0.4, 1)
+	else
+		love.graphics.setColor(0, 0, 0, 1)
 	end
+	love.graphics.print("2. Airhorn " .. api.GetChargeString("airhorn") .. (self.currentItem == "airhorn" and " <--" or ""), 90, yOffset)
 	yOffset = yOffset + 40
-	love.graphics.print("2. Airhorn" .. (self.currentItem == "airhorn" and " <--" or ""), 90, yOffset)
-	yOffset = yOffset + 40
-	love.graphics.print("3. Drugs?" .. (self.currentItem == "accelerate" and " <--" or ""), 90, yOffset)
+	
+	if api.GetCharges("accelerate") == 0 then
+		love.graphics.setColor(0.4, 0.4, 0.4, 1)
+	else
+		love.graphics.setColor(0, 0, 0, 1)
+	end
+	love.graphics.print("3. Drugs? " .. api.GetChargeString("accelerate") .. (self.currentItem == "accelerate" and " <--" or ""), 90, yOffset)
 end
 
 function api.KeyPressed(key, scancode, isRepeat)
@@ -149,16 +182,16 @@ function api.MousePressed(x, y, button)
 			return true
 		end
 	elseif self.currentItem == "airhorn" then
-		if not self.itemCooldown then
+		if api.GetCharges("airhorn") > 0 then
 			local mousePos = {x, y}
 			AntHandler.DoFunctionToAntsInArea("ApplyAirhorn", mousePos, Global.AIRHORN_RADIUS)
-			self.itemCooldown = Global.ITEM_COOLDOWN
+			api.UseCharge("airhorn")
 		end
 	elseif self.currentItem == "accelerate" then
-		if not self.itemCooldown then
+		if api.GetCharges("accelerate") > 0 then
 			local mousePos = {x, y}
 			AntHandler.DoFunctionToAntsInArea("ApplyAcceleration", mousePos, Global.AIRHORN_RADIUS)
-			self.itemCooldown = Global.ITEM_COOLDOWN
+			api.UseCharge("accelerate")
 		end
 	end
 end
@@ -168,7 +201,14 @@ function api.Initialize(world)
 		world = world,
 		currentItem = "renovate",
 		currentBlock = false,
+		charges = {},
+		recharge = {},
 	}
+	for i = 1, #ItemDefs.itemList do
+		local name = ItemDefs.itemList[i]
+		self.charges[name] = 0
+		self.recharge[name] = Global.RECHARGE_TIME[name]
+	end
 end
 
 return api

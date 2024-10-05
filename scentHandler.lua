@@ -96,8 +96,8 @@ function api.Initialize(world)
 		currentTime = 0,
 		scents = {},
 	}
-	InitializeScent("explore", 0.94)
-	InitializeScent("food", 0.92)
+	InitializeScent("explore", Global.EXPLORE_DECAY)
+	InitializeScent("food", Global.FOOD_DECAY)
 end
 
 return api

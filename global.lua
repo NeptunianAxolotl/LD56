@@ -24,7 +24,18 @@ local globals = {
 	AIRHORN_RADIUS = 95,
 	ACCELERATE_RADIUS = 110,
 	INIT_LEVEL = "test_level",
-	ITEM_COOLDOWN = 2,
+	
+	MAX_CHARGES = {
+		airhorn = 5,
+		accelerate = 3,
+	},
+	RECHARGE_TIME = {
+		airhorn = 2,
+		accelerate = 1.5,
+	},
+	
+	EXPLORE_DECAY = 0.92,
+	FOOD_DECAY = 0.88,
 	
 	GRAVITY_MULT = 900,
 	SPEED_LIMIT = 1800,
