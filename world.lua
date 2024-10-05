@@ -297,7 +297,7 @@ function api.Initialize(cosmos, levelData)
 	DeckHandler.Initialize(api)
 	GameHandler.Initialize(api)
 	
-	CameraHandler.Initialize(api, levelData.cameraPos)
+	CameraHandler.Initialize(api, levelData)
 end
 
 return api

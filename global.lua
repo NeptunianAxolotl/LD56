@@ -18,7 +18,7 @@ local globals = {
 	INC_OFFSET = -15,
 	SCENT_GRID_SIZE = 10,
 	
-	INIT_LEVEL = "level1",
+	INIT_LEVEL = "test_level",
 	
 	GRAVITY_MULT = 900,
 	SPEED_LIMIT = 1800,
