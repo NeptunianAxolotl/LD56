@@ -33,7 +33,7 @@ local function NewAnt(world, creatureDef, position, size)
 				local bias = 2*(leftScent / (leftScent + rightScent) - 0.5)
 				directionChange = math.random()*2 - 1 + bias*3
 				if math.random() < 0.1 then
-					directionChange = math.random()*20 - 10
+					directionChange = 1*(math.random()*20 - 10)
 				end
 			end
 		end
