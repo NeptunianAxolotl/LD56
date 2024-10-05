@@ -91,6 +91,9 @@ function api.KeyPressed(key, scancode, isRepeat)
 	if ItemHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
+	if LevelHandler.KeyPressed(key, scancode, isRepeat) then
+		return
+	end
 end
 
 function api.MousePressed(x, y, button)
@@ -241,6 +244,7 @@ function api.Draw()
 	ItemHandler.Draw(drawQueue)
 	AntHandler.Draw(drawQueue)
 	ScentHandler.Draw(drawQueue)
+	LevelHandler.Draw(drawQueue)
 	
 	love.graphics.replaceTransform(CameraHandler.GetCameraTransform())
 	while true do
@@ -264,6 +268,7 @@ function api.Draw()
 	DialogueHandler.DrawInterface()
 	ChatHandler.DrawInterface()
 	ItemHandler.DrawInterface()
+	LevelHandler.DrawInterface()
 	
 	love.graphics.replaceTransform(self.emptyTransform)
 end

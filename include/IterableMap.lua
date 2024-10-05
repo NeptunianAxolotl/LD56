@@ -183,6 +183,18 @@ function IterableMap.ApplySelf(self, funcName, ...)
 	end
 end
 
+function IterableMap.ApplySelfMapToList(self, funcName, ...)
+	local list = {}
+	local i = 1
+	while i <= self.indexMax do
+		local key = self.keyByIndex[i]
+		local value = self.dataByKey[key][funcName](...)
+		list[#list + 1] = value
+		i = i + 1
+	end
+	return list
+end
+
 function IterableMap.ApplySelfRandomOrder(self, funcName, ...)
 	local permutation = util.GetRandomPermutation(self.indexMax)
 	local i = 1

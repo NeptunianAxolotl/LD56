@@ -92,6 +92,7 @@ local function NewAnt(world, creatureDef, position, size)
 				local nearFood, foodDist = AntHandler.NearFoodSource(self.pos, self.def.searchNestDist)
 				if nearFood then
 					if foodDist < self.def.foodDist then
+						nearFood.FoodTaken()
 						self.hasFood = nearFood.def.foodType
 						self.foodValue = nearFood.def.foodValue
 						self.direction = self.direction + math.pi

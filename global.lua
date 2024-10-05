@@ -30,11 +30,15 @@ local globals = {
 	
 	MOUSE_SCROLL_MULT = 0,
 	KEYBOARD_SCROLL_MULT = 1.4,
+	EDIT_GRID = 10,
 	
 	MOUSE_EDGE = 8,
 	MOUSE_SCROLL = 1200,
 	CAMERA_SPEED = 800,
 	CAMERA_BOUND = 1600,
+	
+	SAVE_ORDER = {"humanName", "nextLevel", "prevLevel", "width", "height", "nests", "food", "blocks"},
+	SAVE_INLINE = {},
 }
 
 return globals

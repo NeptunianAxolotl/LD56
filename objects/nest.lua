@@ -29,6 +29,10 @@ local function NewNest(world, myDef, position)
 		end
 	end
 	
+	function self.WriteSaveData()
+		return {self.def.name, self.pos}
+	end
+	
 	function self.Draw(drawQueue)
 		drawQueue:push({y=18; f=function()
 			self.def.draw(self, drawQueue)

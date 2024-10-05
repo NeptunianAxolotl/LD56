@@ -57,8 +57,8 @@ function api.SaveLevel(name)
 	self.humanName = name
 	
 	local save = util.CopyTable(self.levelData)
-	save.terrain, save.tiles, save.invasionMask = TerrainHandler.GetSaveData()
-	save.doodads = DoodadHandler.ExportObjects()
+	save.nests, save.food = AntHandler.GetSaveData()
+	save.blocks = BlockHandler.GetSaveData()
 	
 	local saveTable = util.TableToString(save, Global.SAVE_ORDER, util.ListToMask(Global.SAVE_INLINE))
 	saveTable = "local data = " .. saveTable .. [[
@@ -132,6 +132,11 @@ function api.KeyPressed(key, scancode, isRepeat)
 		end
 	end
 	
+	if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		self.editMode = not self.editMode
+		EffectsHandler.SpawnEffect("error_popup", {1000, 15}, {text = "Edit mode: " .. (self.editMode and "enabled" or "disbled"), velocity = {0, 4}})
+		return true
+	end
 	if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
 		self.loadingLevelGetName = true
 		return true
@@ -186,6 +191,7 @@ function api.Draw(drawQueue)
 			love.graphics.rectangle("line", pos[1], pos[2], size[1], size[2], 8, 8, 16)
 			love.graphics.setColor(0, 0, 0, 1)
 			love.graphics.printf(hint.text, pos[1] + 25, pos[2] + 10, size[1] - 50, "left")
+			love.graphics.setLineWidth(1)
 		end
 	end})
 end
@@ -206,6 +212,7 @@ function api.DrawInterface()
 		love.graphics.setColor(0, 0, 0, 0.8)
 		love.graphics.setLineWidth(10)
 		love.graphics.rectangle("line", overX, overY, overWidth, overHeight, 8, 8, 16)
+		love.graphics.setLineWidth(1)
 		
 	end
 	
@@ -245,9 +252,14 @@ function api.DrawInterface()
 	return drawWindow
 end
 
+function api.GetEditMode()
+	return self.editMode
+end
+
 function api.Initialize(world, levelData, difficulty)
 	self = {
 		world = world,
+		editMode = false,
 		levelData = levelData,
 		difficulty = difficulty,
 	}

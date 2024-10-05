@@ -35,6 +35,10 @@ local function NewBlock(world, blockDef, position)
 		return true
 	end
 	
+	function self.WriteSaveData()
+		return {self.def.name, self.pos}
+	end
+	
 	function self.Draw(drawQueue)
 		drawQueue:push({y=10; f=function()
 			self.def.draw(self, drawQueue)

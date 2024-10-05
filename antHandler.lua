@@ -70,6 +70,12 @@ function api.Draw(drawQueue)
 	IterableMap.ApplySelf(self.foodSources, "Draw", drawQueue)
 end
 
+function api.GetSaveData()
+	local nestData = IterableMap.ApplySelfMapToList(self.nests, "WriteSaveData")
+	local foodData = IterableMap.ApplySelfMapToList(self.foodSources, "WriteSaveData")
+	return nestData, foodData
+end
+
 function api.Initialize(world)
 	self = {
 		world = world,

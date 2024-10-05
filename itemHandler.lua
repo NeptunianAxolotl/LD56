@@ -2,6 +2,8 @@
 local self = {}
 local api = {}
 
+local BlockDefs = require("defs/blockDefs")
+
 function api.Update(dt)
 end
 
@@ -22,6 +24,20 @@ function api.Draw(drawQueue)
 				mousePos[2] - self.currentBlock.def.height/2,
 				self.currentBlock.def.width,
 				self.currentBlock.def.height
+			)
+		end})
+	elseif self.currentItem == "editPlace" then
+		drawQueue:push({y=60; f=function()
+			local placeDef = BlockDefs.defs[self.placeType]
+			local mousePos = self.world.GetMousePosition()
+			mousePos[1] = math.floor((mousePos[1] + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID
+			mousePos[2] = math.floor((mousePos[2] + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID
+			love.graphics.setColor(0.2, 0.8, 1, 0.5)
+			love.graphics.rectangle("fill",
+				mousePos[1] - placeDef.width/2,
+				mousePos[2] - placeDef.height/2,
+				placeDef.width,
+				placeDef.height
 			)
 		end})
 	elseif self.currentItem == "airhorn" then
@@ -55,6 +71,26 @@ function api.KeyPressed(key, scancode, isRepeat)
 		self.currentItem = "airhorn"
 		return true
 	end
+	if LevelHandler.GetEditMode() then
+		if key == "q" then
+			self.currentItem = "editRemove"
+		elseif key == "w" then
+			self.currentItem = "editPlace"
+			self.placeType = "wall"
+		elseif key == "e" then
+			self.currentItem = "editPlace"
+			self.placeType = "wall_90"
+		elseif key == "s" then
+			self.currentItem = "editPlace"
+			self.placeType = "log"
+		elseif key == "d" then
+			self.currentItem = "editPlace"
+			self.placeType = "log_90"
+		elseif key == "r" then
+			self.currentItem = "editPlace"
+			self.placeType = "rug"
+		end
+	end
 end
 
 function api.MousePressed(x, y, button)
@@ -64,7 +100,7 @@ function api.MousePressed(x, y, button)
 			local blockType = self.currentBlock.def.name
 			local blockPos = self.currentBlock.pos
 			BlockHandler.RemoveBlock(self.currentBlock)
-			if BlockHandler.FreeToPlaceAt("placement", blockType, mousePos) then
+			if (BlockHandler.FreeToPlaceAt("placement", blockType, mousePos) or LevelHandler.GetEditMode()) then
 				BlockHandler.SpawnBlock(blockType, mousePos)
 				self.currentBlock = false
 			else
@@ -72,10 +108,20 @@ function api.MousePressed(x, y, button)
 			end
 		else
 			local block = BlockHandler.GetBlockObjectAt(mousePos)
-			if block and block.def.canBeMoved then
+			if block and (block.def.canBeMoved or LevelHandler.GetEditMode()) then
 				self.currentBlock = block
 				return true
 			end
+		end
+	elseif self.currentItem == "editPlace" then
+		local mousePos = {math.floor((x + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID, math.floor((y + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID}
+		BlockHandler.SpawnBlock(self.placeType, mousePos)
+	elseif self.currentItem == "editRemove" then
+		local mousePos = {x, y}
+		local block = BlockHandler.GetBlockObjectAt(mousePos)
+		if block then
+			BlockHandler.RemoveBlock(block)
+			return true
 		end
 	elseif self.currentItem == "airhorn" then
 	

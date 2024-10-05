@@ -4,7 +4,6 @@ local data = {
 	nextLevel = "level3",
 	width = 1800,
 	height = 1000,
-	cameraPos = {900, 500},
 	nests = {
 		{"basic_nest", {400, 400}},
 	},

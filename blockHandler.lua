@@ -95,9 +95,13 @@ function api.BlockAt(cacheType, pos)
 	return cache[xSnap] and cache[xSnap][ySnap] and true
 end
 
-
 function api.GetBlockObjectAt(pos)
 	return IterableMap.GetFirstSatisfies(self.blocks, "HitTest", pos)
+end
+
+function api.GetSaveData()
+	local blockData = IterableMap.ApplySelfMapToList(self.blocks, "WriteSaveData")
+	return blockData
 end
 
 function api.MousePressed(x, y, button)
