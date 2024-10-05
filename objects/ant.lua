@@ -18,6 +18,15 @@ local function NewAnt(world, creatureDef, position, size)
 		self.destroyed = true
 	end
 	
+	function self.ApplyAirhorn(pos, radius, maxRadius)
+		self.airhornEffect = 0.4 + (1 - radius / maxRadius)
+		self.direction = util.Angle(util.Subtract(self.pos, pos)) + math.random() - 0.5
+	end
+	
+	function self.ApplyAcceleration(pos, radius, maxRadius)
+		self.accelMult = 4 + 3 * (1 - radius / maxRadius)
+	end
+	
 	function self.Update(dt)
 		if self.destroyed then
 			return true
@@ -47,9 +56,16 @@ local function NewAnt(world, creatureDef, position, size)
 				directionChange = math.random()*3 - 1.5
 			end
 		end
-		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
 		
-		local newPos = util.Add(self.pos, util.PolarToCart(dt * creatureDef.speed * self.speedMult, self.direction))
+		local speed = creatureDef.speed * self.speedMult * (self.accelMult or 1)
+		if self.airhornEffect then
+			speed = speed * (1 + self.airhornEffect*4)
+			directionChange = directionChange * (0.4 * (2 - self.airhornEffect))
+		end
+		
+		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
+		local newPos = util.Add(self.pos, util.PolarToCart(speed * dt, self.direction))
+		
 		TerrainHandler.WrapPosInPlace(newPos)
 		if BlockHandler.BlockAt("ant", newPos) then
 			local leftPos = util.Add(self.pos, util.PolarToCart(creatureDef.turnCheckLength, self.direction + creatureDef.turnCheckAngle))
@@ -67,6 +83,20 @@ local function NewAnt(world, creatureDef, position, size)
 			end
 		else
 			self.pos = newPos
+		end
+		
+		if self.accelMult then
+			self.accelMult = self.accelMult - dt*0.6
+			if self.accelMult < 1 then
+				self.accelMult = false
+			end
+		end
+		
+		if self.airhornEffect then
+			self.airhornEffect = self.airhornEffect - dt
+			if self.airhornEffect < 0 then
+				self.airhornEffect = false
+			end
 		end
 		
 		if self.hasFood then

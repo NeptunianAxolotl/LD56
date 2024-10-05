@@ -49,6 +49,21 @@ local function GetClosest(thingMap, pos, maxDist, filterFunc)
 	return other, math.sqrt(minValue)
 end
 
+local function DoFunctionIfInDistance(key, data, index, doFunc, pos, radius, extraData)
+	if data.destroyed then
+		return false
+	end
+	local distSq = util.DistSqVectors(data.pos, pos)
+	if distSq > radius*radius then
+		return false
+	end
+	data[doFunc](pos, math.sqrt(distSq), radius, extraData)
+end
+
+function api.DoFunctionToAntsInArea(doFunc, pos, radius, extraData)
+	IterableMap.Apply(self.ants, DoFunctionIfInDistance, doFunc, pos, radius)
+end
+
 function api.NearNest(pos, dist)
 	return GetClosest(self.nests, pos, dist)
 end
