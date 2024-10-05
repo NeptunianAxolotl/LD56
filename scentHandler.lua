@@ -6,13 +6,14 @@ local function InitializeScent(name, linger)
 	local scent = {
 		strength = {},
 		lastTouch = {},
-		gridSize = 10,
+		gridSize = Global.SCENT_GRID_SIZE,
 		linger = linger,
 	}
 	self.scents[name] = scent
 end
 
 function api.GetScentRawPos(name, x, y)
+	x, y = TerrainHandler.WrapGrid(x, y)
 	local scent = self.scents[name]
 	if not scent.strength[x] then
 		return 0
@@ -42,15 +43,16 @@ function api.AddScent(name, pos, radius, newStrength)
 	local gridRadSq = gridRad*gridRad
 	for i = math.floor(x - gridRad), math.ceil(x + gridRad) do
 		for j = math.floor(y - gridRad), math.ceil(y + gridRad) do
+			local iw, jw = TerrainHandler.WrapGrid(i, j)
 			local distSq = (xFrac - i)*(xFrac - i) + (yFrac - j)*(yFrac - j)
 			if distSq < gridRadSq then
 				local existing = api.GetScentRawPos(name, i, j)
-				if not scent.strength[i] then
-					scent.strength[i] = {}
-					scent.lastTouch[i] = {}
+				if not scent.strength[iw] then
+					scent.strength[iw] = {}
+					scent.lastTouch[iw] = {}
 				end
-				scent.strength[i][j] = existing + newStrength * (1 - distSq / gridRadSq)
-				scent.lastTouch[i][j] = self.currentTime
+				scent.strength[iw][jw] = existing + newStrength * (1 - distSq / gridRadSq)
+				scent.lastTouch[iw][jw] = self.currentTime
 			end
 		end
 	end
@@ -64,8 +66,8 @@ end
 
 local function DrawScent(name, red, green, blue)
 	local scale = self.scents[name].gridSize
-	for x = 1, 200 do
-		for y = 1, 200 do
+	for x = 0, 199 do
+		for y = 0, 99 do
 			local strength = api.GetScentRawPos(name, x, y)
 			if strength > 0 then
 				love.graphics.setColor(red, green, blue, strength / (10 + strength))
@@ -89,7 +91,7 @@ function api.Initialize(world)
 		scents = {},
 	}
 	InitializeScent("explore", 0.95)
-	InitializeScent("food", 0.88)
+	InitializeScent("food", 0.92)
 end
 
 return api

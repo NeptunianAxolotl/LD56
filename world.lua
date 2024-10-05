@@ -178,10 +178,6 @@ local function UpdateCamera(dt)
 	CameraHandler.Update(dt)
 end
 
-function api.GetCameraInitalPosition()
-	return {500, 500}
-end
-
 --------------------------------------------------
 -- Updates
 --------------------------------------------------
@@ -268,6 +264,7 @@ function api.Initialize(cosmos, levelData)
 	InterfaceUtil.Initialize()
 	EffectsHandler.Initialize(api)
 	
+	LevelHandler.Initialize(api, levelData)
 	PhysicsHandler.Initialize(api)
 	PlayerHandler.Initialize(api)
 	ChatHandler.Initialize(api)
@@ -281,7 +278,7 @@ function api.Initialize(cosmos, levelData)
 	DeckHandler.Initialize(api)
 	GameHandler.Initialize(api)
 	
-	CameraHandler.Initialize(api)
+	CameraHandler.Initialize(api, levelData.cameraPos)
 end
 
 return api

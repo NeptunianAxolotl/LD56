@@ -84,7 +84,7 @@ function api.Update(dt)
 	UpdateCamera(dt, cameraVector)
 end
 
-function api.Initialize(world)
+function api.Initialize(world, cameraPos)
 	self = {
 		world = world,
 	}
@@ -95,7 +95,6 @@ function api.Initialize(world)
 		windowPadding = {left = 0, right = 0, top = 0, bot = 0},
 	})
 	
-	local cameraPos = world.GetCameraInitalPosition()
 	local posTL = util.Add({-500*Global.ZOOM_OUT, -500*Global.ZOOM_OUT}, cameraPos)
 	local posBR = util.Add({500*Global.ZOOM_OUT, 500*Global.ZOOM_OUT}, cameraPos)
 

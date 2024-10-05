@@ -11,6 +11,9 @@ local data = {
 	end,
 	draw = function (self, drawQueue)
 		Resources.DrawImage("basic_ant", self.pos[1], self.pos[2], self.direction)
+		if self.hasFood then
+			Resources.DrawImage("blue_ant", self.pos[1], self.pos[2], self.direction, 0.7, 1.3)
+		end
 	end,
 }
 

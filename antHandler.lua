@@ -87,7 +87,7 @@ function api.Initialize(world)
 	}
 	
 	api.AddNest({400, 400})
-	api.AddFoodSource({1000, 800})
+	api.AddFoodSource({1300, 700})
 end
 
 return api
