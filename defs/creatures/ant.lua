@@ -3,7 +3,7 @@ local data = {
 	speed = 60,
 	nestDist = 60,
 	foodDist = 60,
-	feelerLength = 100,
+	feelerLength = 60,
 	feelerAngle = 0.5,
 	init = function (self)
 	end,
