@@ -59,6 +59,24 @@ function api.TestSwitchLevel(goNext)
 	return true
 end
 
+function api.GetScrollSpeeds()
+	return (self.grabInput and self.mouseScrollSpeed) or 0, self.keyScrollSpeed
+end
+
+function api.GetPersistentData()
+	return self.persistentDataTable
+end
+
+function api.ToggleGrabInput()
+	self.grabInput = not self.grabInput
+	love.mouse.setGrabbed(self.grabInput)
+end
+
+function api.ScrollSpeedChange(change)
+	self.mouseScrollSpeed = self.mouseScrollSpeed * change
+	self.keyScrollSpeed = self.keyScrollSpeed * change
+end
+
 --------------------------------------------------
 -- Draw
 --------------------------------------------------
@@ -138,6 +156,9 @@ function api.Initialize()
 		realTime = 0,
 		inbuiltLevelName = Global.INIT_LEVEL,
 		musicEnabled = true,
+		mouseScrollSpeed = Global.MOUSE_SCROLL_MULT,
+		keyScrollSpeed = Global.KEYBOARD_SCROLL_MULT,
+		grabInput = Global.MOUSE_SCROLL_MULT > 0,
 	}
 	self.curLevelData = LevelDefs[self.inbuiltLevelName]
 	MusicHandler.Initialize(api)

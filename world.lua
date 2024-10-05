@@ -174,14 +174,12 @@ function api.GetPhysicsWorld()
 	return PhysicsHandler.GetPhysicsWorld()
 end
 
-local function UpdateCamera()
-	local cameraX, cameraY, cameraScale = Camera.UpdateCameraToViewPoints(dt, 
-		{
-			{pos = {Global.WORLD_WIDTH/2, Global.WORLD_HEIGHT/2}, xOff = Global.WORLD_WIDTH/2 + 80, yOff = Global.WORLD_HEIGHT/2 + 80},
-		}
-		, 0, 0
-	)
-	Camera.UpdateTransform(self.cameraTransform, cameraX, cameraY, cameraScale)
+local function UpdateCamera(dt)
+	CameraHandler.Update(dt)
+end
+
+function api.GetCameraInitalPosition()
+	return {0, 0}
 end
 
 --------------------------------------------------
@@ -194,7 +192,7 @@ end
 function api.Update(dt)
 	GameHandler.Update(dt)
 	if api.GetPaused() then
-		UpdateCamera()
+		UpdateCamera(dt)
 		return
 	end
 	
@@ -210,7 +208,7 @@ function api.Update(dt)
 
 	ChatHandler.Update(dt)
 	EffectsHandler.Update(dt)
-	UpdateCamera()
+	UpdateCamera(dt)
 end
 
 function api.Draw()

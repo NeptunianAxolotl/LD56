@@ -105,8 +105,9 @@ end
 
 function api.DrawBar(col, backCol, prop, text, textPos, barPos, barSize)
 	prop = math.max(0, math.min(1, prop))
-	textPos = util.Add(textPos, barPos)
-	
+	if text then
+		textPos = util.Add(textPos, barPos)
+	end
 	love.graphics.setColor(backCol[1], backCol[2], backCol[3], 1)
 	love.graphics.rectangle("fill", barPos[1], barPos[2], barSize[1], barSize[2])
 	
@@ -115,12 +116,16 @@ function api.DrawBar(col, backCol, prop, text, textPos, barPos, barSize)
 		love.graphics.rectangle("fill", barPos[1], barPos[2], barSize[1]*prop, barSize[2])
 		Font.SetSize(2)
 		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.printf(text, barPos[1], textPos[2], barSize[1], "center")
+		if text then
+			love.graphics.printf(text, barPos[1], textPos[2], barSize[1], "center")
+		end
 	else
 		love.graphics.rectangle("fill", barPos[1], barPos[2] + barSize[2]*(1 - prop), barSize[1], barSize[2]*prop)
 		Font.SetSize(2)
 		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.printf(text, textPos[1], barPos[2] + barSize[2], barSize[2], "center", -math.pi/2)
+		if text then
+			love.graphics.printf(text, textPos[1], barPos[2] + barSize[2], barSize[2], "center", -math.pi/2)
+		end
 	end
 end
 
@@ -135,10 +140,11 @@ end
 -- Buttons
 --------------------------------------------------
 
-function api.DrawButton(x, y, width, height, mousePos, text, disabled, flash, canHoverDisabled)
+function api.DrawButton(x, y, width, height, mousePos, text, disabled, flash, canHoverDisabled, fontSize, fontOffset, borderThickness)
 	local hovered = ((not disabled) or canHoverDisabled) and util.PosInRectangle(mousePos, x, y, width, height)
+	borderThickness = borderThickness or 6
 	
-	if disabled then
+	if disabled and not hovered then
 		love.graphics.setColor(Global.PANEL_DISABLE_COL[1], Global.PANEL_DISABLE_COL[2], Global.PANEL_DISABLE_COL[3], 1)
 	elseif (flash and (self.animDt%Global.BUTTON_FLASH_PERIOD < Global.BUTTON_FLASH_PERIOD/2)) then
 		love.graphics.setColor(Global.PANEL_FLASH_COL[1], Global.PANEL_FLASH_COL[2], Global.PANEL_FLASH_COL[3], 1)
@@ -147,11 +153,11 @@ function api.DrawButton(x, y, width, height, mousePos, text, disabled, flash, ca
 	else
 		love.graphics.setColor(Global.PANEL_COL[1], Global.PANEL_COL[2], Global.PANEL_COL[3], 1)
 	end
-	love.graphics.setLineWidth(4)
+	love.graphics.setLineWidth(borderThickness*0.5)
 	love.graphics.rectangle("fill", x, y, width, height, 4, 4, 16)
 	
-	Font.SetSize(3)
-	if disabled then
+	Font.SetSize(fontSize or 3)
+	if disabled and not hovered then
 		love.graphics.setColor(Global.TEXT_DISABLE_COL[1], Global.TEXT_DISABLE_COL[2], Global.TEXT_DISABLE_COL[3], 1)
 	elseif (flash and (self.animDt%Global.BUTTON_FLASH_PERIOD < Global.BUTTON_FLASH_PERIOD/2)) then
 		love.graphics.setColor(Global.TEXT_FLASH_COL[1], Global.TEXT_FLASH_COL[2], Global.TEXT_FLASH_COL[3], 1)
@@ -160,9 +166,9 @@ function api.DrawButton(x, y, width, height, mousePos, text, disabled, flash, ca
 	else
 		love.graphics.setColor(Global.TEXT_COL[1], Global.TEXT_COL[2], Global.TEXT_COL[3], 1)
 	end
-	love.graphics.printf(text, x, y + 8, width, "center")
+	love.graphics.printf(text, x, y + (fontOffset or 8), width, "center")
 	
-	if disabled then
+	if disabled and not hovered then
 		love.graphics.setColor(Global.OUTLINE_DISABLE_COL[1], Global.OUTLINE_DISABLE_COL[2], Global.OUTLINE_DISABLE_COL[3], 1)
 	elseif (flash and (self.animDt%Global.BUTTON_FLASH_PERIOD < Global.BUTTON_FLASH_PERIOD/2)) then
 		love.graphics.setColor(Global.OUTLINE_FLASH_COL[1], Global.OUTLINE_FLASH_COL[2], Global.OUTLINE_FLASH_COL[3], 1)
@@ -172,9 +178,19 @@ function api.DrawButton(x, y, width, height, mousePos, text, disabled, flash, ca
 		love.graphics.setColor(Global.OUTLINE_COL[1], Global.OUTLINE_COL[2], Global.OUTLINE_COL[3], 1)
 	end
 	
-	love.graphics.setLineWidth(8)
+	love.graphics.setLineWidth(borderThickness)
 	love.graphics.rectangle("line", x, y, width, height, 4, 4, 16)
 	return hovered and text
+end
+
+function api.DrawPanel(x, y, width, height, borderThickness)
+	borderThickness = borderThickness or 8
+	love.graphics.setColor(Global.MENU_COL[1], Global.MENU_COL[2], Global.MENU_COL[3], 1)
+	love.graphics.setLineWidth(borderThickness*0.5)
+	love.graphics.rectangle("fill", x, y, width, height, 8, 8, 16)
+	love.graphics.setColor(Global.MENU_OUTLINE_COL[1], Global.MENU_OUTLINE_COL[2], Global.MENU_OUTLINE_COL[3], 1)
+	love.graphics.setLineWidth(borderThickness)
+	love.graphics.rectangle("line", x, y, width, height, 8, 8, 16)
 end
 
 --------------------------------------------------

@@ -9,6 +9,88 @@ local sin = math.sin
 -- Vector funcs
 --------------------------------------------------
 
+function util.LineGradient(l)
+	if l[1][1] == l[2][1] then
+		return false
+	end
+	return (l[2][2] - l[1][2]) / (l[2][1] - l[1][1])
+end
+
+function util.GradientPoints(u, v)
+	if u[2] == v[2] then
+		return false
+	end
+	return (v[2] - u[2]) / (v[1] - u[1])
+end
+
+function util.ExtremelyApproxEqNumber(n1, n2)
+	return n1 and n2 and n1 - n2 < 10 and n2 - n1 < 10
+end
+
+function util.VeryApproxEqNumber(n1, n2)
+	return n1 and n2 and n1 - n2 < 0.01 and n2 - n1 < 0.01
+end
+
+function util.ApproxEqNumber(n1, n2)
+	return n1 and n2 and n1 - n2 < 0.000001 and n2 - n1 < 0.000001
+end
+
+function util.VeryApproxEq(u, v)
+	return u and v and u[1] - v[1] < 0.001 and v[1] - u[1] < 0.001 and u[2] - v[2] < 0.001 and v[2] - u[2] < 0.001
+end
+
+function util.ExtremelyApproxEq(u, v)
+	return u and v and u[1] - v[1] < 10 and v[1] - u[1] < 10 and u[2] - v[2] < 10 and v[2] - u[2] < 10
+end
+
+function util.Eq(u, v)
+	return u and v and u[1] - v[1] < 0.000001 and v[1] - u[1] < 0.000001 and u[2] - v[2] < 0.000001 and v[2] - u[2] < 0.000001
+end
+
+function util.EqCircle(c, d)
+	return util.Eq(c, d) and c[3] - d[3] < 0.000001 and d[3] - c[3] < 0.000001
+end
+
+local function FallbackCheck(l, m, EqNumber)
+	local unitL = util.GetLineUnit(l)
+	local unitM = util.GetLineUnit(m)
+	local angle = util.GetAngleBetweenUnitVectors(unitL, unitM)
+	if not (EqNumber(angle, 0) or EqNumber(angle, math.pi)) then
+		return false
+	end
+	
+	local distSq = util.DistanceToLineSq(l[1], m)
+	if EqNumber(distSq, 0) then
+		return true
+	end
+	return false
+end
+
+function util.EqLine(l, m, veryApprox)
+	local Eq = (veryApprox and util.VeryApproxEq) or util.Eq
+	if (Eq(l[1], m[1]) and Eq(l[2], m[2])) or
+			(Eq(l[1], m[2]) and Eq(l[1], m[2])) then
+		return true
+	end
+	local EqNumber = (veryApprox and util.VeryApproxEqNumber) or util.ApproxEqNumber
+	-- Now begins the pain
+	
+	local gradL = util.LineGradient(l)
+	local gradM = util.LineGradient(m)
+	if (not gradL) or (not gradM) then
+		if not (gradL or gradM) then
+			return EqNumber(l[1][1], m[1][1])
+		end
+		return FallbackCheck(l, m, EqNumber)
+	end
+	if not EqNumber(gradL, gradM) then
+		return FallbackCheck(l, m, EqNumber)
+	end
+	local intL = l[1][2] - gradL * l[1][1]
+	local intM = m[1][2] - gradM * m[1][1]
+	return EqNumber(intL, intM) or FallbackCheck(l, m, EqNumber)
+end
+
 function util.DistSqVectors(u, v)
 	return util.DistSq(u[1], u[2], v[1], v[2])
 end
@@ -22,6 +104,10 @@ function util.DistSq(x1, y1, x2, y2)
 		return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)
 	end
 	return util.DistSqVectors(x1, y1)
+end
+
+function util.LineLengthSq(l)
+	return util.DistSqVectors(l[1], l[2])
 end
 
 function util.DistSqWithWrap(x1, y1, x2, y2, wrapX, wrapY)
@@ -63,16 +149,21 @@ function util.Mult(b, v)
 	return {b*v[1], b*v[2]}
 end
 
-function util.AbsVal(x, y, z)
+function util.AbsValSq(x, y, z)
 	if z then
-		return sqrt(x*x + y*y + z*z)
+		return x*x + y*y + z*z
 	elseif y then
-		return sqrt(x*x + y*y)
+		return x*x + y*y
 	elseif x[3] then
-		return sqrt(x[1]*x[1] + x[2]*x[2] + x[3]*x[3])
+		return x[1]*x[1] + x[2]*x[2] + x[3]*x[3]
 	else
-		return sqrt(x[1]*x[1] + x[2]*x[2])
+		return x[1]*x[1] + x[2]*x[2]
 	end
+end
+
+function util.AbsVal(x, y, z)
+	local value = util.AbsValSq(x, y, z)
+	return value and sqrt(value)
 end
 
 function util.Unit(v)
@@ -172,6 +263,22 @@ function util.Average(u, v, uFactor)
 	return util.Add(util.Mult(uFactor, util.Subtract(v, u)), u)
 end
 
+function util.AverageMulti(pointList)
+	if #pointList == 0 then
+		return false
+	end
+	local x = 0
+	local y = 0
+	for i = 1, #pointList do
+		x = x + pointList[i][1]
+		y = y + pointList[i][2]
+	end
+	return {
+		x/#pointList,
+		y/#pointList,
+	}
+end
+
 function util.AverageScalar(u, v, uFactor)
 	uFactor = uFactor or 0.5
 	return u*(1 - uFactor) + v * uFactor
@@ -205,6 +312,15 @@ function util.SignPreserveMax(val, mag)
 		return -mag
 	end
 	return val
+end
+
+function util.ExtendLine(line, length)
+	local m = util.Average(line[1], line[2])
+	local unit = util.UnitTowards(line[1], line[2])
+	return {
+		util.Add(m, util.Mult(-0.5 * length, unit)),
+		util.Add(m, util.Mult(0.5 * length, unit)),
+	}
 end
 
 --------------------------------------------------
@@ -281,6 +397,32 @@ end
 --------------------------------------------------
 -- Lines
 
+function util.GetLineUnit(l)
+	return util.Unit(util.Subtract(l[2], l[1]))
+end
+
+function util.RotateLineAroundOrigin(l, angle)
+	return {
+		util.RotateVector(l[1], angle),
+		util.RotateVector(l[2], angle),
+	}
+end
+
+function util.RotateCircleAroundOrigin(c, angle)
+	local newPoint = util.RotateVector(c, angle)
+	return {newPoint[1], newPoint[2], c[3]}
+end
+
+function util.GetAngleBetweenLines(l, m)
+	local lu = util.GetLineUnit(l)
+	local mu = util.GetLineUnit(m)
+	local angle = util.GetAngleBetweenUnitVectors(lu, mu)
+	if angle > math.pi/2 then
+		angle = math.pi - angle
+	end
+	return angle
+end
+
 function util.GetBoundedLineIntersection(line1, line2)
 	local x1, y1, x2, y2 = line1[1][1], line1[1][2], line1[2][1], line1[2][2]
 	local x3, y3, x4, y4 = line2[1][1], line2[1][2], line2[2][1], line2[2][2]
@@ -347,6 +489,62 @@ function util.DistanceToLineSq(point, line)
 	return util.AbsValSq(normal)
 end
 
+function util.GetCircleLineIntersectionPoints(circle, line)
+	local startToPos = util.Subtract(circle, line[1])
+	local startToEnd = util.Subtract(line[2], line[1])
+	local normal, projection = util.Normal(startToPos, startToEnd)
+	local distSq = util.AbsValSq(normal)
+	local radiusSq = circle[3] * circle[3]
+	if distSq > radiusSq + 0.0000001 then
+		return false
+	end
+	-- We now do pythagoras on half the isosceles triangle formed by
+	-- the centre of the circle and its intersections with the line.
+	-- We also ignore the issue of degeneracy.
+	local innerProjLength = (distSq < radiusSq and sqrt(radiusSq - distSq)) or 0
+	local innerProj = util.SetLength(innerProjLength, projection)
+	local closestPoint = util.Add(line[1], projection)
+	return {
+		util.Add(closestPoint, innerProj),
+		util.Subtract(closestPoint, innerProj),
+	}
+end
+
+function util.GetCircleIntersectionPoints(c, d)
+	local midToMid = util.Subtract(d, c)
+	local distSq = util.AbsValSq(midToMid)
+	--print("distSq", distSq - (c[3] + d[3])*(c[3] + d[3]))
+	if distSq > (c[3] + d[3])*(c[3] + d[3]) + 0.01 or distSq < 0.0001 then
+		return
+	end
+	
+	local rSubFactor = (c[3]*c[3] - d[3]*d[3]) / distSq
+	local rAddFactor = (c[3]*c[3] + d[3]*d[3]) / distSq
+	local determinantSq = 2 * rAddFactor - rSubFactor*rSubFactor - 1
+	--print("determinantSq", determinantSq)
+	if determinantSq < 0 then
+		if determinantSq > -0.0001 then
+			determinantSq = 0
+		else
+			return
+		end
+	end
+	local perpFactor = 0.5 * sqrt(determinantSq)
+	
+	local mid = {
+		0.5*(c[1] + d[1]) + 0.5 * rSubFactor * (d[1] - c[1]),
+		0.5*(c[2] + d[2]) + 0.5 * rSubFactor * (d[2] - c[2]),
+	}
+	local perp = {
+		(d[2] - c[2]) * perpFactor,
+		(c[1] - d[1]) * perpFactor,
+	}
+	return {
+		util.Add(mid, perp),
+		util.Subtract(mid, perp),
+	}
+end
+
 --------------------------------------------------
 --------------------------------------------------
 -- Rectangles
@@ -356,7 +554,7 @@ function util.IntersectingRectangles(x1, y1, w1, h1, x2, y2, w2, h2)
 end
 
 function util.PosInRectangle(pos, x1, y1, w1, h1)
-	return (x1 + w1 > pos[1] and x1 <= pos[1]) and (y1 + h1 > pos[2] and y1 <= pos[2])
+	return (x1 + w1 >= pos[1] and x1 <= pos[1]) and (y1 + h1 >= pos[2] and y1 <= pos[2])
 end
 
 --------------------------------------------------
@@ -545,9 +743,9 @@ end
 -- Nice Functions
 
 function util.SmoothZeroToOne(value, factor)
+	factor = factor or 1
 	local minVal = 1 / (1 + math.exp( - factor * (-0.5)))
 	local maxVal = 1 / (1 + math.exp( - factor * (0.5)))
-	factor = factor or 1
 	return (1 / (1 + math.exp( - factor * (value - 0.5))) - minVal) / (maxVal - minVal)
 end
 
@@ -627,7 +825,7 @@ function util.TableKeysToList(keyTable, indexToKey)
 end
 
 local TableToStringHelper
-local function AddTableLine(nameRaw, value, newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf)
+local function AddTableLine(nameRaw, value, newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf, depth)
 	local name = nameRaw and tostring(nameRaw)
 	if name and type(nameRaw) == "number" then
 		name = "[" .. name .. "]"
@@ -638,22 +836,27 @@ local function AddTableLine(nameRaw, value, newIndent, indentAdd, delimiter, lin
 	if ty == "userdata" then
 		lineFunc("warning, userdata")
 	end
-	
 	if ty == "table" then
-		if inlineConf and nameRaw and inlineConf[nameRaw] then
-			lineFunc(newIndent .. name .. "{")
-			local retStr = ""
-			local function AddLine(str)
-				retStr = retStr .. str
-			end
-			TableToStringHelper(value, true, "", "", " ", AddLine, orderPreference, inlineConf)
-			lineFunc(string.sub(retStr, 0, -3))
-			lineFunc("},\n")
+		if depth and depth <= 0 then
+			lineFunc(newIndent .. name .. "{...}" .. delimiter)
 		else
-			lineFunc(newIndent .. name .. "{\n")
-			TableToStringHelper(value, true, newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf)
-			lineFunc(newIndent .. "},\n")
+			if inlineConf and nameRaw and inlineConf[nameRaw] then
+				lineFunc(newIndent .. name .. "{")
+				local retStr = ""
+				local function AddLine(str)
+					retStr = retStr .. str
+				end
+				TableToStringHelper(value, true, "", "", " ", AddLine, orderPreference, inlineConf, depth and (depth - 1))
+				lineFunc(string.sub(retStr, 0, -3))
+				lineFunc("},\n")
+			else
+				lineFunc(newIndent .. name .. "{" .. delimiter)
+				TableToStringHelper(value, true, newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf, depth and (depth - 1))
+				lineFunc(newIndent .. "}," .. delimiter)
+			end
 		end
+	elseif ty == "function" then
+		lineFunc(newIndent .. name .. " = function" .. delimiter)
 	elseif ty == "boolean" then
 		lineFunc(newIndent .. name .. (value and "true," or "false,") .. delimiter)
 	elseif ty == "string" then
@@ -665,14 +868,14 @@ local function AddTableLine(nameRaw, value, newIndent, indentAdd, delimiter, lin
 	end
 end
 
-function TableToStringHelper(data, tableChecked, newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf)
+function TableToStringHelper(data, tableChecked, newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf, depth)
 	newIndent = (newIndent or "") .. indentAdd
 	local alreadyAdded = {}
 	for i = 1, #data do
 		if not data[i] then
 			break
 		end
-		AddTableLine(false, data[i], newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf)
+		AddTableLine(false, data[i], newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf, depth)
 		alreadyAdded[i] = true
 	end
 	
@@ -680,7 +883,7 @@ function TableToStringHelper(data, tableChecked, newIndent, indentAdd, delimiter
 		for i = 1, #orderPreference do
 			local nameRaw = orderPreference[i]
 			if data[nameRaw] then
-				AddTableLine(nameRaw, data[nameRaw], newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf)
+				AddTableLine(nameRaw, data[nameRaw], newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf, depth)
 				alreadyAdded[nameRaw] = true
 			end
 		end
@@ -696,7 +899,7 @@ function TableToStringHelper(data, tableChecked, newIndent, indentAdd, delimiter
 	table.sort(remainingKeys)
 	for i = 1, #remainingKeys do
 		local nameRaw = remainingKeys[i]
-		AddTableLine(nameRaw, data[nameRaw], newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf)
+		AddTableLine(nameRaw, data[nameRaw], newIndent, indentAdd, delimiter, lineFunc, orderPreference, inlineConf, depth)
 	end
 end
 
@@ -711,12 +914,13 @@ function util.TableToString(data, orderPreference, inlineConf)
 	return str
 end
 
-function util.PrintTable(data, indent, tableChecked)
+function util.PrintTable(data, depth)
+	indent = indent or ""
 	if (not tableChecked) and type(data) ~= "table" then
 		print(data)
 		return
 	end
-	TableToStringHelper(data, tableChecked, indent"\t", "\n", print, orderPreference, inlineConf)
+	TableToStringHelper(data, true, false, "\t", "", print, false, false, depth)
 end
 
 function util.CopyTable(tableToCopy, deep, appendTo)
@@ -746,6 +950,26 @@ function util.AddKeyNameToMaps(mapOfMaps, keyName)
 		v[keyName] = k
 	end
 	return mapOfMaps
+end
+
+function util.ListContains(list, element, EqualityCheck)
+	for i = 1, #list do
+		if EqualityCheck(element, list[i]) then
+			return true
+		end
+	end
+	return false
+end
+
+function util.ListRemoveMutable(list, id)
+	for i = 1, #list do
+		if list[i].id == id then
+			list[i] = list[#list]
+			list[#list] = nil
+			return true
+		end
+	end
+	return false
 end
 
 --------------------------------------------------
