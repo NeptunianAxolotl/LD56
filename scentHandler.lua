@@ -66,8 +66,8 @@ end
 
 local function DrawScent(name, red, green, blue)
 	local scale = self.scents[name].gridSize
-	for x = 0, 299 do
-		for y = 0, 199 do
+	for x = 0, 179 do
+		for y = 0, 99 do
 			local strength = api.GetScentRawPos(name, x, y)
 			if strength > 0 then
 				love.graphics.setColor(red, green, blue, strength / (10 + strength))
