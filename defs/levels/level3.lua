@@ -1,7 +1,7 @@
 local data = {
 	humanName = "test",
-	prevLevel = "level1",
-	nextLevel = "level3",
+	prevLevel = "level2",
+	nextLevel = "level4",
 	width = 1800,
 	height = 1000,
 	cameraPos = {900, 500},
@@ -10,6 +10,7 @@ local data = {
 	},
 	food = {
 		{"basic_food", {1450, 800}},
+		{"poison_food", {1450, 200}},
 	},
 	blocks = {
 		{"log", 	{600, 200}},
@@ -33,13 +34,7 @@ local data = {
 		{"log_90", 	{1450, 50}},
 		{"log_90", 	{1650, 50}},
 
-		{"log", 	{900, 200}},
-		{"log", 	{900, 400}},
-		{"log", 	{900, 600}},
-		{"log", 	{1200, 800}},
-		{"log", 	{1200, 600}},
-		{"log", 	{1200, 400}},
-
+		{"log", 	{1000, 500}},
 	},
 }
 

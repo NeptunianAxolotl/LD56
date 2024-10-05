@@ -1,7 +1,6 @@
 local data = {
 	humanName = "test",
-	prevLevel = "level1",
-	nextLevel = "level3",
+	prevLevel = "level3",
 	width = 1800,
 	height = 1000,
 	cameraPos = {900, 500},
@@ -32,6 +31,8 @@ local data = {
 		{"log_90", 	{1250, 50}},
 		{"log_90", 	{1450, 50}},
 		{"log_90", 	{1650, 50}},
+
+		{"log_90", 	{750, 250}},        
 
 		{"log", 	{900, 200}},
 		{"log", 	{900, 400}},
