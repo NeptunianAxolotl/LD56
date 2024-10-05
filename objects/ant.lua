@@ -19,12 +19,12 @@ local function NewAnt(world, creatureDef, position, size)
 	end
 	
 	function self.ApplyAirhorn(pos, radius, maxRadius)
-		self.airhornEffect = 0.4 + (1 - radius / maxRadius)
+		self.airhornEffect = 0.5 + (1 - radius / maxRadius)
 		self.direction = util.Angle(util.Subtract(self.pos, pos)) + math.random() - 0.5
 	end
 	
 	function self.ApplyAcceleration(pos, radius, maxRadius)
-		self.accelMult = 4 + 3 * (1 - radius / maxRadius)
+		self.accelMult = 5 + 3 * (1 - radius / maxRadius)
 	end
 	
 	function self.Update(dt)

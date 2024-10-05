@@ -1,6 +1,6 @@
 
 local data = {
-	speed = 60,
+	speed = 48,
 	nestDist = 40,
 	foodDist = 50,
 	searchNestDist = 100,
