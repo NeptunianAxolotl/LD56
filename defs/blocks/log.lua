@@ -1,7 +1,7 @@
 
 local data = {
-	width = 90,
-	height = 235,
+	width = 100,
+	height = 200,
 	init = function (self)
 	end,
 	update = function (self, dt)
