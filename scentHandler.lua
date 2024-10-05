@@ -2,12 +2,12 @@
 local self = {}
 local api = {}
 
-local function InitializeScent(name)
+local function InitializeScent(name, linger)
 	local scent = {
 		strength = {},
 		lastTouch = {},
 		gridSize = 10,
-		linger = 0.95,
+		linger = linger,
 	}
 	self.scents[name] = scent
 end
@@ -68,7 +68,7 @@ local function DrawScent(name, red, green, blue)
 		for y = 1, 200 do
 			local strength = api.GetScentRawPos(name, x, y)
 			if strength > 0 then
-				love.graphics.setColor(red, green, blue, strength * 0.2)
+				love.graphics.setColor(red, green, blue, strength / (10 + strength))
 				love.graphics.rectangle("fill", x*scale, y*scale, scale, scale, 0, 0, 0)
 			end
 		end
@@ -78,7 +78,7 @@ end
 function api.Draw(drawQueue)
 	drawQueue:push({y=0; f=function()
 		DrawScent("explore", 1, 0, 0)
-		DrawScent("food", 0, 1, 0)
+		DrawScent("food", 0, 1, 1)
 	end})
 end
 
@@ -88,8 +88,8 @@ function api.Initialize(world)
 		currentTime = 0,
 		scents = {},
 	}
-	InitializeScent("explore")
-	InitializeScent("food")
+	InitializeScent("explore", 0.95)
+	InitializeScent("food", 0.88)
 end
 
 return api

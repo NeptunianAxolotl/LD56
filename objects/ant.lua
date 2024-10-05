@@ -21,13 +21,48 @@ local function NewAnt(world, creatureDef, position, size)
 			return true
 		end
 		self.def.update(self, dt)
+		
+		local directionChange = false
+		if math.random() < 0.5 then
+			local leftPos = util.Add(self.pos, util.PolarToCart(creatureDef.feelerLength * (0.4 + 0.6*math.random()), self.direction + creatureDef.feelerAngle))
+			local rightPos = util.Add(self.pos, util.PolarToCart(creatureDef.feelerLength * (0.4 + 0.6*math.random()), self.direction - creatureDef.feelerAngle))
+			local wantScent = self.hasFood and "explore" or "food"
+			local leftScent = ScentHandler.GetScent(wantScent, leftPos)
+			local rightScent = ScentHandler.GetScent(wantScent, rightPos)
+			if leftScent > 0 or rightScent > 0 then
+				local bias = 2*(leftScent / (leftScent + rightScent) - 0.5)
+				directionChange = math.random()*2 - 1 + bias*3
+				if math.random() < 0.1 then
+					directionChange = math.random()*20 - 10
+				end
+			end
+		end
+		if not directionChange then
+			if math.random() < 0.1 then
+				directionChange = math.random()*26 - 13
+			else
+				directionChange = math.random()*3 - 1.5
+			end
+		end
+		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
+		
 		self.pos = util.Add(self.pos, util.PolarToCart(dt * creatureDef.speed, self.direction))
-		self.direction = self.direction + math.random()*0.1 - 0.05
 		
 		if self.hasFood then
-			ScentHandler.AddScent("food", self.pos, 50, dt)
+			ScentHandler.AddScent("food", self.pos, 30, dt)
 		else
-			ScentHandler.AddScent("explore", self.pos, 50, dt)
+			ScentHandler.AddScent("explore", self.pos, 30, dt)
+		end
+		
+		if math.random() < 0.1 then
+			if self.hasFood and AntHandler.NearNest(self.pos, self.def.nestDist) then
+				self.hasFood = false
+				self.direction = self.direction + math.pi
+			end
+			if not self.hasFood and AntHandler.NearFoodSource(self.pos, self.def.foodDist) then
+				self.hasFood = true
+				self.direction = self.direction + math.pi
+			end
 		end
 	end
 	

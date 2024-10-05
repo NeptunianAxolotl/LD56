@@ -21,6 +21,50 @@ local function SpawnAntsUpdate(dt)
 	end
 end
 
+local function ClosestToWithDist(data, maxDistSq, pos, filterFunc)
+	if data.destroyed then
+		return false
+	end
+	if filterFunc and not filterFunc(data) then
+		return false
+	end
+	local distSq = util.DistSqVectors(data.pos, pos)
+	if distSq > maxDistSq then
+		return false
+	end
+	return distSq
+end
+
+local function GetClosest(thingMap, pos, maxDist, filterFunc)
+	local other = IterableMap.GetMinimum(thingMap, ClosestToWithDist, maxDist*maxDist, pos, filterFunc)
+	if not other then
+		return
+	end
+	return other
+end
+
+function api.NearNest(pos, dist)
+	return GetClosest(self.nests, pos, dist)
+end
+
+function api.NearFoodSource(pos, dist)
+	return GetClosest(self.foodSources, pos, dist)
+end
+
+function api.AddNest(pos)
+	local nest = {
+		pos = pos,
+	}
+	IterableMap.Add(self.nests, nest)
+end
+
+function api.AddFoodSource(pos)
+	local foodSource = {
+		pos = pos,
+	}
+	IterableMap.Add(self.foodSources, foodSource)
+end
+
 function api.Update(dt)
 	SpawnAntsUpdate(dt)
 	IterableMap.ApplySelf(self.ants, "Update", dt)
@@ -38,7 +82,12 @@ function api.Initialize(world)
 		spawnFrequency = 6,
 		spawnTimer = 0,
 		currentTime = 0,
+		nests = IterableMap.New(),
+		foodSources = IterableMap.New(),
 	}
+	
+	api.AddNest({400, 400})
+	api.AddFoodSource({1000, 800})
 end
 
 return api
