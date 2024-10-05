@@ -2,6 +2,7 @@
 local data = {
 	foodType = "poison",
 	foodValue = 1,
+	totalFood = 200,
 	init = function (self)
 	end,
 	update = function (self, dt)
