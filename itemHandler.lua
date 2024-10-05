@@ -6,6 +6,25 @@ function api.Update(dt)
 end
 
 function api.Draw(drawQueue)
+	if self.currentItem == "renovate" and self.currentBlock then
+		drawQueue:push({y=18; f=function()
+			love.graphics.setColor(0.7, 0.8, 0.2, 0.5)
+			love.graphics.rectangle("fill",
+				self.currentBlock.pos[1] - self.currentBlock.def.width/2,
+				self.currentBlock.pos[2] - self.currentBlock.def.height/2,
+				self.currentBlock.def.width,
+				self.currentBlock.def.height
+			)
+			local mousePos = self.world.GetMousePosition()
+			love.graphics.setColor(0.2, 0.8, 1, 0.5)
+			love.graphics.rectangle("fill",
+				mousePos[1] - self.currentBlock.def.width/2,
+				mousePos[2] - self.currentBlock.def.height/2,
+				self.currentBlock.def.width,
+				self.currentBlock.def.height
+			)
+		end})
+	end
 end
 
 function api.DrawInterface()
