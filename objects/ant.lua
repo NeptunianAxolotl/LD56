@@ -58,13 +58,28 @@ local function NewAnt(world, creatureDef, position, size)
 		end
 		
 		if math.random() < 0.1 then
-			if self.hasFood and AntHandler.NearNest(self.pos, self.def.nestDist) then
-				self.hasFood = false
-				self.direction = self.direction + math.pi
+			if self.hasFood then
+				local nearNest, nestDist = AntHandler.NearNest(self.pos, self.def.searchNestDist)
+				if nearNest then
+					if nestDist < self.def.nestDist then
+						self.hasFood = false
+						self.direction = self.direction + math.pi
+					else
+						self.direction = util.Angle(util.Subtract(nearNest.pos, self.pos))
+					end
+				end
 			end
-			if not self.hasFood and AntHandler.NearFoodSource(self.pos, self.def.foodDist) then
-				self.hasFood = true
-				self.direction = self.direction + math.pi
+			if not self.hasFood then
+				
+				local nearFood, foodDist = AntHandler.NearFoodSource(self.pos, self.def.searchNestDist)
+				if nearFood then
+					if foodDist < self.def.foodDist then
+						self.hasFood = true
+						self.direction = self.direction + math.pi
+					else
+						self.direction = util.Angle(util.Subtract(nearFood.pos, self.pos))
+					end
+				end
 			end
 		end
 	end

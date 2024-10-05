@@ -33,9 +33,6 @@ local function NewComponent(self, physicsWorld)
 	
 	function self.Update(dt)
 		self.animTime = self.animTime + dt
-		TerrainHandler.WrapBody(self.body)
-		TerrainHandler.ApplyGravity(self.body)
-		TerrainHandler.UpdateSpeedLimit(self.body)
 		
 		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
 			local angle = self.body:getAngle()

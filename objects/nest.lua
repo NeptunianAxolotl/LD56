@@ -12,7 +12,7 @@ local function NewNest(world, position)
 		if self.destroyed then
 			return true
 		end
-		ScentHandler.AddScent("explore", self.pos, 140, dt*10)
+		ScentHandler.AddScent("explore", self.pos, 120, dt*2)
 	end
 	
 	function self.Draw(drawQueue, selectedPoint, hoveredPoint, elementType)

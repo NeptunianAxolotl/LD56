@@ -38,11 +38,11 @@ local function ClosestToWithDist(data, maxDistSq, pos, filterFunc)
 end
 
 local function GetClosest(thingMap, pos, maxDist, filterFunc)
-	local other = IterableMap.GetMinimum(thingMap, ClosestToWithDist, maxDist*maxDist, pos, filterFunc)
+	local other, minValue = IterableMap.GetMinimum(thingMap, ClosestToWithDist, maxDist*maxDist, pos, filterFunc)
 	if not other then
 		return
 	end
-	return other
+	return other, math.sqrt(minValue)
 end
 
 function api.NearNest(pos, dist)
@@ -87,7 +87,7 @@ function api.Initialize(world)
 	}
 	
 	api.AddNest({400, 400})
-	api.AddFoodSource({1300, 700})
+	api.AddFoodSource({1200, 700})
 end
 
 return api

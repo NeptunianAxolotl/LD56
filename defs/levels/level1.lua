@@ -1,8 +1,8 @@
 local data = {
 	humanName = "test",
-	width = 2000,
+	width = 1800,
 	height = 1000,
-	cameraPos = {1000, 500},
+	cameraPos = {900, 500},
 }
 
 return data
