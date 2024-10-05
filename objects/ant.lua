@@ -36,7 +36,7 @@ local function NewAnt(world, creatureDef, position, size)
 			local rightScent = (ScentHandler.GetScent(wantScent, rightPos, true) + 0.5)^2
 			local totalScent = (leftScent + rightScent)
 			local bias = 2*(leftScent / totalScent - 0.5)
-			directionChange = math.random()*2 - 1 + bias*(2 + 5*(totalScent / (500 + totalScent)))
+			directionChange = math.random()*2 - 1 + bias*(2 + 8*(totalScent / (600 + totalScent)))
 			if math.random() < 0.1 then
 				directionChange = 1*(math.random()*20 - 10)
 			end
