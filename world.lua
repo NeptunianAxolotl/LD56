@@ -4,6 +4,8 @@ DialogueHandler = require("dialogueHandler")
 TerrainHandler = require("terrainHandler")
 ShadowHandler = require("shadowHandler")
 
+AntHandler = require("antHandler")
+ScentHandler = require("scentHandler")
 LevelHandler = require("levelHandler")
 PlayerHandler = require("playerHandler")
 
@@ -198,6 +200,8 @@ function api.Update(dt)
 	Delay.Update(dt)
 	InterfaceUtil.Update(dt)
 	PlayerHandler.Update(dt)
+	AntHandler.Update(dt)
+	ScentHandler.Update(dt)
 	--ShadowHandler.Update(api)
 	
 	PhysicsHandler.Update(dt)
@@ -223,6 +227,8 @@ function api.Draw()
 	EffectsHandler.Draw(drawQueue)
 	PlayerHandler.Draw(drawQueue)
 	TerrainHandler.Draw(drawQueue)
+	AntHandler.Draw(drawQueue)
+	ScentHandler.Draw(drawQueue)
 	
 	love.graphics.replaceTransform(CameraHandler.GetCameraTransform())
 	while true do
@@ -268,6 +274,8 @@ function api.Initialize(cosmos, levelData)
 	DialogueHandler.Initialize(api)
 	
 	TerrainHandler.Initialize(api, levelData)
+	AntHandler.Initialize(api)
+	ScentHandler.Initialize(api)
 	--ShadowHandler.Initialize(api)
 	
 	DeckHandler.Initialize(api)
