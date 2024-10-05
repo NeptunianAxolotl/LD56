@@ -90,7 +90,7 @@ function api.Initialize(world)
 		currentTime = 0,
 		scents = {},
 	}
-	InitializeScent("explore", 0.95)
+	InitializeScent("explore", 0.94)
 	InitializeScent("food", 0.92)
 end
 

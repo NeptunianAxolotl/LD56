@@ -4,6 +4,8 @@ local api = {}
 
 local CreatureDefs = require("defs/creatureDefs")
 local NewAnt = require("objects/ant")
+local NewNest = require("objects/nest")
+local NewFoodSource = require("objects/foodSource")
 
 local function SpawnAnt()
 	local pos = {400, 400}
@@ -52,22 +54,20 @@ function api.NearFoodSource(pos, dist)
 end
 
 function api.AddNest(pos)
-	local nest = {
-		pos = pos,
-	}
+	local nest = NewNest(self.world, pos)
 	IterableMap.Add(self.nests, nest)
 end
 
 function api.AddFoodSource(pos)
-	local foodSource = {
-		pos = pos,
-	}
+	local foodSource = NewFoodSource(self.world, pos)
 	IterableMap.Add(self.foodSources, foodSource)
 end
 
 function api.Update(dt)
 	SpawnAntsUpdate(dt)
 	IterableMap.ApplySelf(self.ants, "Update", dt)
+	IterableMap.ApplySelf(self.nests, "Update", dt)
+	IterableMap.ApplySelf(self.foodSources, "Update", dt)
 	self.currentTime = self.currentTime + dt
 end
 
