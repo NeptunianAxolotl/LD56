@@ -7,6 +7,7 @@ local data = {
 	pathingType = "ant",
 	
 	init = function (self)
+		self.spiderStamina = 1
 	end,
 	
 	update = function (self, dt)
@@ -20,12 +21,19 @@ local data = {
 	
 	GetSpeedAndDirection = function (self, dt)
 		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, 150)
+		print(self.spiderStamina)
      
         if self.waittimer and not closestAnt then 
             self.waittimer = self.waittimer - dt
             if self.waittimer < 0 then
                 self.waittimer = false
             end
+
+			self.spiderStamina = self.spiderStamina + dt*0.1
+			if self.spiderStamina > 1 then
+				self.spiderStamina = 1
+			end
+
             return 0,0
         end
         
@@ -35,9 +43,6 @@ local data = {
 			self.movementtimer = 0
 			self.waittimer = 1 + math.random()*3
 		end
-
-		--directionChange = math.random()*26 - 13
-		--directionChange = math.random()*3 - 1.5
 
 		local directionChange = false
 		if math.random() < 0.1 then
@@ -51,7 +56,7 @@ local data = {
 		if closestAnt then
 			local toAnt = util.AngleFromPointToPointWithWrap(self.pos, closestAnt.pos)
 			local angleDiff = util.AngleSubtractShortest(toAnt, self.direction)
-			print(angleDiff)
+
 			directionChange = directionChange + dt * angleDiff * 1000
 			
 			if antDist < 50 then
@@ -62,9 +67,21 @@ local data = {
 			end
 		end
 
+		if chasespeed > 1 then
+			self.spiderStamina = self.spiderStamina - dt*0.1
+		else
+			self.spiderStamina = self.spiderStamina + dt*0.1
+		end
+
+		if self.spiderStamina < 0.1 then
+			self.spiderStamina = 0
+		end
+		if self.spiderStamina > 1 then
+			self.spiderStamina = 1
+		end
 
 		local speed = self.def.speed * self.speedMult * (self.accelMult or 1)
-		local speed = speed*chasespeed
+		local speed = speed*chasespeed*self.spiderStamina 
 
 		if self.airhornEffect then
 			speed = speed * (1 + self.airhornEffect*4)

@@ -61,7 +61,10 @@ function api.Draw(drawQueue)
 				local x = i * 50 + -50
 				local y = j * 200 + -250
 				--DrawImage(image, x, y, rotation, alpha, scale)
-				Resources.DrawImage(self.plankarray[i][j], x, y, math.pi/2, 1, 0.2)
+				if math.mod(i,2) = 0 then
+					Resources.DrawImage(self.plankarray[i][j], x+50, y, math.pi/2, 1, 0.2)
+				else
+					Resources.DrawImage(self.plankarray[i][j], x, y, math.pi/2, 1, 0.2)
 			end
 		end
 
