@@ -21,9 +21,38 @@ local function ApplyRecharge(dt, name)
 	end
 end
 
+local function CheckPaintItem(name, mousePos)
+	local itemDef = ItemDefs.defs[name]
+	if api.GetCharges(name) <= 0 then
+		return false
+	end
+	if self.lastPaintPos then
+	print(util.Dist(self.lastPaintPos, mousePos))
+		if util.Dist(self.lastPaintPos, mousePos) < itemDef.paintSpacing then
+			return false
+		end
+	end
+	self.lastPaintPos = mousePos
+	return true
+end
+
+local function DropScentCheck()
+	local mousePos = self.world.GetMousePosition()
+	if CheckPaintItem("scent", mousePos) then
+		local itemDef = ItemDefs.defs["scent"]
+		ScentHandler.AddScent("explore", mousePos, itemDef.effectRadius, itemDef.scentStrength)
+		ScentHandler.AddScent("food", mousePos, itemDef.effectRadius, itemDef.scentStrength*1.2)
+		api.UseCharge("scent")
+	end
+end
+
 function api.Update(dt)
 	for i = 1, #ItemDefs.itemList do
 		ApplyRecharge(dt, ItemDefs.itemList[i])
+	end
+	
+	if self.heldAnt and self.heldAnt.destroyed then
+		self.heldAnt = false
 	end
 	
 	if self.currentItem ~= "pickup" and self.heldAnt then
@@ -32,6 +61,9 @@ function api.Update(dt)
 			self.heldAnt = false
 		end
 	end
+	if self.currentItem == "scent" and love.mouse.isDown(1) then
+		DropScentCheck()
+	end
 end
 
 function api.GetCharges(name)
@@ -39,7 +71,8 @@ function api.GetCharges(name)
 end
 
 function api.UseCharge(name)
-	self.charges[name] = self.charges[name] - 1
+	local itemDef = ItemDefs.defs[name]
+	self.charges[name] = self.charges[name] - (itemDef.useRate or 1)
 end
 
 function api.GetChargeString(name)
@@ -83,39 +116,21 @@ function api.Draw(drawQueue)
 				placeDef.height
 			)
 		end})
-	elseif self.currentItem == "airhorn" then
-		drawQueue:push({y=60; f=function()
-			local mousePos = self.world.GetMousePosition()
-			love.graphics.setColor(0.2, 0.8, 1, 0.5)
-			love.graphics.circle("line",
-				mousePos[1],
-				mousePos[2],
-				ItemDefs.defs.airhorn.effectRadius,
-				60
-			)
-		end})
-	elseif self.currentItem == "accelerate" then
-		drawQueue:push({y=60; f=function()
-			local mousePos = self.world.GetMousePosition()
-			love.graphics.setColor(0.2, 0.8, 1, 0.5)
-			love.graphics.circle("line",
-				mousePos[1],
-				mousePos[2],
-				ItemDefs.defs.accelerate.effectRadius,
-				60
-			)
-		end})
-	elseif self.currentItem == "pickup" then
-		drawQueue:push({y=60; f=function()
-			local mousePos = self.world.GetMousePosition()
-			love.graphics.setColor(0.2, 0.8, 1, 0.5)
-			love.graphics.circle("line",
-				mousePos[1],
-				mousePos[2],
-				ItemDefs.defs.pickup.effectRadius,
-				60
-			)
-		end})
+	end
+	if self.currentItem then
+		local itemDef = ItemDefs.defs[self.currentItem]
+		if itemDef.effectRadius then
+			drawQueue:push({y=60; f=function()
+				local mousePos = self.world.GetMousePosition()
+				love.graphics.setColor(0.2, 0.8, 1, 0.5)
+				love.graphics.circle("line",
+					mousePos[1],
+					mousePos[2],
+					itemDef.effectRadius,
+					60
+				)
+			end})
+		end
 	end
 end
 
@@ -284,6 +299,9 @@ function api.MousePressed(x, y, button)
 				api.UseCharge("pickup")
 			end
 		end
+	elseif self.currentItem == "scent" then
+		self.lastPaintPos = false
+		DropScentCheck()
 	end
 end
 

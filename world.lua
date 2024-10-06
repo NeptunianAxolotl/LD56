@@ -279,6 +279,8 @@ end
 
 function api.Initialize(cosmos, levelData)
 	self = {}
+	util.SetDefaultWrap(levelData.width, levelData.height)
+	
 	self.cosmos = cosmos
 	self.cameraTransform = love.math.newTransform()
 	self.interfaceTransform = love.math.newTransform()

@@ -49,7 +49,7 @@ local data = {
 		local chasespeed = 1
 
 		if closestAnt then
-			local toAnt = util.AngleFromPointToPoint(self.pos, closestAnt.pos)
+			local toAnt = util.AngleFromPointToPointWithWrap(self.pos, closestAnt.pos)
 			local angleDiff = util.AngleSubtractShortest(toAnt, self.direction)
 			print(angleDiff)
 			directionChange = directionChange + dt * angleDiff * 1000

@@ -23,7 +23,7 @@ local function NewAnt(world, creatureDef, position, size)
 	
 	function self.ApplyAirhorn(pos, radius, maxRadius)
 		self.airhornEffect = 0.5 + (1 - radius / maxRadius)
-		self.direction = util.Angle(util.Subtract(self.pos, pos)) + math.random() - 0.5
+		self.direction = util.AngleFromPointToPointWithWrap(pos, self.pos) + math.random() - 0.5
 	end
 	
 	function self.ApplyAcceleration(pos, radius, maxRadius)
@@ -33,7 +33,7 @@ local function NewAnt(world, creatureDef, position, size)
 	function self.ApplySpiderFear(pos, radius, maxRadius, extraData)
 		self.accelMult = (self.accelMult or 1) + extraData.dt * 2 * (1 - radius / maxRadius)
 		self.spiderRunTime = 1.5
-		self.direction = util.Angle(util.Subtract(self.pos, pos)) + (math.random() - 0.5)*0.2
+		self.direction = util.AngleFromPointToPointWithWrap(pos, self.pos) + (math.random() - 0.5)*0.2
 	end
 	
 	function self.SetPickedUp()
@@ -160,7 +160,7 @@ local function NewAnt(world, creatureDef, position, size)
 						self.hasFood = false
 						self.direction = self.direction + math.pi
 					else
-						self.direction = util.Angle(util.Subtract(nearNest.pos, self.pos))
+						self.direction = util.AngleFromPointToPointWithWrap(self.pos, nearNest.pos)
 					end
 				end
 			end
@@ -173,7 +173,7 @@ local function NewAnt(world, creatureDef, position, size)
 						self.foodValue = nearFood.def.foodValue
 						self.direction = self.direction + math.pi
 					else
-						self.direction = util.Angle(util.Subtract(nearFood.pos, self.pos))
+						self.direction = util.AngleFromPointToPointWithWrap(self.pos, nearFood.pos)
 					end
 				end
 			end
