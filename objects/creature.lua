@@ -33,6 +33,8 @@ local function NewCreature(world, creatureDef, position, size)
 		self.def.update(self, dt)
 		
 		local speed, directionChange = self.def.GetSpeedAndDirection(self, dt)
+
+		self.lastSpeed = speed
 		
 		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
 		local newPos = util.Add(self.pos, util.PolarToCart(speed * dt, self.direction))

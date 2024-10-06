@@ -20,21 +20,34 @@ local data = {
 	update = function (self, dt)
 		local extraData = {dt = dt}
 		AntHandler.DoFunctionToAntsInArea("ApplySpiderFear", self.pos, self.def.fearRadius, extraData)
+
+		local walkconstant = 0.1
+		local stepangle = 0.1
+		self.walktimer = ((self.walktimer or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2)
+
+
+
+		self.walkangle = math.sin(self.walktimer)*stepangle
+
+		print(self.walkangle)
 	end,
 	
 	draw = function (self, drawQueue)
 		--Resources.DrawImage("spider_small", self.pos[1], self.pos[2], self.direction, 1, 6.6666666*5)
-		local spider_scale = 1.4
-		Resources.DrawImage("spider_leg_L1", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L2", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L3", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L4", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R1", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R2", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R3", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R4", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		local spider_scale = 1.4 
+		Resources.DrawImage("spider_leg_L1", self.pos[1], self.pos[2], self.direction+self.walkangle, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L2", self.pos[1], self.pos[2], self.direction-self.walkangle, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L3", self.pos[1], self.pos[2], self.direction+self.walkangle, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L4", self.pos[1], self.pos[2], self.direction-self.walkangle, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R1", self.pos[1], self.pos[2], self.direction+self.walkangle, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R2", self.pos[1], self.pos[2], self.direction-self.walkangle, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R3", self.pos[1], self.pos[2], self.direction+self.walkangle, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R4", self.pos[1], self.pos[2], self.direction-self.walkangle, 1, spider_scale)
 		Resources.DrawImage("spider_body", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 		Resources.DrawImage("spider_head", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+
+
+
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
