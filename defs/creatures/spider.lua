@@ -20,7 +20,24 @@ local data = {
 	
 	GetSpeedAndDirection = function (self, dt)
 		local closestAnt = AntHandler.ClosestAnt(self.pos, 150)
-		
+     
+        if self.waittimer and not closestAnt then 
+            self.waittimer = self.waittimer - dt
+            if self.waittimer < 0 then
+                self.waittimer = false
+            end
+            return 0,0
+        end
+        
+		self.movementtimer = (self.movementtimer or 0) + dt
+
+		if self.movementtimer > 1 + math.random()*3 then
+			self.movementtimer = 0
+			self.waittimer = 1 + math.random()*3
+		end
+
+		print(self.waittimer) 
+
 		local directionChange = false
 		if math.random() < 0.1 then
 			directionChange = math.random()*26 - 13
