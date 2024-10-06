@@ -1,10 +1,11 @@
 
 
-local function NewNest(world, myDef, position)
+local function NewNest(world, myDef, position, extraData)
 	local self = {}
 	self.pos = position
 	self.def = myDef
-	self.health = self.def.health
+	self.maxHealth = (extraData and extraData.health) or self.def.health
+	self.health = self.maxHealth
 	self.spawnTimer = 0
 	
 	function self.Destroy()
@@ -37,15 +38,19 @@ local function NewNest(world, myDef, position)
 	end
 	
 	function self.WriteSaveData()
-		return {self.def.name, self.pos}
+		return {self.def.name, self.pos, extraData}
 	end
 	
 	function self.Draw(drawQueue)
 		drawQueue:push({y=18; f=function()
 			self.def.draw(self, drawQueue)
-			Font.SetSize(2)
-			love.graphics.setColor(0.7, 0.8, 0.2, 0.5)
-			love.graphics.print("health " .. self.health, self.pos[1] - 80, self.pos[2])
+			--Font.SetSize(2)
+			--love.graphics.setColor(0.7, 0.8, 0.2, 0.5)
+			--love.graphics.print("health " .. self.health, self.pos[1] - 80, self.pos[2])
+			local healthProp = self.health/self.maxHealth
+			if healthProp < 1 then
+				InterfaceUtil.DrawBar(Global.HEALTH_BAR_COL, Global.HEALTH_BAR_BACK, healthProp, false, false, util.Add(self.pos, {-55, 30}), {110, 24})
+			end
 		end})
 	end
 	

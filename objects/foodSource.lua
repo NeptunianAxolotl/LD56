@@ -1,6 +1,6 @@
 
 
-local function NewNest(world, myDef, position)
+local function NewNest(world, myDef, position, extraData)
 	local self = {}
 	self.pos = position
 	self.def = myDef
@@ -31,7 +31,7 @@ local function NewNest(world, myDef, position)
 	end
 	
 	function self.WriteSaveData()
-		return {self.def.name, self.pos}
+		return {self.def.name, self.pos, extraData}
 	end
 	
 	function self.Draw(drawQueue)

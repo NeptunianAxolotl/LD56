@@ -17,6 +17,7 @@ local data = {
 				480,
 				440,
 			},
+			{health = 20},
 		},
 	},
 	food = {
