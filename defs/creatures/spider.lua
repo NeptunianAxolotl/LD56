@@ -27,7 +27,10 @@ local data = {
 	GetSpeedAndDirection = function (self, dt)
 		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, self.def.antSearchRadius)
 		
-		if self.waittimer and not closestAnt and not self.airhornEffect and not self.accelMult then 
+		self.wanderDirection = (self.wanderDirection or 0) + dt*(math.random()*40 - 20)
+		self.wanderDirection = math.max(-1, math.min(1, self.wanderDirection))
+		
+		if self.waittimer and not self.airhornEffect and not self.accelMult then 
 			self.waittimer = self.waittimer - dt
             if self.waittimer < 0 then
                 self.waittimer = false
@@ -38,20 +41,20 @@ local data = {
 				self.spiderStamina = 1
 			end
 
-            return 0,0
+            return 0, self.wanderDirection*0.4 + math.random()*0.2 - 0.1
         end
         
 		self.movementtimer = (self.movementtimer or 2) - dt
-		if self.movementtimer < 0 then
-			self.movementtimer = (2 + math.random()*2) * self.def.movePeriodMult
-			self.waittimer = (1 + math.random()) * self.waitPeriodMult
+		if self.movementtimer < 0 and not closestAnt then
+			self.movementtimer = (3 + math.random()*3) * self.def.movePeriodMult
+			self.waittimer = (1 + math.random()) * self.def.waitPeriodMult
 		end
 
 		local directionChange = false
-		if math.random() < 0.1 then
-			directionChange = math.random()*52 - 26
+		if math.random() < 0.02 then
+			directionChange = self.wanderDirection * (math.random()*10 - 2)
 		else
-			directionChange = math.random()*6 - 3
+			directionChange = self.wanderDirection + math.random()*4 - 2
 		end
 
 		local chasespeed = 1
@@ -83,9 +86,9 @@ local data = {
 		end
 
 		local speed = self.def.speed * self.speedMult * (self.accelMult or 1)
-		local speed = speed*chasespeed*self.spiderStamina
-		if self.spiderStamina < 0.1 then
-			self.waittimer = (1 + math.random()*2) * self.waitPeriodMult * 2
+		local speed = speed*chasespeed*(0.3 + 0.7*self.spiderStamina)
+		if self.spiderStamina < 0.3 then
+			self.waittimer = (1 + math.random()*2) * self.def.waitPeriodMult * 2
 		end
 
 		if self.airhornEffect then
