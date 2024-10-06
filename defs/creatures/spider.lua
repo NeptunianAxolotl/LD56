@@ -74,9 +74,6 @@ local data = {
 		Resources.DrawImage("spider_leg_R4", self.pos[1], self.pos[2], self.direction+self.walkangle8, 1, spider_scale)
 		Resources.DrawImage("spider_body", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 		Resources.DrawImage("spider_head", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
-
-
-
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
@@ -96,7 +93,7 @@ local data = {
 				self.spiderStamina = 1
 			end
 
-            return 0, self.wanderDirection*0.4 + math.random()*0.2 - 0.1
+            return 0, 0
         end
         
 		self.movementtimer = (self.movementtimer or 2) - dt
