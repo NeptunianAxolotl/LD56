@@ -64,6 +64,23 @@ function api.DoFunctionToAntsInArea(doFunc, pos, radius, extraData)
 	IterableMap.Apply(self.ants, DoFunctionIfInDistance, doFunc, pos, radius)
 end
 
+function api.PickupAnt(pos, radius)
+	local ant = GetClosest(self.ants, pos, radius)
+	if not ant then
+		return false
+	end
+	ant.SetPickedUp()
+	return ant
+end
+
+function api.DropAnt(pos, ant)
+	if BlockHandler.BlockAt("ant", pos) then
+		return false
+	end
+	ant.DropAt(pos)
+	return true
+end
+
 function api.NearNest(pos, dist)
 	return GetClosest(self.nests, pos, dist)
 end

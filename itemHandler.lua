@@ -20,6 +20,13 @@ function api.Update(dt)
 	for i = 1, #ItemDefs.itemList do
 		ApplyRecharge(dt, ItemDefs.itemList[i])
 	end
+	
+	if self.currentItem ~= "pickup" and self.heldAnt then
+		local mousePos = {x, y}
+		if AntHandler.DropAnt(mousePos, self.heldAnt) then
+			self.heldAnt = false
+		end
+	end
 end
 
 function api.GetCharges(name)
@@ -93,6 +100,17 @@ function api.Draw(drawQueue)
 				60
 			)
 		end})
+	elseif self.currentItem == "pickup" then
+		drawQueue:push({y=60; f=function()
+			local mousePos = self.world.GetMousePosition()
+			love.graphics.setColor(0.2, 0.8, 1, 0.5)
+			love.graphics.circle("line",
+				mousePos[1],
+				mousePos[2],
+				ItemDefs.defs.pickup.effectRadius,
+				60
+			)
+		end})
 	end
 end
 
@@ -142,7 +160,8 @@ function api.DrawInterface()
 	if self.currentItem and not self.currentBlock then
 		local itemDef = ItemDefs.defs[self.currentItem]
 		local mousePos = self.world.GetMousePositionInterface()
-		Resources.DrawImage(itemDef.shopImage, mousePos[1], mousePos[2], 0, 1, Global.MOUSE_ITEM_SCALE)
+		local disabled = itemDef.maxCharges and self.charges[self.currentItem] < 1
+		Resources.DrawImage(itemDef.shopImage, mousePos[1], mousePos[2], 0, 0.7, Global.MOUSE_ITEM_SCALE, disabled and {0.65, 0.65, 0.65})
 	end
 end
 
@@ -226,6 +245,18 @@ function api.MousePressed(x, y, button)
 			local mousePos = {x, y}
 			AntHandler.DoFunctionToAntsInArea("ApplyAcceleration", mousePos, ItemDefs.defs.accelerate.effectRadius)
 			api.UseCharge("accelerate")
+		end
+	elseif self.currentItem == "pickup" then
+		local mousePos = {x, y}
+		if self.heldAnt then
+			if AntHandler.DropAnt(mousePos, self.heldAnt) then
+				self.heldAnt = false
+			end
+		elseif api.GetCharges("pickup") > 0 then
+			self.heldAnt = AntHandler.PickupAnt(mousePos, ItemDefs.defs.pickup.effectRadius)
+			if self.heldAnt then
+				api.UseCharge("pickup")
+			end
 		end
 	end
 end
