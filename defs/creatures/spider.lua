@@ -10,6 +10,7 @@ local data = {
 	staminaRecharge = 0.3,
 	staminaSpend = 0.15,
 	pathingType = "ant",
+	airhornMult = 2,
 	
 	init = function (self)
 		self.spiderStamina = 1
@@ -92,7 +93,7 @@ local data = {
 		end
 
 		if self.airhornEffect then
-			speed = speed * (1 + self.airhornEffect*4)
+			speed = speed * (1 + self.airhornEffect*4 * self.def.airhornMult)
 			directionChange = directionChange * (0.4 * (2 - self.airhornEffect))
 		end
 		return speed, directionChange
