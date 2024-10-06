@@ -85,6 +85,24 @@ function api.DoFunctionToCreaturesInArea(doFunc, pos, radius, extraData)
 	IterableMap.Apply(self.creatures, DoFunctionIfInDistance, doFunc, pos, radius, extraData)
 end
 
+local function DoFunctionIfInRectangle(key, data, index, doFunc, left, right, top, bot, extraData)
+	if data.destroyed then
+		return false
+	end
+	if data.pos[1] < left or data.pos[1] > right or data.pos[2] < top or data.pos[2] > bot then
+		return false
+	end
+	data[doFunc](pos, left, right, top, bot, extraData)
+end
+
+function api.DoFunctionToAntsInRectangle(doFunc, left, right, top, bot, extraData)
+	IterableMap.Apply(self.ants, DoFunctionIfInRectangle, doFunc, left, right, top, bot, extraData)
+end
+
+function api.DoFunctionToCreaturesInRectangle(doFunc, left, right, top, bot, extraData)
+	IterableMap.Apply(self.ants, DoFunctionIfInRectangle, doFunc, left, right, top, bot, extraData)
+end
+
 function api.PickupAnt(pos, radius)
 	local ant = GetClosest(self.ants, pos, radius)
 	if not ant then

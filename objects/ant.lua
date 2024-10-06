@@ -40,6 +40,22 @@ local function NewAnt(world, creatureDef, position, size)
 		self.direction = util.AngleFromPointToPointWithWrap(pos, self.pos) + (math.random() - 0.5)*0.2
 	end
 	
+	function self.ApplyFanPush(pos, left, right, top, bot, extraData)
+		local distFactor = BlockHandler.GetFanDistFactor(self.pos, left, right, top, bot, extraData.direction)
+		local distStrength = (0.5 + 0.5*distFactor)
+		if distFactor < 0.2 then
+			distStrength = 0.6*(distFactor/0.2)
+		elseif distFactor > 0.7 then
+			distStrength = distStrength + 5*(distFactor - 0.7)
+		end
+		local newPos = util.Add(self.pos, util.Mult(distStrength * extraData.strength, extraData.pushVector))
+		TerrainHandler.WrapPosInPlace(newPos)
+		if not BlockHandler.BlockAt("ant", newPos) then
+			self.pos = newPos
+		end
+		self.fanTimer = 0.2
+	end
+	
 	function self.SetPickedUp()
 		self.pickedUp = true
 		if self.hasFood == "poison" then
@@ -58,6 +74,12 @@ local function NewAnt(world, creatureDef, position, size)
 			return true
 		end
 		self.def.update(self, dt)
+		if self.fanTimer then
+			self.fanTimer = self.fanTimer - dt
+			if self.fanTimer < 0 then
+				self.fanTimer = false
+			end
+		end
 		if self.pickedUp then
 			self.pos = world.GetMousePosition()
 			return
@@ -95,6 +117,10 @@ local function NewAnt(world, creatureDef, position, size)
 			else
 				directionChange = math.random()*3 - 1.5
 			end
+		end
+		
+		if self.fanTimer then
+			directionChange = directionChange * 0.3
 		end
 		
 		local speed = creatureDef.speed * self.speedMult * (self.accelMult or 1)

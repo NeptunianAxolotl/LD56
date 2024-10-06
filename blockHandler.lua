@@ -14,6 +14,19 @@ function api.Draw(drawQueue)
 	IterableMap.ApplySelf(self.blocks, "Draw", drawQueue)
 end
 
+function api.GetFanDistFactor(pos, left, right, top, bot, direction)
+	if direction == 0 then
+		return (pos[2] - top) / (bot - top)
+	elseif direction == 1 then
+		return (pos[1] - left) / (right - left)
+	elseif direction == 2 then
+		return (bot - pos[2]) / (bot - top)
+	elseif direction == 3 then
+		return (right - pos[1]) / (right - left)
+	end
+	return 0
+end
+
 local function AddToBlockCache(blockData)
 	for cacheType = 1, #blockData.def.blockTypes do
 		local cache = self.blockCache[blockData.def.blockTypes[cacheType]]

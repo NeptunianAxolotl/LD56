@@ -14,6 +14,16 @@ for name, def in pairs(blocks) do
 			if i == 90 or i == 270 then
 				newDef.width, newDef.height = newDef.height, newDef.width
 			end
+			if newDef.pushWidth then
+				newDef.fanCardinalDirection = i / 90
+				if i == 90 or i == 270 then
+					newDef.pushWidth, newDef.pushHeight = newDef.pushHeight, newDef.pushWidth
+					newDef.pushOffsetX, newDef.pushOffsetY = newDef.pushOffsetY, newDef.pushOffsetX
+				end
+				if i == 90 or i == 180 then
+					newDef.pushOffsetX, newDef.pushOffsetY = -newDef.pushOffsetX, -newDef.pushOffsetY
+				end
+			end
 			newBlocks[rotName] = newDef
 		end
 	else

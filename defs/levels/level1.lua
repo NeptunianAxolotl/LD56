@@ -1,7 +1,7 @@
 local data = {
 	humanName = "Redecorating",
 	nextLevel = "level2",
-	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.",
+	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
 	mustRetainAtLeastThisMuchFood = 0,
 	width = 1350,
 	height = 800,

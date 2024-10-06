@@ -5,6 +5,15 @@ local function NewBlock(world, blockDef, position)
 	self.pos = position
 	self.def = blockDef
 	
+	if self.def.pushWidth then
+		self.extraFanData = {
+			dt = dt,
+			direction = self.def.fanCardinalDirection,
+			strength = self.def.fanStrength,
+			pushVector = util.Unit({self.def.pushOffsetX, self.def.pushOffsetY}),
+		}
+	end
+	
 	function self.Destroy()
 		self.destroyed = true
 	end
@@ -12,6 +21,20 @@ local function NewBlock(world, blockDef, position)
 	function self.Update(dt)
 		if self.destroyed then
 			return true
+		end
+		
+		if self.def.pushWidth then
+			local fanX, fanY = self.pos[1] + self.def.pushOffsetX, self.pos[2] + self.def.pushOffsetY
+			AntHandler.DoFunctionToAntsInRectangle("ApplyFanPush", 
+				fanX - self.def.pushWidth/2, fanX + self.def.pushWidth/2,
+				fanY - self.def.pushHeight/2, fanY + self.def.pushHeight/2,
+				self.extraFanData
+			)
+			AntHandler.DoFunctionToCreaturesInRectangle("ApplyFanPush",
+				fanX - self.def.pushWidth/2, fanX + self.def.pushWidth/2,
+				fanY - self.def.pushHeight/2, fanY + self.def.pushHeight/2,
+				self.extraFanData
+			)
 		end
 	end
 	
@@ -54,6 +77,13 @@ local function NewBlock(world, blockDef, position)
 				love.graphics.setLineWidth(4)
 				love.graphics.rectangle("line", self.pos[1] - self.def.width/2, self.pos[2] - self.def.height/2, self.def.width, self.def.height)
 				love.graphics.setLineWidth(1)
+				
+				if self.def.pushWidth then
+					love.graphics.setColor(0, 0, 1, 1)
+					love.graphics.setLineWidth(6)
+					love.graphics.rectangle("line", self.pos[1] + self.def.pushOffsetX - self.def.pushWidth/2, self.pos[2] + self.def.pushOffsetY - self.def.pushHeight/2, self.def.pushWidth, self.def.pushHeight)
+					love.graphics.setLineWidth(1)
+				end
 			end
 		end})
 	end

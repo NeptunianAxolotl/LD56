@@ -8,10 +8,11 @@ local blocks = {
 	d = "placement_blocker",
 	s = "wall_big",
 	e = "wall_vert",
-	y = "couch",
 	r = "rug",
 	t = "houseplant",
+	y = "couch",
 	f = "vase",
+	g = "fan",
 }
 
 local spawners = {
@@ -39,6 +40,7 @@ local rotateable = {
 	wall_edge_flip = true,
 	couch = true,
 	rug = true,
+	fan = true,
 	door = true,
 	wall_edge_inner = true,
 	wall_edge_inner_flip = true
