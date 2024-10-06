@@ -37,14 +37,14 @@ function api.computePolyrhythm(newTempo, newCount)
   local histogram = {}
   
   for i=1,rhythmGeneratorCount,1 do
-    histogram[i] = math.random() * rhythmGeneratorCount - 2 * i
+    histogram[i] = math.random() * rhythmGeneratorCount - 1.5 * i
     if histogram[i] < 0 then
       histogram[i] = 0
       end
     end
     
   local maxKey = 0
-  local maxValue = 0
+  local maxValue = 1
   
   for k,v in pairs(histogram) do
     if v > maxValue then
@@ -94,6 +94,7 @@ function api.computePolyrhythm(newTempo, newCount)
 end
 
 function api.Update(dt)
+  --print("update")
   musicTimer = musicTimer - dt
   
   -- Play notes if unplayed and due
@@ -106,6 +107,17 @@ function api.Update(dt)
   end
   
   if musicTimer <= 0 then
+      if cosmos.musicEnabled == false then
+        rhythmGeneratorCount = 0
+        --print("disabled")
+      else
+      -- Work out how many rhythm generators to run
+      -- Algorithm: ratio of ant count to total health of cakes (plus one nominal cake)
+        local AntHandler = cosmos.getWorld().getAntHandler()
+        local antCount = AntHandler.GetAntCount() * 5
+        local foodAmt = AntHandler.GetFoodAmount() + 150
+        rhythmGeneratorCount = math.floor(antCount / foodAmt) + 1
+      end
     api.computePolyrhythm(tempo,rhythmGeneratorCount)
   end
 end
@@ -113,7 +125,7 @@ end
 function api.Initialize(newCosmos)
 	self = {}
 	cosmos = newCosmos
-	api.computePolyrhythm(tempo,rhythmGeneratorCount) -- UNCOMMENT WHEN READY
+	api.computePolyrhythm(tempo,rhythmGeneratorCount)
 end
 
 return api

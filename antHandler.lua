@@ -163,15 +163,15 @@ end
 
 function api.GetAntCount()
   local antCount = 0
-  for x in pairs(self.ants) do antCount = antCount + 1 end
+  for k,v in pairs(self.ants.dataByKey) do antCount = antCount + 1 end
   return antCount
 end
 
 function api.GetFoodAmount()
   local foodCount = 0
-  for x in pairs(self.foodSources) do 
-    if x.foodType == "good" then
-      foodCount = foodCount + x.totalFood
+  for k,v in pairs(self.foodSources.dataByKey) do 
+    if v.foodType == "good" then
+      foodCount = foodCount + v.totalFood
       end
     end
   return foodCount

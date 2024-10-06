@@ -56,6 +56,10 @@ function api.GetCosmos()
 	return self.cosmos
 end
 
+function api.getAntHandler()
+	return AntHandler
+end
+
 function api.SetGameOver(hasWon, overType)
 	if self.gameWon or self.gameLost or TerrainHandler.InEditMode() then
 		return

@@ -100,6 +100,10 @@ function api.GetRealTime()
 	return self.realTime
 end
 
+function api.getWorld()
+	return World
+end
+
 --------------------------------------------------
 -- Input
 --------------------------------------------------
