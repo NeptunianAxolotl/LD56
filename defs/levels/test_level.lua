@@ -10,6 +10,15 @@ local data = {
 		"accelerate",
 		"pickup",
 	},
+	spawners = {
+		{
+			"single_spider",
+			{
+				900,
+				400,
+			},
+		},
+	},
 	nests = {
 		{
 			"basic_nest",

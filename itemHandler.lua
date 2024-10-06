@@ -238,12 +238,14 @@ function api.MousePressed(x, y, button)
 		if api.GetCharges("airhorn") > 0 then
 			local mousePos = {x, y}
 			AntHandler.DoFunctionToAntsInArea("ApplyAirhorn", mousePos, ItemDefs.defs.airhorn.effectRadius)
+			AntHandler.DoFunctionToCreaturesInArea("ApplyAirhorn", mousePos, ItemDefs.defs.airhorn.effectRadius)
 			api.UseCharge("airhorn")
 		end
 	elseif self.currentItem == "accelerate" then
 		if api.GetCharges("accelerate") > 0 then
 			local mousePos = {x, y}
 			AntHandler.DoFunctionToAntsInArea("ApplyAcceleration", mousePos, ItemDefs.defs.accelerate.effectRadius)
+			AntHandler.DoFunctionToCreaturesInArea("ApplyAcceleration", mousePos, ItemDefs.defs.accelerate.effectRadius)
 			api.UseCharge("accelerate")
 		end
 	elseif self.currentItem == "pickup" then

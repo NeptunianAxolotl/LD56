@@ -57,7 +57,7 @@ function api.SaveLevel(name)
 	self.humanName = name
 	
 	local save = util.CopyTable(self.levelData)
-	save.nests, save.food = AntHandler.GetSaveData()
+	save.nests, save.food, save.spawners = AntHandler.GetSaveData()
 	save.blocks = BlockHandler.GetSaveData()
 	
 	local saveTable = util.TableToString(save, Global.SAVE_ORDER, util.ListToMask(Global.SAVE_INLINE))

@@ -10,6 +10,7 @@ local function NewAnt(world, creatureDef, position, size)
 	self.feelerOffset = math.random()*0.8 - 0.4
 	self.speedMult = math.random()*0.2 + 0.9
 	self.stuckTime = false
+	self.spiderRunTime = false
 	self.pickedUp = false
 	
 	if self.def.init then
@@ -27,6 +28,12 @@ local function NewAnt(world, creatureDef, position, size)
 	
 	function self.ApplyAcceleration(pos, radius, maxRadius)
 		self.accelMult = 5 + 3 * (1 - radius / maxRadius)
+	end
+	
+	function self.ApplySpiderFear(pos, radius, maxRadius, extraData)
+		self.accelMult = (self.accelMult or 1) + extraData.dt * 2 * (1 - radius / maxRadius)
+		self.spiderRunTime = 1.5
+		self.direction = util.Angle(util.Subtract(self.pos, pos)) + (math.random() - 0.5)*0.2
 	end
 	
 	function self.SetPickedUp()
@@ -81,6 +88,9 @@ local function NewAnt(world, creatureDef, position, size)
 			speed = speed * (1 + self.airhornEffect*4)
 			directionChange = directionChange * (0.4 * (2 - self.airhornEffect))
 		end
+		if self.spiderRunTime then
+			speed = speed * 2
+		end
 		
 		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
 		local newPos = util.Add(self.pos, util.PolarToCart(speed * dt, self.direction))
@@ -125,6 +135,13 @@ local function NewAnt(world, creatureDef, position, size)
 			self.airhornEffect = self.airhornEffect - dt
 			if self.airhornEffect < 0 then
 				self.airhornEffect = false
+			end
+		end
+		
+		if self.spiderRunTime then
+			self.spiderRunTime = self.spiderRunTime - dt
+			if self.spiderRunTime < 0 then
+				self.spiderRunTime = false
 			end
 		end
 		
