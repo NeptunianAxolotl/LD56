@@ -72,10 +72,16 @@ function api.Draw(drawQueue)
 		--love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
 		love.graphics.setColor(0,0,0,1)
 		local rectangleDepth = 500
-		love.graphics.rectangle("fill", -rectangleDepth, -rectangleDepth, 2600+2*rectangleDepth, rectangleDepth)
-		love.graphics.rectangle("fill", -rectangleDepth, -rectangleDepth, rectangleDepth, 1400+2*rectangleDepth)
-		love.graphics.rectangle("fill", -rectangleDepth, 1400, 2600+2*rectangleDepth, rectangleDepth)
-		love.graphics.rectangle("fill", 2600, -rectangleDepth, rectangleDepth, 1400+2*rectangleDepth)
+		local antlength = 10
+		local levelData = LevelHandler.GetLevelData()
+		-- top rectangle
+		love.graphics.rectangle("fill", -rectangleDepth, -rectangleDepth, levelData.width+2*rectangleDepth, rectangleDepth + antlength)
+		-- left rectangle
+		love.graphics.rectangle("fill", -rectangleDepth, -rectangleDepth, rectangleDepth + antlength, levelData.height+2*rectangleDepth)
+		-- bottom rectangle
+		love.graphics.rectangle("fill", -rectangleDepth, levelData.height - antlength, levelData.width+2*rectangleDepth, rectangleDepth + antlength)
+		-- right rectangle
+		love.graphics.rectangle("fill", levelData.width - antlength, -rectangleDepth, rectangleDepth + antlength, levelData.height+2*rectangleDepth)
 
 	end})
 
