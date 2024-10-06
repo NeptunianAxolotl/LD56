@@ -14,7 +14,7 @@ local data = {
 	update = function (self, dt)
 	end,
 	draw = function (self, drawQueue)
-		Resources.DrawImage("ant", self.pos[1], self.pos[2], self.direction)
+		Resources.DrawImage("ant_small", self.pos[1], self.pos[2], self.direction, 1, 6, {0.3, 0.3, 0.3})
 		if self.hasFood == "poison" then
 			Resources.DrawImage("green_ant", self.pos[1], self.pos[2], self.direction, 0.8, 1.4)
 		elseif self.hasFood then
