@@ -9,6 +9,7 @@ local function NewAnt(world, creatureDef, position, size)
 	self.hasFood = false
 	self.feelerOffset = math.random()*0.8 - 0.4
 	self.speedMult = math.random()*0.2 + 0.9
+	self.stuckTime = false
 	
 	if self.def.init then
 		self.def.init(self)
@@ -81,8 +82,15 @@ local function NewAnt(world, creatureDef, position, size)
 			else
 				self.direction = self.direction + math.random() - 0.5
 			end
+			self.stuckTime = (self.stuckTime or 0) + dt
+			if self.stuckTime > 2 then
+				self.pos[1] = self.pos[1] + (math.random() - 0.5) * self.stuckTime
+				self.pos[2] = self.pos[2] + (math.random() - 0.5) * self.stuckTime
+				TerrainHandler.WrapPosInPlace(self.pos)
+			end
 		else
 			self.pos = newPos
+			self.stuckTime = false
 		end
 		
 		if self.accelMult then
