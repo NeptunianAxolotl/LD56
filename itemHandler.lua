@@ -22,7 +22,7 @@ function api.Update(dt)
 	end
 	
 	if self.currentItem ~= "pickup" and self.heldAnt then
-		local mousePos = {x, y}
+		local mousePos = self.world.GetMousePosition()
 		if AntHandler.DropAnt(mousePos, self.heldAnt) then
 			self.heldAnt = false
 		end
