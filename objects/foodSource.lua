@@ -1,13 +1,24 @@
 
 
-local function NewNest(world, myDef, position)
+local function NewNest(world, myDef, position, extraData)
 	local self = {}
 	self.pos = position
 	self.def = myDef
 	self.foodLeft = self.def.totalFood
 	
+	if self.def.blockerType then
+		self.blocker = BlockHandler.SpawnBlock(self.def.blockerType, util.CopyTable(self.pos))
+	end
+	
+	if self.def.init then
+		self.def.init(self)
+	end
+	
 	function self.Destroy()
 		self.destroyed = true
+		if self.blocker then
+			self.blocker.Destroy()
+		end
 	end
 	
 	function self.FoodTaken()
@@ -31,12 +42,16 @@ local function NewNest(world, myDef, position)
 	end
 	
 	function self.WriteSaveData()
-		return {self.def.name, self.pos}
+		return {self.def.name, self.pos, extraData}
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=18; f=function()
-			self.def.draw(self, drawQueue)
+		drawQueue:push({y=self.def.drawLayer; f=function()
+			if self.def.image then
+				DoodadHandler.DrawDoodad(self.def, self.pos, 1)
+			else
+				self.def.draw(self, drawQueue)
+			end
 			if self.def.totalFood then
 				Font.SetSize(2)
 				love.graphics.setColor(0, 0, 0, 0.5)

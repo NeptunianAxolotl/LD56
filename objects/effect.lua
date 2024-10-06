@@ -6,14 +6,14 @@ local DRAW_DEBUG = false
 
 local function NewEffect(self, def)
 	-- pos
-	self.inFront = def.inFront or 0
+	self.drawLayer = def.drawLayer or 0
 	local maxLife = (def.duration == "inherit" and def.image and Resources.GetAnimationDuration(def.image)) or def.duration
 	if not maxLife then
 		print(maxLife, def.image, def.actual_image)
 	end
 	self.life = maxLife
 	self.animTime = 0
-	self.direction = (def.randomDirection and math.random()*2*math.pi) or 0
+	self.direction = def.rotation or (def.randomDirection and math.random()*2*math.pi) or 0
 	
 	self.pos = (def.spawnOffset and util.Add(self.pos, def.spawnOffset)) or self.pos
 	
@@ -43,7 +43,7 @@ local function NewEffect(self, def)
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=self.pos[2] + self.inFront; f=function()
+		drawQueue:push({y=self.drawLayer + self.pos[1]*0.001 + self.pos[2]*0.001; f=function()
 			if def.fontSize and self.text then
 				local col = def.color
 				Font.SetSize(def.fontSize)
@@ -51,6 +51,7 @@ local function NewEffect(self, def)
 				love.graphics.printf(self.text, self.pos[1] - def.textWidth/2, self.pos[2] - def.textHeight, def.textWidth, "center")
 				love.graphics.setColor(1, 1, 1, 1)
 			elseif self.actualImageOverride or def.actual_image then
+				print("def.actual_image", self.drawLayer)
 				Resources.DrawImage(self.actualImageOverride or def.actual_image, self.pos[1], self.pos[2], self.direction, GetAlpha(),
 					(self.scale or 1)*((def.lifeScale and (1 - 0.5*self.life/maxLife)) or 1),
 				def.color)

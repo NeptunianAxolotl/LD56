@@ -1,14 +1,29 @@
 
 
-local function NewNest(world, myDef, position)
+local function NewNest(world, myDef, position, extraData)
 	local self = {}
 	self.pos = position
 	self.def = myDef
-	self.health = self.def.health
+	self.maxHealth = (extraData and extraData.health) or self.def.health
+	self.health = self.maxHealth
 	self.spawnTimer = 0
 	
+	if self.def.blockerType then
+		self.blocker = BlockHandler.SpawnBlock(self.def.blockerType, util.CopyTable(self.pos))
+	end
+	
+	if self.def.init then
+		self.def.init(self)
+	end
+	
 	function self.Destroy()
+		if not self.destroyed then
+			EffectsHandler.SpawnFadeEffect(self.def.image, self.pos, self.def.scale, self.def.rotation, self.def.drawLayer, self.def.fadeTime or 1, self.def.color)
+		end
 		self.destroyed = true
+		if self.blocker then
+			self.blocker.Destroy()
+		end
 	end
 	
 	function self.ApplyFood(foodType, foodValue)
@@ -37,15 +52,20 @@ local function NewNest(world, myDef, position)
 	end
 	
 	function self.WriteSaveData()
-		return {self.def.name, self.pos}
+		return {self.def.name, self.pos, extraData}
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=18; f=function()
-			self.def.draw(self, drawQueue)
-			Font.SetSize(2)
-			love.graphics.setColor(0.7, 0.8, 0.2, 0.5)
-			love.graphics.print("health " .. self.health, self.pos[1] - 80, self.pos[2])
+		drawQueue:push({y=self.def.drawLayer; f=function()
+			if self.def.image then
+				DoodadHandler.DrawDoodad(self.def, self.pos, 1)
+			else
+				self.def.draw(self, drawQueue)
+			end
+			local healthProp = self.health/self.maxHealth
+			if healthProp < 1 then
+				InterfaceUtil.DrawBar(Global.HEALTH_BAR_COL, Global.HEALTH_BAR_BACK, healthProp, false, false, util.Add(self.pos, {-55, 30}), {110, 24})
+			end
 		end})
 	end
 	

@@ -208,7 +208,7 @@ local function DrawLevelTextAndItems()
 	if levelData.description then
 		love.graphics.setColor(0, 0, 0, 0.8)
 		Font.SetSize(3)
-		love.graphics.printf(levelData.description, Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 100, Global.SHOP_WIDTH - 40, "left")
+		love.graphics.printf(levelData.description, Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 100, Global.SHOP_WIDTH - 10, "left")
 	end
 	
 	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 130
@@ -396,7 +396,7 @@ function api.Initialize(world)
 	}
 	for i = 1, #ItemDefs.itemList do
 		local name = ItemDefs.itemList[i]
-		self.charges[name] = 1
+		self.charges[name] = ItemDefs.defs[name].maxCharges or 1
 		self.recharge[name] = 0
 	end
 end

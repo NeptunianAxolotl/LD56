@@ -80,7 +80,6 @@ function api.FreeToPlaceAt(cacheType, defName, pos)
 end
 
 function api.SpawnBlock(defName, pos)
-	print("defName", defName, BlockDefs.defs[defName])
 	local block = NewBlock(self.world, BlockDefs.defs[defName], pos)
 	AddToBlockCache(block)
 	IterableMap.Add(self.blocks, block)
