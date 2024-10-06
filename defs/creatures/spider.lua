@@ -4,6 +4,11 @@ local data = {
 	turnCheckLength = 20,
 	turnCheckAngle = 0.6,
 	fearRadius = 90,
+	antSearchRadius = 150,
+	movePeriodMult = 1,
+	waitPeriodMult = 1,
+	staminaRecharge = 0.3,
+	staminaSpend = 0.15,
 	pathingType = "ant",
 	
 	init = function (self)
@@ -16,20 +21,19 @@ local data = {
 	end,
 	
 	draw = function (self, drawQueue)
-		Resources.DrawImage("spider", self.pos[1], self.pos[2], self.direction)
+		Resources.DrawImage("spider_small", self.pos[1], self.pos[2], self.direction, 1, 6.6666666*5)
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
-		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, 150)
-		print(self.spiderStamina)
-     
-        if self.waittimer and not closestAnt then 
-            self.waittimer = self.waittimer - dt
+		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, self.def.antSearchRadius)
+		
+		if self.waittimer and not closestAnt and not self.airhornEffect and not self.accelMult then 
+			self.waittimer = self.waittimer - dt
             if self.waittimer < 0 then
                 self.waittimer = false
             end
 
-			self.spiderStamina = self.spiderStamina + dt*0.1
+			self.spiderStamina = self.spiderStamina + dt*self.def.staminaRecharge*3
 			if self.spiderStamina > 1 then
 				self.spiderStamina = 1
 			end
@@ -37,11 +41,10 @@ local data = {
             return 0,0
         end
         
-		self.movementtimer = (self.movementtimer or 0) + dt
-
-		if self.movementtimer > 2 + math.random()*2 then
-			self.movementtimer = 0
-			self.waittimer = 1 + math.random()*3
+		self.movementtimer = (self.movementtimer or 2) - dt
+		if self.movementtimer < 0 then
+			self.movementtimer = (2 + math.random()*2) * self.def.movePeriodMult
+			self.waittimer = (1 + math.random()) * self.waitPeriodMult
 		end
 
 		local directionChange = false
@@ -53,10 +56,9 @@ local data = {
 
 		local chasespeed = 1
 
-		if closestAnt then
+		if closestAnt and not self.airhornEffect then
 			local toAnt = util.AngleFromPointToPointWithWrap(self.pos, closestAnt.pos)
 			local angleDiff = util.AngleSubtractShortest(toAnt, self.direction)
-
 			directionChange = directionChange + dt * angleDiff * 1000
 			
 			if antDist < 50 then
@@ -68,9 +70,9 @@ local data = {
 		end
 
 		if chasespeed > 1 then
-			self.spiderStamina = self.spiderStamina - dt*0.1
+			self.spiderStamina = self.spiderStamina - dt*self.def.staminaSpend
 		else
-			self.spiderStamina = self.spiderStamina + dt*0.1
+			self.spiderStamina = self.spiderStamina + dt*self.def.staminaRecharge
 		end
 
 		if self.spiderStamina < 0.1 then
@@ -81,7 +83,10 @@ local data = {
 		end
 
 		local speed = self.def.speed * self.speedMult * (self.accelMult or 1)
-		local speed = speed*chasespeed*self.spiderStamina 
+		local speed = speed*chasespeed*self.spiderStamina
+		if self.spiderStamina < 0.1 then
+			self.waittimer = (1 + math.random()*2) * self.waitPeriodMult * 2
+		end
 
 		if self.airhornEffect then
 			speed = speed * (1 + self.airhornEffect*4)
