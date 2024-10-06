@@ -5,6 +5,13 @@ local data = {
 	width = 2600,
 	height = 1400,
 	lifetimeMultiplier = 1,
+	hints = {
+		{
+			pos = {1800, 200},
+			size = {200, 100},
+			text = "- Hello.",
+		},
+	},
 	items = {
 		"renovate",
 		"airhorn",
@@ -50,42 +57,42 @@ local data = {
 	},
 	blocks = {
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1430,
 				250,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1630,
 				250,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1830,
 				250,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				2030,
 				250,
 			},
 		},
 		{
-			"wall_0",
+			"wall_vert",
 			{
 				2150,
 				330,
 			},
 		},
 		{
-			"wall_0",
+			"wall_vert",
 			{
 				2150,
 				530,
@@ -99,49 +106,49 @@ local data = {
 			},
 		},
 		{
-			"wall_0",
+			"wall_vert",
 			{
 				2150,
 				730,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				2070,
 				1050,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1870,
 				1050,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1670,
 				1050,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1470,
 				1050,
 			},
 		},
 		{
-			"wall_0",
+			"wall_vert",
 			{
 				1350,
 				970,
 			},
 		},
 		{
-			"wall_0",
+			"wall_vert",
 			{
 				1350,
 				370,
@@ -204,7 +211,7 @@ local data = {
 			},
 		},
 		{
-			"wall_0",
+			"wall_vert",
 			{
 				1350,
 				850,
@@ -218,7 +225,7 @@ local data = {
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				860,
 				1260,

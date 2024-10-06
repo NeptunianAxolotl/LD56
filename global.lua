@@ -74,8 +74,8 @@ local globals = {
 	CAMERA_SPEED = 800,
 	CAMERA_BOUND = 1600,
 	
-	SAVE_ORDER = {"humanName", "nextLevel", "prevLevel", "description", "width", "height", "items", "spawners", "nests", "food", "blocks", "doodads"},
-	SAVE_INLINE = {},
+	SAVE_ORDER = {"humanName", "nextLevel", "prevLevel", "description", "width", "height", "hints", "items", "spawners", "nests", "food", "blocks", "doodads"},
+	SAVE_INLINE = {"pos", "size"},
 }
 
 return globals
