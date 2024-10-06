@@ -117,12 +117,12 @@ local function NewAnt(world, creatureDef, position, size)
 				self.direction = self.direction + math.random() - 0.5
 			end
 			self.stuckTime = (self.stuckTime or 0) + dt
-			if self.stuckTime > 1.5 then
+			if self.stuckTime > 1 then
 				self.direction = self.direction + math.pi + math.random()*2 - 1
 			end
-			if self.stuckTime > 3 then
-				self.pos[1] = self.pos[1] + (math.random() - 0.5) * self.stuckTime
-				self.pos[2] = self.pos[2] + (math.random() - 0.5) * self.stuckTime
+			if self.stuckTime > 1.5 then
+				self.pos[1] = self.pos[1] + (math.random() - 0.5) * self.stuckTime * 5
+				self.pos[2] = self.pos[2] + (math.random() - 0.5) * self.stuckTime * 5
 				TerrainHandler.WrapPosInPlace(self.pos)
 			end
 		else

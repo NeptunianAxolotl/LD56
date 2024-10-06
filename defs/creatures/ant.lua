@@ -16,11 +16,12 @@ local data = {
 	update = function (self, dt)
 	end,
 	draw = function (self, drawQueue)
-		Resources.DrawImage("ant_small", self.pos[1], self.pos[2], self.direction, 1, 6, {0.3, 0.3, 0.3})
+		local alpha = ((self.stuckTime or 0) > 0.5 and math.max(0.06, (1 - (self.stuckTime - 0.5)*6))) or 1
+		Resources.DrawImage("ant_small", self.pos[1], self.pos[2], self.direction, alpha, 6, {0.3, 0.3, 0.3})
 		if self.hasFood == "poison" then
-			Resources.DrawImage("green_ant", self.pos[1], self.pos[2], self.direction, 0.8, 1.4)
+			Resources.DrawImage("green_ant", self.pos[1], self.pos[2], self.direction, 0.8*alpha, 1.4)
 		elseif self.hasFood then
-			Resources.DrawImage("blue_ant", self.pos[1], self.pos[2], self.direction, 0.8, 1.4)
+			Resources.DrawImage("blue_ant", self.pos[1], self.pos[2], self.direction, 0.8*alpha, 1.4)
 		end
 	end,
 }

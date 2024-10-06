@@ -68,7 +68,7 @@ function api.Update(dt)
 	self.currentTime = self.currentTime + dt
 end
 
-local function DrawScent(name, red, green, blue)
+local function DrawScent(name, red, green, blue, alpha)
 	local scale = self.scents[name].gridSize
 	local levelData = LevelHandler.GetLevelData()
 	local width = math.floor(levelData.width / Global.SCENT_GRID_SIZE) - 1
@@ -77,7 +77,7 @@ local function DrawScent(name, red, green, blue)
 		for y = 0, height do
 			local strength = api.GetScentRawPos(name, x, y)
 			if strength > 0 then
-				love.graphics.setColor(red, green, blue, 0.5 * strength / (10 + strength))
+				love.graphics.setColor(red, green, blue, alpha * strength / (10 + strength))
 				love.graphics.rectangle("fill", x*scale, y*scale, scale, scale, 0, 0, 0)
 			end
 		end
@@ -86,8 +86,8 @@ end
 
 function api.Draw(drawQueue)
 	drawQueue:push({y=2; f=function()
-		DrawScent("explore", 1, 0, 0)
-		DrawScent("food", 0, 1, 1)
+		DrawScent("explore", 1, 0, 0, 0.5)
+		DrawScent("food", 0, 0.5, 1, 0.6)
 	end})
 end
 

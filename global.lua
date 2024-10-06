@@ -52,7 +52,7 @@ local globals = {
 	LINE_SPACING = 36,
 	INC_OFFSET = -15,
 	SCENT_GRID_SIZE = 10,
-	INIT_LEVEL = "test_level",
+	INIT_LEVEL = "level1",
 	
 	SHOP_WIDTH = 400,
 	VIEW_WIDTH = 1920,
