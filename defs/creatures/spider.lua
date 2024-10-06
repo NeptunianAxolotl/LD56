@@ -19,7 +19,7 @@ local data = {
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
-		local closestAnt = AntHandler.ClosestAnt(self.pos, 150)
+		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, 150)
      
         if self.waittimer and not closestAnt then 
             self.waittimer = self.waittimer - dt
@@ -36,13 +36,14 @@ local data = {
 			self.waittimer = 1 + math.random()*3
 		end
 
-		print(self.waittimer) 
+		--directionChange = math.random()*26 - 13
+		--directionChange = math.random()*3 - 1.5
 
 		local directionChange = false
 		if math.random() < 0.1 then
-			directionChange = math.random()*26 - 13
+			directionChange = math.random()*52 - 26
 		else
-			directionChange = math.random()*3 - 1.5
+			directionChange = math.random()*6 - 3
 		end
 
 		local chasespeed = 1
@@ -52,7 +53,11 @@ local data = {
 			local angleDiff = util.AngleSubtractShortest(toAnt, self.direction)
 			print(angleDiff)
 			directionChange = directionChange + dt * angleDiff * 100
-			chasespeed = 3
+			if antDist < 50 then
+				chasespeed = 0
+			else
+				chasespeed = 3
+			end
 		end
 
 
