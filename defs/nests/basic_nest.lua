@@ -2,7 +2,7 @@
 local data = {
 	spawnFrequency = 6,
 	antType = "ant",
-	health = 100,
+	health = 50,
 	init = function (self)
 	end,
 	update = function (self, dt)

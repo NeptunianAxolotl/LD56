@@ -1,17 +1,12 @@
 local data = {
-	humanName = "Level 1",
+	humanName = "Redecorating",
 	nextLevel = "level2",
-	description = "Need a desc!",
+	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to gudie the way.",
 	width = 1350,
 	height = 800,
 	items = {
 		"renovate",
-		"airhorn",
-		"accelerate",
-		"pickup",
 		"scent",
-		"mop",
-		"place_food",
 	},
 	spawners = {
 	},

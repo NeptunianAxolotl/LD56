@@ -114,7 +114,7 @@ local function CanPlaceBlock(def, pos)
 	if not BlockHandler.FreeToPlaceAt("placement", def.name, pos) then
 		return false
 	end
-	if AntHandler.IsGroundCreatureInRectangle(pos, def.width + 20, def.height + 20) then
+	if AntHandler.IsGroundCreatureInRectangle(pos, def.width + 40, def.height + 40) then
 		return false
 	end
 	return true
@@ -207,7 +207,7 @@ local function DrawLevelTextAndItems()
 	love.graphics.printf(levelData.humanName, Global.VIEW_WIDTH - Global.SHOP_WIDTH, 35, Global.SHOP_WIDTH, "center")
 	if levelData.description then
 		love.graphics.setColor(0, 0, 0, 0.8)
-		Font.SetSize(4)
+		Font.SetSize(3)
 		love.graphics.printf(levelData.description, Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 100, Global.SHOP_WIDTH - 40, "left")
 	end
 	
@@ -388,7 +388,7 @@ end
 function api.Initialize(world)
 	self = {
 		world = world,
-		currentItem = "renovate",
+		currentItem = false,
 		currentBlock = false,
 		placeRotation = 90,
 		charges = {},
