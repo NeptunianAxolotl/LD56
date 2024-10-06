@@ -34,24 +34,14 @@ function api.computePolyrhythm(newTempo, newCount)
   rhythmGeneratorCount = newCount or rhythmGeneratorCount
   
   -- TODO: HISTOGRAM CALCULATION - HARDCODED FOR NOW - SHOULD BE SENSITIVE TO RHYTHMGENERATORCOUNT AND GAME VALUES
-  local histogram = {
-      [1] = 10,
-      [2] = 5,
-      [3] = 7,
-      [4] = 1,
-      [5] = 5,
-      [6] = 0,
-      [7] = 0,
-      [8] = 0,
-      [9] = 0,
-      [10] = 0,
-      [11] = 0,
-      [12] = 0,
-      [13] = 0,
-      [14] = 0,
-      [15] = 0,
-      [16] = 0
-    }
+  local histogram = {}
+  
+  for i=1,rhythmGeneratorCount,1 do
+    histogram[i] = math.random() * rhythmGeneratorCount - 2 * i
+    if histogram[i] < 0 then
+      histogram[i] = 0
+      end
+    end
     
   local maxKey = 0
   local maxValue = 0
@@ -71,7 +61,7 @@ function api.computePolyrhythm(newTempo, newCount)
   
   -- Completely reinitialize the sequencer
   noteEvents = {}
-  musicTimer = tempo / 60
+  musicTimer = 60 / tempo
   
   local harmonic = 0 -- Initial value - we would never truly use a "zeroth" harmonic
   
@@ -90,11 +80,11 @@ function api.computePolyrhythm(newTempo, newCount)
       soundSources[harmonic]:setVolume(v) -- set volume as required
       
       -- Set the sound to play N times every tick of the slowest rhythm generator
-      for i=1,harmonic,1 do
+      for i=1,k,1 do
         local noteEvent = {}
         noteEvent.source = soundSources[harmonic]
         noteEvent.played = false
-        noteEvent.delay = musicTimer - ((i-1) * musicTimer / harmonic)
+        noteEvent.delay = musicTimer - ((i-1) * musicTimer / k)
         table.insert(noteEvents,noteEvent)
         end
       end
@@ -108,7 +98,8 @@ function api.Update(dt)
   
   -- Play notes if unplayed and due
   for k,v in pairs(noteEvents) do
-      if v.played == false and v.delay <= musicTimer then
+      if v.played == false and v.delay >= musicTimer then
+        v.source:stop()
         v.source:play()
         noteEvents[k].played = true
     end
