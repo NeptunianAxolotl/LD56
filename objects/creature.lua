@@ -32,18 +32,7 @@ local function NewCreature(world, creatureDef, position, size)
 		end
 		self.def.update(self, dt)
 		
-		local directionChange = false
-		if math.random() < 0.1 then
-			directionChange = math.random()*26 - 13
-		else
-			directionChange = math.random()*3 - 1.5
-		end
-		
-		local speed = creatureDef.speed * self.speedMult * (self.accelMult or 1)
-		if self.airhornEffect then
-			speed = speed * (1 + self.airhornEffect*4)
-			directionChange = directionChange * (0.4 * (2 - self.airhornEffect))
-		end
+		local speed, directionChange = self.def.GetSpeedAndDirection(self, dt)
 		
 		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
 		local newPos = util.Add(self.pos, util.PolarToCart(speed * dt, self.direction))

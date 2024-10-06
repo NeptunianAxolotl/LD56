@@ -96,6 +96,10 @@ function api.DropAnt(pos, ant)
 	return true
 end
 
+function api.ClosestAnt(pos, dist)
+	return GetClosest(self.ants, pos, dist)
+end
+
 function api.NearNest(pos, dist)
 	return GetClosest(self.nests, pos, dist)
 end
