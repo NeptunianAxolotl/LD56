@@ -58,11 +58,11 @@ function api.Draw(drawQueue)
 
 		for i = 1, #self.plankarray do
 			for j = 1, #self.plankarray[i] do
-				local x = i * 50 + -50
+				local x = i * 65 + -50
 				local y = j * 200 + -250
 				--DrawImage(image, x, y, rotation, alpha, scale)
 				if math.mod(i,2) == 0 then
-					Resources.DrawImage(self.plankarray[i][j], x, y+50, math.pi/2, 1, 0.2)
+					Resources.DrawImage(self.plankarray[i][j], x, y+100, math.pi/2, 1, 0.2)
 				else
 					Resources.DrawImage(self.plankarray[i][j], x, y, math.pi/2, 1, 0.2)
 				end
