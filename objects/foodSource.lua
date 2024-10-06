@@ -11,7 +11,16 @@ local function NewNest(world, myDef, position)
 	end
 	
 	function self.FoodTaken()
-		self.foodLeft = self.foodLeft - 1
+		if self.def.totalFood then
+			self.foodLeft = self.foodLeft - 1
+			if self.foodLeft <= 0 then
+				self.Destroy()
+			end
+		end
+	end
+	
+	function self.HitTest(pos)
+		return util.Dist(pos, self.pos) < 100
 	end
 	
 	function self.Update(dt)
@@ -21,7 +30,6 @@ local function NewNest(world, myDef, position)
 		ScentHandler.AddScent("food", self.pos, 120, dt*2)
 	end
 	
-	
 	function self.WriteSaveData()
 		return {self.def.name, self.pos}
 	end
@@ -29,9 +37,11 @@ local function NewNest(world, myDef, position)
 	function self.Draw(drawQueue)
 		drawQueue:push({y=18; f=function()
 			self.def.draw(self, drawQueue)
-			Font.SetSize(2)
-			love.graphics.setColor(0, 0, 0, 0.5)
-			love.graphics.print(self.foodLeft, self.pos[1] - 10, self.pos[2] + 40)
+			if self.def.totalFood then
+				Font.SetSize(2)
+				love.graphics.setColor(0, 0, 0, 0.5)
+				love.graphics.print(self.foodLeft, self.pos[1] - 10, self.pos[2] + 40)
+			end
 		end})
 	end
 	

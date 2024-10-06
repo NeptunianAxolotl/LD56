@@ -2,7 +2,7 @@
 local data = {
 	width = 40,
 	height = 200,
-	blockTypes = {"ant", "placement"},
+	blockTypes = {"ant", "placement", "flying"},
 	canBeMoved = false,
 	init = function (self)
 	end,

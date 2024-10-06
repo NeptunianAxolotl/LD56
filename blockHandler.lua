@@ -66,6 +66,9 @@ end
 function api.FreeToPlaceAt(cacheType, defName, pos)
 	local cache = self.blockCache[cacheType]
 	local left, right, top, bot = api.GetBlockBounds(pos, defName, Global.BLOCK_CACHE_GRID_SIZE)
+	if left < 0 or right > self.worldWidth or top < 0 or bot > self.worldHeight then
+		return false
+	end
 	for i = left, right do
 		for j = top, bot do
 			if cache[i] and cache[i][j] then
@@ -108,12 +111,16 @@ function api.MousePressed(x, y, button)
 end
 
 function api.Initialize(world)
+	local levelData = LevelHandler.GetLevelData()
 	self = {
 		world = world,
+		worldWidth = levelData.width,
+		worldHeight = levelData.height,
 		blocks = IterableMap.New(),
 		blockAt = {},
 		blockCache = {
 			ant = {},
+			flying = {},
 			placement = {},
 		},
 	}

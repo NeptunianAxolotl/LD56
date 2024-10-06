@@ -57,7 +57,7 @@ function api.SaveLevel(name)
 	self.humanName = name
 	
 	local save = util.CopyTable(self.levelData)
-	save.nests, save.food = AntHandler.GetSaveData()
+	save.nests, save.food, save.spawners = AntHandler.GetSaveData()
 	save.blocks = BlockHandler.GetSaveData()
 	
 	local saveTable = util.TableToString(save, Global.SAVE_ORDER, util.ListToMask(Global.SAVE_INLINE))
@@ -203,13 +203,6 @@ function api.DrawInterface()
 	local overWidth = windowX*0.36
 	local overY = windowY*0.3
 	local overHeight = windowY*0.4
-	
-	if self.levelData.description then
-	
-		love.graphics.setColor(0, 0, 0, 0.8)
-		Font.SetSize(4)
-		love.graphics.printf(self.levelData.description, 400, 20, windowX - 450, "left")
-	end
 	
 	local drawWindow = self.loadingLevelGetName or self.saveLevelGetName or self.townWantConf or self.setDifficultyMode
 	if drawWindow then

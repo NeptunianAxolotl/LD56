@@ -9,6 +9,9 @@ local function NewAnt(world, creatureDef, position, size)
 	self.hasFood = false
 	self.feelerOffset = math.random()*0.8 - 0.4
 	self.speedMult = math.random()*0.2 + 0.9
+	self.stuckTime = false
+	self.spiderRunTime = false
+	self.pickedUp = false
 	
 	if self.def.init then
 		self.def.init(self)
@@ -27,11 +30,34 @@ local function NewAnt(world, creatureDef, position, size)
 		self.accelMult = 5 + 3 * (1 - radius / maxRadius)
 	end
 	
+	function self.ApplySpiderFear(pos, radius, maxRadius, extraData)
+		self.accelMult = (self.accelMult or 1) + extraData.dt * 2 * (1 - radius / maxRadius)
+		self.spiderRunTime = 1.5
+		self.direction = util.Angle(util.Subtract(self.pos, pos)) + (math.random() - 0.5)*0.2
+	end
+	
+	function self.SetPickedUp()
+		self.pickedUp = true
+		if self.hasFood == "poison" then
+			self.hasFood = false -- Manually ferrying ants would be a boring way to win
+		end
+	end
+	
+	function self.DropAt(pos)
+		self.pos = pos
+		TerrainHandler.WrapPosInPlace(self.pos)
+		self.pickedUp = false
+	end
+	
 	function self.Update(dt)
 		if self.destroyed then
 			return true
 		end
 		self.def.update(self, dt)
+		if self.pickedUp then
+			self.pos = world.GetMousePosition()
+			return
+		end
 		
 		local directionChange = false
 		if math.random() < 0.4 then
@@ -62,6 +88,9 @@ local function NewAnt(world, creatureDef, position, size)
 			speed = speed * (1 + self.airhornEffect*4)
 			directionChange = directionChange * (0.4 * (2 - self.airhornEffect))
 		end
+		if self.spiderRunTime then
+			speed = speed * 2
+		end
 		
 		self.direction = (self.direction + dt * directionChange)%(2*math.pi)
 		local newPos = util.Add(self.pos, util.PolarToCart(speed * dt, self.direction))
@@ -81,8 +110,18 @@ local function NewAnt(world, creatureDef, position, size)
 			else
 				self.direction = self.direction + math.random() - 0.5
 			end
+			self.stuckTime = (self.stuckTime or 0) + dt
+			if self.stuckTime > 1.5 then
+				self.direction = self.direction + math.pi + math.random()*2 - 1
+			end
+			if self.stuckTime > 3 then
+				self.pos[1] = self.pos[1] + (math.random() - 0.5) * self.stuckTime
+				self.pos[2] = self.pos[2] + (math.random() - 0.5) * self.stuckTime
+				TerrainHandler.WrapPosInPlace(self.pos)
+			end
 		else
 			self.pos = newPos
+			self.stuckTime = false
 		end
 		
 		if self.accelMult then
@@ -96,6 +135,13 @@ local function NewAnt(world, creatureDef, position, size)
 			self.airhornEffect = self.airhornEffect - dt
 			if self.airhornEffect < 0 then
 				self.airhornEffect = false
+			end
+		end
+		
+		if self.spiderRunTime then
+			self.spiderRunTime = self.spiderRunTime - dt
+			if self.spiderRunTime < 0 then
+				self.spiderRunTime = false
 			end
 		end
 		

@@ -225,6 +225,10 @@ function util.Angle(x, z)
 	return 0
 end
 
+function util.AngleFromPointToPoint(p1, p2)
+	return util.Angle(util.Subtract(p2, p1))
+end
+
 function util.Dot(v1, v2)
 	if v1[3] then
 		return v1[1]*v2[1] + v1[2]*v2[2] + v1[3]*v2[3]

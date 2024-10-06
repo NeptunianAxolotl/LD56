@@ -14,7 +14,14 @@ local function NewNest(world, myDef, position)
 	function self.ApplyFood(foodType, foodValue)
 		if foodType == "poison" then
 			self.health = self.health - foodValue
+			if self.health <= 0 then
+				self.Destroy()
+			end
 		end
+	end
+	
+	function self.HitTest(pos)
+		return util.Dist(pos, self.pos) < 100
 	end
 	
 	function self.Update(dt)
