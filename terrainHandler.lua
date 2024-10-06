@@ -13,7 +13,7 @@ local function SetupLevel()
 	local plankarray = {}
 	for i = 1, 11 do 
 		plankarray[i] = {}
-		for j=1,27 do 
+		for j=1,28 do 
 			plankarray[i][j] = util.SampleList(plankimages)
 		end
 	end
@@ -59,7 +59,7 @@ function api.Draw(drawQueue)
 		for i = 1, #self.plankarray do
 			for j = 1, #self.plankarray[i] do
 				local x = i * 265 + -300
-				local y = j * 65 + -200
+				local y = j * 64 + -200
 				--DrawImage(image, x, y, rotation, alpha, scale)
 				--math.pi/2
 				if math.mod(j,2) == 0 then
