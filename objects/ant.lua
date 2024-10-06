@@ -110,8 +110,8 @@ local function NewAnt(world, creatureDef, position, size)
 			TerrainHandler.WrapPosInPlace(rightPos)
 			
 			local wantScent = self.hasFood and "explore" or "food"
-			local leftScent = (ScentHandler.GetScent(wantScent, leftPos, true) + 0.1)^2
-			local rightScent = (ScentHandler.GetScent(wantScent, rightPos, true) + 0.1)^2
+			local leftScent = (ScentHandler.GetScent(wantScent, leftPos, true) + Global.SCENT_MIN_ADD)^2
+			local rightScent = (ScentHandler.GetScent(wantScent, rightPos, true) + Global.SCENT_MIN_ADD)^2
 			local totalScent = (leftScent + rightScent)
 			local bias = 2*(leftScent / totalScent - 0.5)
 			directionChange = math.random()*2 - 1 + bias*(2 + 8*(totalScent / (600 + totalScent)))

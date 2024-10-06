@@ -38,8 +38,6 @@ local globals = {
 	TEST_LOST = false,
 	
 	BUTTON_FLASH_PERIOD = 0.6,
-	
-	
 	PLANK_SCALE = 0.65,
 	MOUSE_ITEM_SCALE = 0.7,
 	SHOP_IMAGE_SCALE = 0.9,
@@ -67,6 +65,7 @@ local globals = {
 	VIEW_WIDTH = 1920,
 	VIEW_HEIGHT = 1080,
 	
+	SCENT_MIN_ADD = 0.45,
 	EXPLORE_DECAY = 0.92,
 	FOOD_DECAY = 0.88,
 	
