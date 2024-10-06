@@ -17,7 +17,48 @@ local function ApplyRecharge(dt, name)
 		if self.recharge[name] < 0 then
 			self.charges[name] = self.charges[name] + 1
 			self.recharge[name] = self.recharge[name] + itemDef.rechargeTime
+			if self.charges[name] > itemDef.maxCharges then
+				self.charges[name] = itemDef.maxCharges
+			end
 		end
+	end
+end
+
+local function CheckPaintItem(name, mousePos)
+	local levelData = LevelHandler.GetLevelData()
+	if mousePos[1] < 0 or mousePos[2] < 0 or mousePos[1] > levelData.width or mousePos[2] > levelData.height then
+		return false
+	end
+	local itemDef = ItemDefs.defs[name]
+	if api.GetCharges(name) <= 0 then
+		return false
+	end
+	if self.lastPaintPos then
+		if util.Dist(self.lastPaintPos, mousePos) < itemDef.paintSpacing then
+			return false
+		end
+	end
+	self.lastPaintPos = mousePos
+	return true
+end
+
+local function DropScentCheck()
+	local mousePos = self.world.GetMousePosition()
+	if CheckPaintItem("scent", mousePos) then
+		local itemDef = ItemDefs.defs["scent"]
+		ScentHandler.AddScent("explore", mousePos, itemDef.effectRadius, itemDef.scentStrength)
+		ScentHandler.AddScent("food", mousePos, itemDef.effectRadius, itemDef.scentStrength)
+		api.UseCharge("scent")
+	end
+end
+
+local function MopScentCheck()
+	local mousePos = self.world.GetMousePosition()
+	if CheckPaintItem("mop", mousePos) then
+		local itemDef = ItemDefs.defs["mop"]
+		ScentHandler.AddScent("explore", mousePos, itemDef.effectRadius, -itemDef.mopStrength)
+		ScentHandler.AddScent("food", mousePos, itemDef.effectRadius, -itemDef.mopStrength)
+		api.UseCharge("mop")
 	end
 end
 
@@ -26,11 +67,21 @@ function api.Update(dt)
 		ApplyRecharge(dt, ItemDefs.itemList[i])
 	end
 	
+	if self.heldAnt and self.heldAnt.destroyed then
+		self.heldAnt = false
+	end
+	
 	if self.currentItem ~= "pickup" and self.heldAnt then
 		local mousePos = self.world.GetMousePosition()
 		if AntHandler.DropAnt(mousePos, self.heldAnt) then
 			self.heldAnt = false
 		end
+	end
+	if self.currentItem == "scent" and love.mouse.isDown(1) then
+		DropScentCheck()
+	end
+	if self.currentItem == "mop" and love.mouse.isDown(1) then
+		MopScentCheck()
 	end
 end
 
@@ -39,12 +90,13 @@ function api.GetCharges(name)
 end
 
 function api.UseCharge(name)
-	self.charges[name] = self.charges[name] - 1
+	local itemDef = ItemDefs.defs[name]
+	self.charges[name] = self.charges[name] - (itemDef.useRate or 1)
 end
 
 function api.GetChargeString(name)
 	local str = ""
-	for i = 1, self.charges[name] do
+	for i = 1, math.floor(self.charges[name] + 0.9) do
 		str = str .. "#"
 	end
 	return str
@@ -83,39 +135,21 @@ function api.Draw(drawQueue)
 				placeDef.height
 			)
 		end})
-	elseif self.currentItem == "airhorn" then
-		drawQueue:push({y=60; f=function()
-			local mousePos = self.world.GetMousePosition()
-			love.graphics.setColor(0.2, 0.8, 1, 0.5)
-			love.graphics.circle("line",
-				mousePos[1],
-				mousePos[2],
-				ItemDefs.defs.airhorn.effectRadius,
-				60
-			)
-		end})
-	elseif self.currentItem == "accelerate" then
-		drawQueue:push({y=60; f=function()
-			local mousePos = self.world.GetMousePosition()
-			love.graphics.setColor(0.2, 0.8, 1, 0.5)
-			love.graphics.circle("line",
-				mousePos[1],
-				mousePos[2],
-				ItemDefs.defs.accelerate.effectRadius,
-				60
-			)
-		end})
-	elseif self.currentItem == "pickup" then
-		drawQueue:push({y=60; f=function()
-			local mousePos = self.world.GetMousePosition()
-			love.graphics.setColor(0.2, 0.8, 1, 0.5)
-			love.graphics.circle("line",
-				mousePos[1],
-				mousePos[2],
-				ItemDefs.defs.pickup.effectRadius,
-				60
-			)
-		end})
+	end
+	if self.currentItem then
+		local itemDef = ItemDefs.defs[self.currentItem]
+		if itemDef.effectRadius then
+			drawQueue:push({y=60; f=function()
+				local mousePos = self.world.GetMousePosition()
+				love.graphics.setColor(0.2, 0.8, 1, 0.5)
+				love.graphics.circle("line",
+					mousePos[1],
+					mousePos[2],
+					itemDef.effectRadius,
+					60
+				)
+			end})
+		end
 	end
 end
 
@@ -284,6 +318,12 @@ function api.MousePressed(x, y, button)
 				api.UseCharge("pickup")
 			end
 		end
+	elseif self.currentItem == "scent" then
+		self.lastPaintPos = false
+		DropScentCheck()
+	elseif self.currentItem == "nop" then
+		self.lastPaintPos = false
+		MopScentCheck()
 	end
 end
 

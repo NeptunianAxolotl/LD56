@@ -9,6 +9,8 @@ local data = {
 		"airhorn",
 		"accelerate",
 		"pickup",
+		"scent",
+		"mop",
 	},
 	spawners = {
 		{

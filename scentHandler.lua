@@ -55,12 +55,13 @@ function api.AddScent(name, pos, radius, newStrength)
 					scent.lastTouch[iw] = {}
 				end
 				scent.strength[iw][jw] = existing + newStrength * (1 - distSq / gridRadSq)
+				if scent.strength[iw][jw] < 0 then
+					scent.strength[iw][jw] = 0
+				end
 				scent.lastTouch[iw][jw] = self.currentTime
 			end
 		end
 	end
-	
-	
 end
 
 function api.Update(dt)

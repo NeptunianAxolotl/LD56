@@ -45,7 +45,7 @@ local function ClosestToWithDist(data, maxDistSq, pos, filterFunc)
 	if filterFunc and not filterFunc(data) then
 		return false
 	end
-	local distSq = util.DistSqVectors(data.pos, pos)
+	local distSq = util.DistSqWithWrap(data.pos[1], data.pos[2], pos[1], pos[2], self.worldWidth, self.worldHeight)
 	if distSq > maxDistSq then
 		return false
 	end
@@ -64,7 +64,7 @@ local function DoFunctionIfInDistance(key, data, index, doFunc, pos, radius, ext
 	if data.destroyed then
 		return false
 	end
-	local distSq = util.DistSqVectors(data.pos, pos)
+	local distSq = util.DistSqWithWrap(data.pos[1], data.pos[2], pos[1], pos[2], self.worldWidth, self.worldHeight)
 	if distSq > radius*radius then
 		return false
 	end
@@ -151,6 +151,7 @@ function api.GetSaveData()
 end
 
 function api.Initialize(world)
+	local levelData = LevelHandler.GetLevelData()
 	self = {
 		world = world,
 		ants = IterableMap.New(),
@@ -159,9 +160,10 @@ function api.Initialize(world)
 		currentTime = 0,
 		nests = IterableMap.New(),
 		foodSources = IterableMap.New(),
+		worldWidth = levelData.width,
+		worldHeight = levelData.height,
 	}
 	
-	local levelData = LevelHandler.GetLevelData()
 	for i = 1, #levelData.nests do
 		local nest = levelData.nests[i]
 		api.AddNest(nest[1], nest[2])
