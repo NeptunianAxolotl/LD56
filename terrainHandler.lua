@@ -11,9 +11,9 @@ local function SetupLevel()
 	local plankimages = {"wood1", "wood2", "wood3", "wood4"}
 
 	local plankarray = {}
-	for i = 1, 11 do 
+	for i = 1, math.ceil(11 * levelData.width / 2600 / Global.PLANK_SCALE) do 
 		plankarray[i] = {}
-		for j=1,28 do 
+		for j = 1, math.ceil(30 * levelData.height / 1400 / Global.PLANK_SCALE) do 
 			plankarray[i][j] = util.SampleList(plankimages)
 		end
 	end
@@ -58,14 +58,14 @@ function api.Draw(drawQueue)
 
 		for i = 1, #self.plankarray do
 			for j = 1, #self.plankarray[i] do
-				local x = i * 265 + -300
-				local y = j * 64 + -200
+				local x = Global.PLANK_SCALE * (i * 265 + -300)
+				local y = Global.PLANK_SCALE * (j * 64 + -200)
 				--DrawImage(image, x, y, rotation, alpha, scale)
 				--math.pi/2
 				if math.mod(j,2) == 0 then
-					Resources.DrawImage(self.plankarray[i][j], x+265/2, y, 0, 1, 0.2)
+					Resources.DrawImage(self.plankarray[i][j], x + Global.PLANK_SCALE * 265/2, y, 0, 0.6, 0.2 * Global.PLANK_SCALE)
 				else
-					Resources.DrawImage(self.plankarray[i][j], x, y, 0, 1, 0.2)
+					Resources.DrawImage(self.plankarray[i][j], x, y, 0, 0.6, 0.2 * Global.PLANK_SCALE)
 				end
 			end
 		end
