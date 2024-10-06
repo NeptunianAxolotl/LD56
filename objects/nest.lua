@@ -17,6 +17,10 @@ local function NewNest(world, myDef, position)
 		end
 	end
 	
+	function self.HitTest(pos)
+		return util.Dist(pos, self.pos) < 100
+	end
+	
 	function self.Update(dt)
 		if self.destroyed then
 			return true

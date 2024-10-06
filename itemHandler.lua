@@ -4,6 +4,11 @@ local api = {}
 
 local BlockDefs = require("defs/blockDefs")
 local ItemDefs = require("defs/itemDefs")
+local EditDefs = require("defs/levelEditorPlacementDef")
+
+local function SnapMousePos(x, y)
+	return {math.floor((x + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID, math.floor((y + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID}
+end
 
 local function ApplyRecharge(dt, name)
 	local itemDef = ItemDefs.defs[name]
@@ -159,9 +164,16 @@ function api.DrawInterface()
 	DrawLevelTextAndItems()
 	if self.currentItem and not self.currentBlock then
 		local itemDef = ItemDefs.defs[self.currentItem]
-		local mousePos = self.world.GetMousePositionInterface()
-		local disabled = itemDef.maxCharges and self.charges[self.currentItem] < 1
-		Resources.DrawImage(itemDef.shopImage, mousePos[1], mousePos[2], 0, 0.7, Global.MOUSE_ITEM_SCALE, disabled and {0.65, 0.65, 0.65})
+		if itemDef then
+			local mousePos = self.world.GetMousePositionInterface()
+			local disabled = itemDef.maxCharges and self.charges[self.currentItem] < 1
+			Resources.DrawImage(itemDef.shopImage, mousePos[1], mousePos[2], 0, 0.7, Global.MOUSE_ITEM_SCALE, disabled and {0.65, 0.65, 0.65})
+		else
+			love.graphics.setColor(1, 0, 0, 0.8)
+			Font.SetSize(2)
+			love.graphics.printf("Placing: " .. self.currentItem, 20, 20, 8000, "left")
+			love.graphics.printf("Type: " .. (self.placeType or "NA"), 20, 60, 8000, "left")
+		end
 	end
 end
 
@@ -174,23 +186,25 @@ function api.KeyPressed(key, scancode, isRepeat)
 		end
 	end
 	if LevelHandler.GetEditMode() then
-		if key == "q" then
+		if key == EditDefs.deletionKey then
 			self.currentItem = "editRemove"
-		elseif key == "w" then
-			self.currentItem = "editPlace"
-			self.placeType = "wall"
-		elseif key == "e" then
-			self.currentItem = "editPlace"
-			self.placeType = "wall_90"
-		elseif key == "s" then
-			self.currentItem = "editPlace"
-			self.placeType = "log"
-		elseif key == "d" then
-			self.currentItem = "editPlace"
-			self.placeType = "log_90"
-		elseif key == "r" then
-			self.currentItem = "editPlace"
-			self.placeType = "rug"
+			self.placeType = false
+		end
+		if EditDefs.blocks[key] then
+			self.currentItem = "editPlaceBlock"
+			self.placeType = EditDefs.blocks[key]
+		end
+		if EditDefs.nests[key] then
+			self.currentItem = "editPlaceNest"
+			self.placeType = EditDefs.nests[key]
+		end
+		if EditDefs.food[key] then
+			self.currentItem = "editPlaceFood"
+			self.placeType = EditDefs.food[key]
+		end
+		if EditDefs.spawners[key] then
+			self.currentItem = "editPlaceSpawner"
+			self.placeType = EditDefs.spawners[key]
 		end
 	end
 end
@@ -224,9 +238,18 @@ function api.MousePressed(x, y, button)
 				return true
 			end
 		end
-	elseif self.currentItem == "editPlace" then
-		local mousePos = {math.floor((x + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID, math.floor((y + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID}
+	elseif self.currentItem == "editPlaceBlock" then
+		local mousePos = SnapMousePos(x, y)
 		BlockHandler.SpawnBlock(self.placeType, mousePos)
+	elseif self.currentItem == "editPlaceNest" then
+		local mousePos = SnapMousePos(x, y)
+		AntHandler.AddNest(self.placeType, mousePos)
+	elseif self.currentItem == "editPlaceFood" then
+		local mousePos = SnapMousePos(x, y)
+		AntHandler.AddFoodSource(self.placeType, mousePos)
+	elseif self.currentItem == "editPlaceSpawner" then
+		local mousePos = SnapMousePos(x, y)
+		AntHandler.AddSpawner(self.placeType, mousePos)
 	elseif self.currentItem == "editRemove" then
 		local mousePos = {x, y}
 		local block = BlockHandler.GetBlockObjectAt(mousePos)

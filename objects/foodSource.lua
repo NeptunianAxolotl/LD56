@@ -14,13 +14,16 @@ local function NewNest(world, myDef, position)
 		self.foodLeft = self.foodLeft - 1
 	end
 	
+	function self.HitTest(pos)
+		return util.Dist(pos, self.pos) < 100
+	end
+	
 	function self.Update(dt)
 		if self.destroyed then
 			return true
 		end
 		ScentHandler.AddScent("food", self.pos, 120, dt*2)
 	end
-	
 	
 	function self.WriteSaveData()
 		return {self.def.name, self.pos}
