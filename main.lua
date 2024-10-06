@@ -1,4 +1,3 @@
-
 util = require("utilities/util")
 Global = require("global")
 IterableMap = require("include/IterableMap")

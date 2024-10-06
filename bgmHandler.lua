@@ -19,7 +19,7 @@ local api = {}
 local cosmos
 
 local tempo = 30 -- BPM of the slowest rhythm generator
-local rhythmGeneratorCount = 16 -- how many rhythm generators to define
+local rhythmGeneratorCount = 1 -- how many rhythm generators to define
 local tuningConstant = 1.0 -- Multiplier for the base sample to set it to the correct pitch
 local noteEvents = {} -- Table to store cued note events
 local soundSources = {} -- Sound sources at particular harmonics
@@ -114,9 +114,17 @@ function api.Update(dt)
       -- Work out how many rhythm generators to run
       -- Algorithm: ratio of ant count to total health of cakes (plus one nominal cake)
         local AntHandler = cosmos.getWorld().getAntHandler()
-        local antCount = AntHandler.GetAntCount() * 5
-        local foodAmt = AntHandler.GetFoodAmount() + 150
-        rhythmGeneratorCount = math.floor(antCount / foodAmt) + 1
+        local antCount = AntHandler.GetAntCount() * 15
+        local foodAmt = AntHandler.CountImportantFood()
+        rhythmGeneratorCount = math.floor(antCount / foodAmt)
+        
+         -- hard caps
+        if rhythmGeneratorCount > 16 then
+          rhythmGeneratorCount = 16
+        end
+        if rhythmGeneratorCount < 1 then
+          rhythmGeneratorCount = 1
+        end
       end
     api.computePolyrhythm(tempo,rhythmGeneratorCount)
   end
