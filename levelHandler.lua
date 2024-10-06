@@ -252,6 +252,10 @@ function api.DrawInterface()
 	return drawWindow
 end
 
+function api.GetLifeRateMultiplier()
+	return self.lifeRateMult
+end
+
 function api.GetEditMode()
 	return self.editMode
 end
@@ -262,6 +266,7 @@ function api.Initialize(world, levelData, difficulty)
 		editMode = false,
 		levelData = levelData,
 		difficulty = difficulty,
+		lifeRateMult = 1 / (levelData.lifetimeMultiplier or 1)
 	}
 end
 
