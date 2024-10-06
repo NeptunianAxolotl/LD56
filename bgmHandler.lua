@@ -14,10 +14,6 @@
 -- 4. Assign notes to the rhythm generators, lowest to highest, SKIPPING BUCKETS WITH ZERO VOLUME. (This may result in higher pitches not occuring and is expected.)
 -- 5. Schedule timers to play all the notes until the next tick of the slowest rhythm generator.
 
-
-local SoundHandler = require("soundHandler")
-local soundFiles = util.LoadDefDirectory("resources/soundDefs")
-
 local self = {}
 local api = {}
 local cosmos
@@ -28,7 +24,7 @@ local tuningConstant = 1.0 -- Multiplier for the base sample to set it to the co
 local noteEvents = {} -- Table to store cued note events
 local soundSources = {} -- Sound sources at particular harmonics
 
-local notePath = "" -- Path to the note sound effect
+local notePath = "resources/sounds/music/marimba-note-a#.ogg" -- Path to the note sound effect
 
 local musicTimer = -1
 
@@ -40,21 +36,21 @@ function api.computePolyrhythm(newTempo, newCount)
   -- TODO: HISTOGRAM CALCULATION - HARDCODED FOR NOW - SHOULD BE SENSITIVE TO RHYTHMGENERATORCOUNT AND GAME VALUES
   local histogram = {
       [1] = 10,
-      [2] = 10,
-      [3] = 10,
-      [4] = 10,
-      [5] = 10,
-      [6] = 10,
-      [7] = 10,
-      [8] = 10,
-      [9] = 10,
-      [10] = 10,
-      [11] = 10,
-      [12] = 10,
-      [13] = 10,
-      [14] = 10,
-      [15] = 10,
-      [16] = 10
+      [2] = 5,
+      [3] = 7,
+      [4] = 1,
+      [5] = 5,
+      [6] = 0,
+      [7] = 0,
+      [8] = 0,
+      [9] = 0,
+      [10] = 0,
+      [11] = 0,
+      [12] = 0,
+      [13] = 0,
+      [14] = 0,
+      [15] = 0,
+      [16] = 0
     }
     
   local maxKey = 0
@@ -94,7 +90,7 @@ function api.computePolyrhythm(newTempo, newCount)
       soundSources[harmonic]:setVolume(v) -- set volume as required
       
       -- Set the sound to play N times every tick of the slowest rhythm generator
-      for i=1,i<=harmonic,1 do
+      for i=1,harmonic,1 do
         local noteEvent = {}
         noteEvent.source = soundSources[harmonic]
         noteEvent.played = false
@@ -126,7 +122,7 @@ end
 function api.Initialize(newCosmos)
 	self = {}
 	cosmos = newCosmos
-	--api.computePolyrhythm(tempo,rhythmGeneratorCount) -- UNCOMMENT WHEN READY
+	api.computePolyrhythm(tempo,rhythmGeneratorCount) -- UNCOMMENT WHEN READY
 end
 
 return api

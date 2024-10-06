@@ -4,7 +4,7 @@ local Font = require("include/font")
 local EffectsHandler = require("effectsHandler")
 local Resources = require("resourceHandler")
 MusicHandler = require("musicHandler")
---bgmHandler = require("bgmHandler") -- Uncomment when I have the remotest confidence this works - LWG
+BGMHandler = require("bgmHandler") -- Uncomment when I have the remotest confidence this works - LWG
 
 local self = {}
 local api = {}
