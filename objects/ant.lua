@@ -187,7 +187,7 @@ local function NewAnt(world, creatureDef, position, size)
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=18; f=function()
+		drawQueue:push({y=self.def.drawLayer; f=function()
 			self.def.draw(self, drawQueue)
 		end})
 	end

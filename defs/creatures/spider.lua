@@ -11,6 +11,7 @@ local data = {
 	staminaSpend = 0.15,
 	pathingType = "ant",
 	airhornMult = 2,
+	drawLayer = 120,
 	
 	init = function (self)
 		self.spiderStamina = 1

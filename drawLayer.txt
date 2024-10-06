@@ -1,0 +1,5 @@
+
+0: Floor
+50: Scent
+100: Ant
+250: Walls

@@ -40,10 +40,12 @@ local function NewBlock(world, blockDef, position)
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=10; f=function()
+		drawQueue:push({y=self.def.drawLayer + self.pos[1]*0.0001 + self.pos[2]*0.0001; f=function()
 			self.def.draw(self, drawQueue)
-			love.graphics.setColor(1, 0, 1, 1)
+			love.graphics.setColor(1, 1, 1, 1)
+			love.graphics.setLineWidth(4)
 			love.graphics.rectangle("line", self.pos[1] - self.def.width/2, self.pos[2] - self.def.height/2, self.def.width, self.def.height)
+			love.graphics.setLineWidth(1)
 		end})
 	end
 	
