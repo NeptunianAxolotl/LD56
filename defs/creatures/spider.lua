@@ -23,7 +23,18 @@ local data = {
 	end,
 	
 	draw = function (self, drawQueue)
-		Resources.DrawImage("spider_small", self.pos[1], self.pos[2], self.direction, 1, 6.6666666*5)
+		--Resources.DrawImage("spider_small", self.pos[1], self.pos[2], self.direction, 1, 6.6666666*5)
+		local spider_scale = 1.4
+		Resources.DrawImage("spider_leg_L1", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L2", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L3", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L4", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R1", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R2", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R3", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R4", self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_body", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
+		Resources.DrawImage("spider_head", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
