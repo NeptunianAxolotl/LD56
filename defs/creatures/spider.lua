@@ -31,7 +31,7 @@ local data = {
         
 		self.movementtimer = (self.movementtimer or 0) + dt
 
-		if self.movementtimer > 1 + math.random()*3 then
+		if self.movementtimer > 2 + math.random()*2 then
 			self.movementtimer = 0
 			self.waittimer = 1 + math.random()*3
 		end
@@ -44,14 +44,21 @@ local data = {
 		else
 			directionChange = math.random()*3 - 1.5
 		end
+
+		local chasespeed = 1
+
 		if closestAnt then
 			local toAnt = util.AngleFromPointToPoint(self.pos, closestAnt.pos)
 			local angleDiff = util.AngleSubtractShortest(toAnt, self.direction)
 			print(angleDiff)
 			directionChange = directionChange + dt * angleDiff * 100
+			chasespeed = 3
 		end
-		
+
+
 		local speed = self.def.speed * self.speedMult * (self.accelMult or 1)
+		local speed = speed*chasespeed
+
 		if self.airhornEffect then
 			speed = speed * (1 + self.airhornEffect*4)
 			directionChange = directionChange * (0.4 * (2 - self.airhornEffect))
