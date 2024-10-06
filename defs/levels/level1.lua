@@ -3,13 +3,9 @@ local data = {
 	nextLevel = "level2",
 	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
 	mustRetainAtLeastThisMuchFood = 0,
+	lifetimeMultiplier = 1,
 	width = 1350,
 	height = 800,
-	lifetimeMultiplier = 1,
-	
-	gameWon = "The ants have been successfully removed.",
-	gameLost = "The ants ate all your food, you'll have to try again.",
-	
 	items = {
 		"renovate",
 		"scent",
@@ -119,14 +115,7 @@ local data = {
 			"wall_vert",
 			{
 				1180,
-				640,
-			},
-		},
-		{
-			"wall_hor",
-			{
-				1120,
-				700,
+				620,
 			},
 		},
 		{
@@ -214,108 +203,101 @@ local data = {
 			},
 		},
 		{
-			"wall_big",
+			"wall_hor",
 			{
-				1120,
-				180,
-			},
-		},
-		{
-			"wall_big",
-			{
-				820,
-				-20,
-			},
-		},
-		{
-			"wall_big",
-			{
-				500,
-				-20,
-			},
-		},
-		{
-			"wall_big",
-			{
-				180,
-				-20,
-			},
-		},
-		{
-			"wall_big",
-			{
-				40,
-				160,
-			},
-		},
-		{
-			"wall_big",
-			{
-				40,
-				480,
-			},
-		},
-		{
-			"wall_big",
-			{
-				40,
-				680,
-			},
-		},
-		{
-			"wall_big",
-			{
-				360,
-				860,
-			},
-		},
-		{
-			"wall_big",
-			{
-				660,
-				860,
-			},
-		},
-		{
-			"wall_big",
-			{
-				980,
-				840,
-			},
-		},
-		{
-			"wall_big",
-			{
-				1300,
-				860,
-			},
-		},
-		{
-			"wall_big",
-			{
-				1360,
+				1100,
 				700,
 			},
 		},
 		{
 			"wall_big",
 			{
-				1360,
-				400,
+				1100,
+				200,
 			},
 		},
 		{
 			"wall_big",
 			{
-				1360,
-				140,
-			},
-		},
-		{
-			"wall_big",
-			{
-				1120,
 				40,
+				180,
+			},
+		},
+		{
+			"wall_big",
+			{
+				340,
+				0,
+			},
+		},
+		{
+			"wall_big",
+			{
+				660,
+				20,
+			},
+		},
+		{
+			"wall_big",
+			{
+				960,
+				0,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1340,
+				500,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1340,
+				820,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1060,
+				860,
+			},
+		},
+		{
+			"wall_big",
+			{
+				740,
+				860,
+			},
+		},
+		{
+			"wall_big",
+			{
+				440,
+				860,
+			},
+		},
+		{
+			"wall_big",
+			{
+				140,
+				860,
+			},
+		},
+		{
+			"wall_big",
+			{
+				40,
+				600,
+			},
+		},
+		{
+			"wall_big",
+			{
+				40,
+				420,
 			},
 		},
 	},
@@ -328,6 +310,195 @@ local data = {
 			},
 		},
 		{
+			"wall_0",
+			{
+				280,
+				700,
+			},
+		},
+		{
+			"wall_0",
+			{
+				380,
+				700,
+			},
+		},
+		{
+			"wall_0",
+			{
+				500,
+				700,
+			},
+		},
+		{
+			"wall_0",
+			{
+				660,
+				700,
+			},
+		},
+		{
+			"wall_90",
+			{
+				200,
+				600,
+			},
+		},
+		{
+			"wall_90",
+			{
+				200,
+				480,
+			},
+		},
+		{
+			"wall_90",
+			{
+				200,
+				240,
+			},
+		},
+		{
+			"wall_0",
+			{
+				800,
+				700,
+			},
+		},
+		{
+			"wall_90",
+			{
+				200,
+				340,
+			},
+		},
+		{
+			"wall_0",
+			{
+				940,
+				700,
+			},
+		},
+		{
+			"wall_0",
+			{
+				1100,
+				700,
+			},
+		},
+		{
+			"wall_270",
+			{
+				1180,
+				600,
+			},
+		},
+		{
+			"wall_180",
+			{
+				300,
+				160,
+			},
+		},
+		{
+			"wall_180",
+			{
+				440,
+				160,
+			},
+		},
+		{
+			"wall_180",
+			{
+				600,
+				160,
+			},
+		},
+		{
+			"wall_180",
+			{
+				740,
+				160,
+			},
+		},
+		{
+			"wall_180",
+			{
+				840,
+				160,
+			},
+		},
+		{
+			"wall_inner_180",
+			{
+				200,
+				160,
+			},
+		},
+		{
+			"wall_inner_90",
+			{
+				200,
+				700,
+			},
+		},
+		{
+			"wall_inner_0",
+			{
+				1180,
+				700,
+			},
+		},
+		{
+			"wall_inner_270",
+			{
+				1180,
+				360,
+			},
+		},
+		{
+			"wall_outer_180",
+			{
+				940,
+				360,
+			},
+		},
+		{
+			"wall_inner_270",
+			{
+				940,
+				160,
+			},
+		},
+		{
+			"wall_270",
+			{
+				940,
+				260,
+			},
+		},
+		{
+			"wall_180",
+			{
+				1020,
+				360,
+			},
+		},
+		{
+			"wall_180",
+			{
+				1080,
+				360,
+			},
+		},
+		{
+			"wall_270",
+			{
+				1180,
+				460,
+			},
+		},
+		{
 			"void",
 			{
 				0,
@@ -337,64 +508,8 @@ local data = {
 		{
 			"void",
 			{
-				0,
-				560,
-			},
-		},
-		{
-			"void",
-			{
-				120,
-				920,
-			},
-		},
-		{
-			"void",
-			{
-				460,
-				880,
-			},
-		},
-		{
-			"void",
-			{
-				840,
-				900,
-			},
-		},
-		{
-			"void",
-			{
-				1220,
-				900,
-			},
-		},
-		{
-			"void",
-			{
-				1380,
-				640,
-			},
-		},
-		{
-			"void",
-			{
-				1360,
-				240,
-			},
-		},
-		{
-			"void",
-			{
-				1360,
-				140,
-			},
-		},
-		{
-			"void",
-			{
-				1120,
-				160,
+				380,
+				-20,
 			},
 		},
 		{
@@ -407,11 +522,55 @@ local data = {
 		{
 			"void",
 			{
-				400,
-				-60,
+				1140,
+				160,
+			},
+		},
+		{
+			"void",
+			{
+				1380,
+				540,
+			},
+		},
+		{
+			"void",
+			{
+				100,
+				900,
+			},
+		},
+		{
+			"void",
+			{
+				0,
+				580,
+			},
+		},
+		{
+			"void",
+			{
+				500,
+				900,
+			},
+		},
+		{
+			"void",
+			{
+				860,
+				900,
+			},
+		},
+		{
+			"void",
+			{
+				1160,
+				880,
 			},
 		},
 	},
+	gameLost = "The ants ate all your food, you'll have to try again.",
+	gameWon = "The ants have been successfully removed.",
 }
 
 return data

@@ -31,13 +31,14 @@ local food = {
 local doodads = {
 	a = "void",
 	c = "wall",
-	v = "door",
+	v = "wall_inner",
+	b = "wall_outer",
 }
 
 local rotateable = {
 	wall = true,
-	wall_edge = true,
-	wall_edge_flip = true,
+	wall_inner = true,
+	wall_outer = true,
 	couch = true,
 	rug = true,
 	fan = true,

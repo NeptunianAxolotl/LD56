@@ -376,8 +376,10 @@ function api.MousePressed(x, y, button)
 		DoodadHandler.AddDoodad(MaybeRotatePlacement(self.placeType), mousePos)
 	elseif self.currentItem == "editRemove" then
 		local mousePos = {x, y}
+		if DoodadHandler.RemoveDoodads(mousePos) then
+			return true
+		end
 		local block = BlockHandler.GetBlockObjectAt(mousePos)
-		DoodadHandler.RemoveDoodads(mousePos)
 		if block then
 			BlockHandler.RemoveBlock(block)
 			return true

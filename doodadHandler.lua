@@ -22,7 +22,9 @@ function api.AddDoodad(doodadType, pos)
 end
 
 function api.RemoveDoodads(pos)
+	local count = IterableMap.Count(self.doodadList)
 	IterableMap.ApplySelf(self.doodadList, "RemoveAtPos", pos)
+	return count ~= IterableMap.Count(self.doodadList)
 end
 
 local function SetupWorld()

@@ -78,11 +78,17 @@ local function NewBlock(world, blockDef, position)
 				love.graphics.setLineWidth(4)
 				love.graphics.rectangle("line", self.pos[1] - self.def.width/2, self.pos[2] - self.def.height/2, self.def.width, self.def.height)
 				love.graphics.setLineWidth(1)
+				love.graphics.setColor(1, 0, 1, 0.2)
+				love.graphics.rectangle("fill", self.pos[1] - self.def.width/2, self.pos[2] - self.def.height/2, self.def.width, self.def.height)
 				
 				if self.def.pushWidth then
 					love.graphics.setColor(0, 0, 1, 1)
 					love.graphics.setLineWidth(6)
-					love.graphics.rectangle("line", self.pos[1] + self.def.pushOffsetX - self.def.pushWidth/2, self.pos[2] + self.def.pushOffsetY - self.def.pushHeight/2, self.def.pushWidth, self.def.pushHeight)
+					love.graphics.rectangle("line",
+						self.pos[1] + self.def.pushOffsetX - self.def.pushWidth/2,
+						self.pos[2] + self.def.pushOffsetY - self.def.pushHeight/2,
+						self.def.pushWidth, self.def.pushHeight
+					)
 					love.graphics.setLineWidth(1)
 				end
 			end
