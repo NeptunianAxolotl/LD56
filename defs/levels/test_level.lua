@@ -11,6 +11,7 @@ local data = {
 		"pickup",
 		"scent",
 		"mop",
+		"place_food",
 	},
 	spawners = {
 		{
