@@ -61,7 +61,7 @@ function api.getAntHandler()
 end
 
 function api.SetGameOver(hasWon, overType)
-	if self.gameWon or self.gameLost or TerrainHandler.InEditMode() then
+	if self.gameWon or self.gameLost or LevelHandler.GetEditMode() then
 		return
 	end
 	

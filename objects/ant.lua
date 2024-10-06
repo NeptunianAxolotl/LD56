@@ -62,7 +62,12 @@ local function NewAnt(world, creatureDef, position, size)
 			self.pos = world.GetMousePosition()
 			return
 		end
-		self.life = self.life - dt * LevelHandler.GetLifeRateMultiplier()
+		if world.GetGameOver() then
+			self.fadeRate = self.fadeRate or 0.5 + 4*math.random()
+			self.life = math.min(2, self.life) - dt * self.fadeRate
+		else
+			self.life = self.life - dt * LevelHandler.GetLifeRateMultiplier()
+		end
 		if self.life < 0 then
 			self.Destroy()
 			return true

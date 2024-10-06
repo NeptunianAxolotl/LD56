@@ -17,12 +17,10 @@ local api = {}
 
 function api.ToggleMenu()
 	self.menuOpen = not self.menuOpen
-	world.SetMenuState(self.menuOpen)
+	self.world.SetMenuState(self.menuOpen)
 end
 
 function api.MousePressed(x, y)
-	local windowX, windowY = love.window.getMode()
-	local drawPos = world.ScreenToInterface({windowX, 0})
 end
 
 function api.GetViewRestriction()
@@ -35,8 +33,15 @@ end
 --------------------------------------------------
 
 function api.Update(dt)
+	local levelData = LevelHandler.GetLevelData()
 	local nestCount = AntHandler.CountImportantNests()
 	local foodCount = AntHandler.CountImportantFood()
+	if nestCount <= 0 then
+		self.world.SetGameOver(true)
+	end
+	if foodCount < levelData.mustRetainAtLeastThisMuchFood then
+		self.world.SetGameOver(false)
+	end
 end
 
 function api.DrawInterface()
