@@ -254,13 +254,17 @@ function api.Draw()
 	end
 	--ShadowHandler.DrawVisionShadow(CameraHandler.GetCameraTransform())
 	
-	--local windowX, windowY = love.window.getMode()
-	--if windowX/windowY > 16/9 then
-	--	self.interfaceTransform:setTransformation(0, 0, 0, windowY/1080, windowY/1080, 0, 0)
-	--else
-	--	self.interfaceTransform:setTransformation(0, 0, 0, windowX/1920, windowX/1920, 0, 0)
-	--end
-	love.graphics.replaceTransform(self.emptyTransform)
+	local windowX, windowY = love.window.getMode()
+	local aspectRatio = Global.VIEW_WIDTH/Global.VIEW_HEIGHT
+	local aspectDifference = windowX/windowY - aspectRatio
+	if aspectDifference > 0 then
+		-- Wider than tall
+		self.interfaceTransform:setTransformation((1 - Global.SHOP_WIDTH / Global.VIEW_WIDTH)*(windowX - windowY*aspectRatio), 0, 0, windowY/Global.VIEW_HEIGHT, windowY/Global.VIEW_HEIGHT, 0, 0)
+	else
+		-- Taller than wide
+		self.interfaceTransform:setTransformation(0, 0.5*(windowY - windowX/aspectRatio), 0, windowX/Global.VIEW_WIDTH, windowX/Global.VIEW_WIDTH, 0, 0)
+	end
+	love.graphics.replaceTransform(self.interfaceTransform)
 	
 	-- Draw interface
 	GameHandler.DrawInterface()
@@ -302,7 +306,8 @@ function api.Initialize(cosmos, levelData)
 	DeckHandler.Initialize(api)
 	GameHandler.Initialize(api)
 	
-	CameraHandler.Initialize(api, levelData)
+	local padding = {left = 0, right = Global.SHOP_WIDTH / Global.VIEW_WIDTH, top = 0, bot = 0}
+	CameraHandler.Initialize(api, levelData, padding)
 end
 
 return api

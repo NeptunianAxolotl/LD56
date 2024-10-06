@@ -76,7 +76,7 @@ local function DrawScent(name, red, green, blue)
 		for y = 0, height do
 			local strength = api.GetScentRawPos(name, x, y)
 			if strength > 0 then
-				love.graphics.setColor(red, green, blue, strength / (10 + strength))
+				love.graphics.setColor(red, green, blue, 0.5 * strength / (10 + strength))
 				love.graphics.rectangle("fill", x*scale, y*scale, scale, scale, 0, 0, 0)
 			end
 		end

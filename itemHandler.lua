@@ -6,11 +6,12 @@ local BlockDefs = require("defs/blockDefs")
 local ItemDefs = require("defs/itemDefs")
 
 local function ApplyRecharge(dt, name)
-	if self.charges[name] < Global.MAX_CHARGES[name] then
+	local itemDef = ItemDefs.defs[name]
+	if itemDef.maxCharges and self.charges[name] < itemDef.maxCharges then
 		self.recharge[name] = self.recharge[name] - dt
 		if self.recharge[name] < 0 then
 			self.charges[name] = self.charges[name] + 1
-			self.recharge[name] = Global.RECHARGE_TIME[name]
+			self.recharge[name] = self.recharge[name] + itemDef.rechargeTime
 		end
 	end
 end
@@ -77,7 +78,7 @@ function api.Draw(drawQueue)
 			love.graphics.circle("line",
 				mousePos[1],
 				mousePos[2],
-				Global.AIRHORN_RADIUS,
+				ItemDefs.defs.airhorn.effectRadius,
 				60
 			)
 		end})
@@ -88,46 +89,70 @@ function api.Draw(drawQueue)
 			love.graphics.circle("line",
 				mousePos[1],
 				mousePos[2],
-				Global.ACCELERATE_RADIUS,
+				ItemDefs.defs.accelerate.effectRadius,
 				60
 			)
 		end})
 	end
 end
 
-function api.DrawInterface()
+local function DrawLevelTextAndItems()
+	self.hoveredItem = false
+	InterfaceUtil.DrawPanel(Global.VIEW_WIDTH - Global.SHOP_WIDTH, -1000, Global.SHOP_WIDTH * 10, Global.VIEW_HEIGHT + 2000, 12)
+
+	local levelData = LevelHandler.GetLevelData()
+	love.graphics.setColor(0, 0, 0, 0.8)
 	Font.SetSize(2)
-	local yOffset = 20
-	love.graphics.setColor(0, 0, 0, 1)
-	love.graphics.print("1. Renovation" .. (self.currentItem == "renovate" and " <--" or ""), 90, yOffset)
-	yOffset = yOffset + 40
-	
-	if api.GetCharges("airhorn") == 0 then
-		love.graphics.setColor(0.4, 0.4, 0.4, 1)
-	else
-		love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.printf(levelData.humanName, Global.VIEW_WIDTH - Global.SHOP_WIDTH, 35, Global.SHOP_WIDTH, "center")
+	if levelData.description then
+		love.graphics.setColor(0, 0, 0, 0.8)
+		Font.SetSize(4)
+		love.graphics.printf(levelData.description, Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 100, Global.SHOP_WIDTH - 40, "left")
 	end
-	love.graphics.print("2. Airhorn " .. api.GetChargeString("airhorn") .. (self.currentItem == "airhorn" and " <--" or ""), 90, yOffset)
-	yOffset = yOffset + 40
 	
-	if api.GetCharges("accelerate") == 0 then
-		love.graphics.setColor(0.4, 0.4, 0.4, 1)
-	else
-		love.graphics.setColor(0, 0, 0, 1)
+	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 130
+	local shopItemsY = 400
+	local mousePos = self.world.GetMousePositionInterface()
+	
+	for i = 1, #levelData.items do
+		local name = levelData.items[i]
+		local itemDef = ItemDefs.defs[name]
+		local disabled = itemDef.maxCharges and self.charges[name] < 1
+		self.hoveredItem = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 120, 120, mousePos, name, disabled, false, false, false, fontOffset, borderThickness) or self.hoveredItem
+		if self.currentItem ~= name then
+			Resources.DrawImage(itemDef.shopImage, shopItemsX + 60, shopItemsY + 60, 0, 1, Global.SHOP_IMAGE_SCALE)
+		end
+		if itemDef.maxCharges then
+			love.graphics.setColor(0.3, 0.3, 0.3, 0.8)
+			love.graphics.print(api.GetChargeString(name), shopItemsX + 10, shopItemsY + 90)
+		end
+		if i%2 == 1 then
+			shopItemsX = shopItemsX + 140
+		else
+			shopItemsX = shopItemsX - 140
+			shopItemsY = shopItemsY + 140
+		end
 	end
-	love.graphics.print("3. Drugs? " .. api.GetChargeString("accelerate") .. (self.currentItem == "accelerate" and " <--" or ""), 90, yOffset)
+	
+	love.graphics.setLineWidth(1)
+end
+
+function api.DrawInterface()
+	DrawLevelTextAndItems()
+	if self.currentItem and not self.currentBlock then
+		local itemDef = ItemDefs.defs[self.currentItem]
+		local mousePos = self.world.GetMousePositionInterface()
+		Resources.DrawImage(itemDef.shopImage, mousePos[1], mousePos[2], 0, 1, Global.MOUSE_ITEM_SCALE)
+	end
 end
 
 function api.KeyPressed(key, scancode, isRepeat)
-	if key == "1" then
-		self.currentItem = "renovate"
-		return true
-	elseif key == "2" then
-		self.currentItem = "airhorn"
-		return true
-	elseif key == "3" then
-		self.currentItem = "accelerate"
-		return true
+	if tonumber(key) then
+		local levelData = LevelHandler.GetLevelData()
+		if levelData.items[tonumber(key)] then
+			self.currentItem = levelData.items[tonumber(key)]
+			return true
+		end
 	end
 	if LevelHandler.GetEditMode() then
 		if key == "q" then
@@ -152,6 +177,15 @@ function api.KeyPressed(key, scancode, isRepeat)
 end
 
 function api.MousePressed(x, y, button)
+	if self.hoveredItem then
+		if self.currentItem == self.hoveredItem then
+			self.currentItem = false
+		else
+			self.currentItem = self.hoveredItem
+		end
+		self.currentBlock = false
+		return
+	end
 	if self.currentItem == "renovate" then
 		local mousePos = {x, y}
 		if self.currentBlock then
@@ -184,13 +218,13 @@ function api.MousePressed(x, y, button)
 	elseif self.currentItem == "airhorn" then
 		if api.GetCharges("airhorn") > 0 then
 			local mousePos = {x, y}
-			AntHandler.DoFunctionToAntsInArea("ApplyAirhorn", mousePos, Global.AIRHORN_RADIUS)
+			AntHandler.DoFunctionToAntsInArea("ApplyAirhorn", mousePos, ItemDefs.defs.airhorn.effectRadius)
 			api.UseCharge("airhorn")
 		end
 	elseif self.currentItem == "accelerate" then
 		if api.GetCharges("accelerate") > 0 then
 			local mousePos = {x, y}
-			AntHandler.DoFunctionToAntsInArea("ApplyAcceleration", mousePos, Global.AIRHORN_RADIUS)
+			AntHandler.DoFunctionToAntsInArea("ApplyAcceleration", mousePos, ItemDefs.defs.accelerate.effectRadius)
 			api.UseCharge("accelerate")
 		end
 	end
@@ -206,8 +240,8 @@ function api.Initialize(world)
 	}
 	for i = 1, #ItemDefs.itemList do
 		local name = ItemDefs.itemList[i]
-		self.charges[name] = 0
-		self.recharge[name] = Global.RECHARGE_TIME[name]
+		self.charges[name] = 1
+		self.recharge[name] = 0
 	end
 end
 

@@ -204,13 +204,6 @@ function api.DrawInterface()
 	local overY = windowY*0.3
 	local overHeight = windowY*0.4
 	
-	if self.levelData.description then
-	
-		love.graphics.setColor(0, 0, 0, 0.8)
-		Font.SetSize(4)
-		love.graphics.printf(self.levelData.description, 400, 20, windowX - 450, "left")
-	end
-	
 	local drawWindow = self.loadingLevelGetName or self.saveLevelGetName or self.townWantConf or self.setDifficultyMode
 	if drawWindow then
 		love.graphics.setColor(Global.PANEL_COL[1], Global.PANEL_COL[2], Global.PANEL_COL[3], 0.97)

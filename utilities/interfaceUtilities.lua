@@ -156,17 +156,19 @@ function api.DrawButton(x, y, width, height, mousePos, text, disabled, flash, ca
 	love.graphics.setLineWidth(borderThickness*0.5)
 	love.graphics.rectangle("fill", x, y, width, height, 4, 4, 16)
 	
-	Font.SetSize(fontSize or 3)
-	if disabled and not hovered then
-		love.graphics.setColor(Global.TEXT_DISABLE_COL[1], Global.TEXT_DISABLE_COL[2], Global.TEXT_DISABLE_COL[3], 1)
-	elseif (flash and (self.animDt%Global.BUTTON_FLASH_PERIOD < Global.BUTTON_FLASH_PERIOD/2)) then
-		love.graphics.setColor(Global.TEXT_FLASH_COL[1], Global.TEXT_FLASH_COL[2], Global.TEXT_FLASH_COL[3], 1)
-	elseif hovered then
-		love.graphics.setColor(Global.TEXT_HIGHLIGHT_COL[1], Global.TEXT_HIGHLIGHT_COL[2], Global.TEXT_HIGHLIGHT_COL[3], 1)
-	else
-		love.graphics.setColor(Global.TEXT_COL[1], Global.TEXT_COL[2], Global.TEXT_COL[3], 1)
+	if fontSize then
+		Font.SetSize(fontSize)
+		if disabled and not hovered then
+			love.graphics.setColor(Global.TEXT_DISABLE_COL[1], Global.TEXT_DISABLE_COL[2], Global.TEXT_DISABLE_COL[3], 1)
+		elseif (flash and (self.animDt%Global.BUTTON_FLASH_PERIOD < Global.BUTTON_FLASH_PERIOD/2)) then
+			love.graphics.setColor(Global.TEXT_FLASH_COL[1], Global.TEXT_FLASH_COL[2], Global.TEXT_FLASH_COL[3], 1)
+		elseif hovered then
+			love.graphics.setColor(Global.TEXT_HIGHLIGHT_COL[1], Global.TEXT_HIGHLIGHT_COL[2], Global.TEXT_HIGHLIGHT_COL[3], 1)
+		else
+			love.graphics.setColor(Global.TEXT_COL[1], Global.TEXT_COL[2], Global.TEXT_COL[3], 1)
+		end
+		love.graphics.printf(text, x, y + (fontOffset or 8), width, "center")
 	end
-	love.graphics.printf(text, x, y + (fontOffset or 8), width, "center")
 	
 	if disabled and not hovered then
 		love.graphics.setColor(Global.OUTLINE_DISABLE_COL[1], Global.OUTLINE_DISABLE_COL[2], Global.OUTLINE_DISABLE_COL[3], 1)
@@ -185,10 +187,10 @@ end
 
 function api.DrawPanel(x, y, width, height, borderThickness)
 	borderThickness = borderThickness or 8
-	love.graphics.setColor(Global.MENU_COL[1], Global.MENU_COL[2], Global.MENU_COL[3], 1)
+	love.graphics.setColor(Global.PANEL_COL[1], Global.PANEL_COL[2], Global.PANEL_COL[3], 1)
 	love.graphics.setLineWidth(borderThickness*0.5)
 	love.graphics.rectangle("fill", x, y, width, height, 8, 8, 16)
-	love.graphics.setColor(Global.MENU_OUTLINE_COL[1], Global.MENU_OUTLINE_COL[2], Global.MENU_OUTLINE_COL[3], 1)
+	love.graphics.setColor(unpack(Global.BUTTON_BORDER))
 	love.graphics.setLineWidth(borderThickness)
 	love.graphics.rectangle("line", x, y, width, height, 8, 8, 16)
 end
