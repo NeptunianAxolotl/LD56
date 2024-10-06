@@ -1,10 +1,11 @@
 
 local data = {
-	spawnFrequency = 6,
-	antType = "ant",
-	health = 50,
-	blockerType = "placement_blocker_ignore_save",
-	
+	width = 160,
+	height = 160,
+	blockTypes = {"placement"},
+	canBeMoved = false,
+	drawLayer = 20,
+	ignoreSave = true,
 	init = function (self)
 	end,
 	update = function (self, dt)

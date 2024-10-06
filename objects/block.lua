@@ -36,11 +36,14 @@ local function NewBlock(world, blockDef, position)
 	end
 	
 	function self.WriteSaveData()
+		if self.def.ignoreSave then
+			return false
+		end
 		return {self.def.name, self.pos}
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=self.def.drawLayer + self.pos[1]*0.0001 + self.pos[2]*0.0001; f=function()
+		drawQueue:push({y=self.def.drawLayer + self.pos[1]*0.001 + self.pos[2]*0.0001; f=function()
 			if self.def.image then
 				DoodadHandler.DrawDoodad(self.def, self.pos, 1)
 			else

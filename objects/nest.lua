@@ -8,8 +8,19 @@ local function NewNest(world, myDef, position, extraData)
 	self.health = self.maxHealth
 	self.spawnTimer = 0
 	
+	if self.def.blockerType then
+		self.blocker = BlockHandler.SpawnBlock(self.def.blockerType, util.CopyTable(self.pos))
+	end
+	
+	if self.def.init then
+		self.def.init(self)
+	end
+	
 	function self.Destroy()
 		self.destroyed = true
+		if self.blocker then
+			self.blocker.Destroy()
+		end
 	end
 	
 	function self.ApplyFood(foodType, foodValue)

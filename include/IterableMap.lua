@@ -189,7 +189,9 @@ function IterableMap.ApplySelfMapToList(self, funcName, ...)
 	while i <= self.indexMax do
 		local key = self.keyByIndex[i]
 		local value = self.dataByKey[key][funcName](...)
-		list[#list + 1] = value
+		if value then
+			list[#list + 1] = value
+		end
 		i = i + 1
 	end
 	return list
