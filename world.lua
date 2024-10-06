@@ -10,6 +10,7 @@ AntHandler = require("antHandler")
 ScentHandler = require("scentHandler")
 LevelHandler = require("levelHandler")
 PlayerHandler = require("playerHandler")
+DoodadHandler = require("doodadHandler")
 
 InterfaceUtil = require("utilities/interfaceUtilities")
 Delay = require("utilities/delay")
@@ -190,7 +191,7 @@ function api.GetPhysicsWorld()
 end
 
 local function UpdateCamera(dt)
-	CameraHandler.Update(dt)
+	CameraHandler.Update(dt, LevelHandler.GetEditMode() and 6 or 1)
 end
 
 --------------------------------------------------
@@ -244,6 +245,7 @@ function api.Draw()
 	ItemHandler.Draw(drawQueue)
 	AntHandler.Draw(drawQueue)
 	ScentHandler.Draw(drawQueue)
+	DoodadHandler.Draw(drawQueue)
 	LevelHandler.Draw(drawQueue)
 	
 	love.graphics.replaceTransform(CameraHandler.GetCameraTransform())
@@ -304,6 +306,7 @@ function api.Initialize(cosmos, levelData)
 	ItemHandler.Initialize(api)
 	AntHandler.Initialize(api)
 	ScentHandler.Initialize(api)
+	DoodadHandler.Initialize(api)
 	--ShadowHandler.Initialize(api)
 	
 	DeckHandler.Initialize(api)

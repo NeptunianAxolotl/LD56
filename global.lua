@@ -31,7 +31,7 @@ local globals = {
 	FLOATING_TEXT_COL   = {0.95,0.95,0.9},
 	
 	
-	PLANK_SCALE = 0.8,
+	PLANK_SCALE = 0.65,
 	MOUSE_ITEM_SCALE = 0.7,
 	SHOP_IMAGE_SCALE = 0.9,
 	
@@ -52,7 +52,7 @@ local globals = {
 	LINE_SPACING = 36,
 	INC_OFFSET = -15,
 	SCENT_GRID_SIZE = 10,
-	INIT_LEVEL = "test_level",
+	INIT_LEVEL = "level1",
 	
 	SHOP_WIDTH = 400,
 	VIEW_WIDTH = 1920,
@@ -74,7 +74,7 @@ local globals = {
 	CAMERA_SPEED = 800,
 	CAMERA_BOUND = 1600,
 	
-	SAVE_ORDER = {"humanName", "nextLevel", "prevLevel", "description", "width", "height", "items", "spawners", "nests", "food", "blocks"},
+	SAVE_ORDER = {"humanName", "nextLevel", "prevLevel", "description", "width", "height", "items", "spawners", "nests", "food", "blocks", "doodads"},
 	SAVE_INLINE = {},
 }
 

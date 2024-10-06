@@ -6,11 +6,11 @@ function api.GetCameraTransform()
 	return self.cameraTransform
 end
 
-function api.Update(dt)
+function api.Update(dt, padMult)
 	local cameraX, cameraY, cameraScale = Camera.UpdateCameraToViewPoints(false, 
 		{
-			{pos = {0, 0}, xOff = 20, yOff = 20},
-			{pos = {self.levelData.width, self.levelData.height}, xOff = 20, yOff = 20},
+			{pos = {0, 0}, xOff = 20 * padMult, yOff = 20 * padMult},
+			{pos = {self.levelData.width, self.levelData.height}, xOff = 20 * padMult, yOff = 20 * padMult},
 		}
 	)
 	self.cameraPos[1] = cameraX

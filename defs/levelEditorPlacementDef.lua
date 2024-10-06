@@ -22,12 +22,19 @@ local food = {
 	j = "basic_poison",
 }
 
+local doodads = {
+	a = "void",
+	z = "wall_edge",
+	x = "wall_edge_90",
+}
+
 local data = {
 	deletionKey = deletionKey,
 	blocks = blocks,
 	spawners = spawners,
 	nests = nests,
 	food = food,
+	doodads = doodads,
 }
 
 return data

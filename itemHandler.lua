@@ -3,6 +3,7 @@ local self = {}
 local api = {}
 
 local BlockDefs = require("defs/blockDefs")
+local DoodadDefs = require("defs/doodadDefs")
 local ItemDefs = require("defs/itemDefs")
 local EditDefs = require("defs/levelEditorPlacementDef")
 
@@ -151,6 +152,24 @@ function api.Draw(drawQueue)
 			end})
 		end
 	end
+	if self.currentItem == "editPlaceBlock" then
+		local placeDef = BlockDefs.defs[self.placeType]
+		drawQueue:push({y=placeDef.drawLayer; f=function()
+			local mousePos = self.world.GetMousePosition()
+			local mousePos = SnapMousePos(mousePos[1], mousePos[2])
+			love.graphics.setColor(1, 1, 1, 1)
+			love.graphics.setLineWidth(4)
+			love.graphics.rectangle("line", mousePos[1] - placeDef.width/2, mousePos[2] - placeDef.height/2, placeDef.width, placeDef.height)
+			love.graphics.setLineWidth(1)
+		end})
+	elseif self.currentItem == "editPlaceDoodad" then
+		local placeDef = DoodadDefs.defs[self.placeType]
+		drawQueue:push({y=placeDef.drawLayer; f=function()
+			local mousePos = self.world.GetMousePosition()
+			local mousePos = SnapMousePos(mousePos[1], mousePos[2])
+			DoodadHandler.DrawDoodad(placeDef, mousePos, 0.5)
+		end})
+	end
 end
 
 local function DrawLevelTextAndItems()
@@ -203,7 +222,7 @@ function api.DrawInterface()
 			local disabled = itemDef.maxCharges and self.charges[self.currentItem] < 1
 			Resources.DrawImage(itemDef.shopImage, mousePos[1], mousePos[2], 0, 0.7, Global.MOUSE_ITEM_SCALE, disabled and {0.65, 0.65, 0.65})
 		else
-			love.graphics.setColor(1, 0, 0, 0.8)
+			love.graphics.setColor(1, 1, 1, 1)
 			Font.SetSize(2)
 			love.graphics.printf("Placing: " .. self.currentItem, 20, 20, 8000, "left")
 			love.graphics.printf("Type: " .. (self.placeType or "NA"), 20, 60, 8000, "left")
@@ -239,6 +258,10 @@ function api.KeyPressed(key, scancode, isRepeat)
 		if EditDefs.spawners[key] then
 			self.currentItem = "editPlaceSpawner"
 			self.placeType = EditDefs.spawners[key]
+		end
+		if EditDefs.doodads[key] then
+			self.currentItem = "editPlaceDoodad"
+			self.placeType = EditDefs.doodads[key]
 		end
 	end
 end
@@ -284,9 +307,13 @@ function api.MousePressed(x, y, button)
 	elseif self.currentItem == "editPlaceSpawner" then
 		local mousePos = SnapMousePos(x, y)
 		AntHandler.AddSpawner(self.placeType, mousePos)
+	elseif self.currentItem == "editPlaceDoodad" then
+		local mousePos = SnapMousePos(x, y)
+		DoodadHandler.AddDoodad(self.placeType, mousePos)
 	elseif self.currentItem == "editRemove" then
 		local mousePos = {x, y}
 		local block = BlockHandler.GetBlockObjectAt(mousePos)
+		DoodadHandler.RemoveDoodads(mousePos)
 		if block then
 			BlockHandler.RemoveBlock(block)
 			return true

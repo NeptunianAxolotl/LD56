@@ -59,6 +59,7 @@ function api.SaveLevel(name)
 	local save = util.CopyTable(self.levelData)
 	save.nests, save.food, save.spawners = AntHandler.GetSaveData()
 	save.blocks = BlockHandler.GetSaveData()
+	save.doodads = DoodadHandler.ExportObjects()
 	
 	local saveTable = util.TableToString(save, Global.SAVE_ORDER, util.ListToMask(Global.SAVE_INLINE))
 	saveTable = "local data = " .. saveTable .. [[
@@ -213,7 +214,6 @@ function api.DrawInterface()
 		love.graphics.setLineWidth(10)
 		love.graphics.rectangle("line", overX, overY, overWidth, overHeight, 8, 8, 16)
 		love.graphics.setLineWidth(1)
-		
 	end
 	
 	if self.loadingLevelGetName then
