@@ -57,8 +57,6 @@ local data = {
 
 		self.walktimer8 = ((self.walktimer8 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg8)
 		self.walkangle8 = (math.sin(self.walktimer8)^2)*stepangle
-
-		print(self.walkangle)
 	end,
 	
 	draw = function (self, drawQueue)

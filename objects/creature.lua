@@ -26,6 +26,12 @@ local function NewCreature(world, creatureDef, position, size)
 		self.accelMult = 5 + 3 * (1 - radius / maxRadius)
 	end
 	
+	function self.GroundRectangleHitTest(pos, width, height)
+		return self.def.pathingType == "ant" and
+				self.pos[1] > pos[1] - width/2 and self.pos[1] < pos[1] + width/2 and
+				self.pos[2] > pos[2] - height/2 and self.pos[2] < pos[2] + height/2
+	end
+	
 	function self.Update(dt)
 		if self.destroyed then
 			return true

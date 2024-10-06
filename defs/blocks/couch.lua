@@ -1,7 +1,7 @@
 
 local data = {
 	width = 300,
-	height = 125,
+	height = 120,
 	blockTypes = {"ant", "placement"},
 	canBeMoved = true,
 	

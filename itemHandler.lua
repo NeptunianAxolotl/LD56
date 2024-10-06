@@ -110,6 +110,16 @@ function api.GetChargeString(name)
 	return str
 end
 
+local function CanPlaceBlock(def, pos)
+	if not BlockHandler.FreeToPlaceAt("placement", def.name, pos) then
+		return false
+	end
+	if AntHandler.IsGroundCreatureInRectangle(pos, def.width + 20, def.height + 20) then
+		return false
+	end
+	return true
+end
+
 function api.Draw(drawQueue)
 	if self.currentItem == "renovate" and self.currentBlock then
 		drawQueue:push({y=60; f=function()
@@ -121,7 +131,12 @@ function api.Draw(drawQueue)
 				self.currentBlock.def.height
 			)
 			local mousePos = self.world.GetMousePosition()
-			love.graphics.setColor(0.2, 0.8, 1, 0.5)
+			if CanPlaceBlock(self.currentBlock.def, mousePos) then
+				love.graphics.setColor(0.2, 0.8, 1, 0.5)
+			else
+				love.graphics.setColor(1, 0.1, 0.1, 0.5)
+			end
+			
 			love.graphics.rectangle("fill",
 				mousePos[1] - self.currentBlock.def.width/2,
 				mousePos[2] - self.currentBlock.def.height/2,
@@ -291,7 +306,7 @@ function api.MousePressed(x, y, button)
 			local blockType = self.currentBlock.def.name
 			local blockPos = self.currentBlock.pos
 			BlockHandler.RemoveBlock(self.currentBlock)
-			if (BlockHandler.FreeToPlaceAt("placement", blockType, mousePos) or LevelHandler.GetEditMode()) then
+			if CanPlaceBlock(self.currentBlock.def, mousePos) or LevelHandler.GetEditMode() then
 				BlockHandler.SpawnBlock(blockType, mousePos)
 				self.currentBlock = false
 			else

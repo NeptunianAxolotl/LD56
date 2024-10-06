@@ -106,6 +106,11 @@ function api.ClosestAnt(pos, dist)
 	return GetClosest(self.ants, pos, dist)
 end
 
+function api.IsGroundCreatureInRectangle(pos, width, height)
+	local creature = IterableMap.GetFirstSatisfies(self.creatures, "GroundRectangleHitTest", pos, width, height)
+	return creature and true or false
+end
+
 function api.NearNest(pos, dist)
 	return GetClosest(self.nests, pos, dist)
 end
