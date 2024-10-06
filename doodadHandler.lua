@@ -7,7 +7,7 @@ local api = {}
 
 function api.DrawDoodad(def, pos, alpha)
 	if def.image then
-		Resources.DrawImage(def.image, pos[1], pos[2], def.rotation, false, def.scale*(def.flip and -1 or 1))
+		Resources.DrawImage(def.image, pos[1], pos[2], def.rotation, false, (def.flip and {-def.scale, def.scale} or def.scale))
 	else
 		love.graphics.setColor(0, 0, 0, 1)
 		love.graphics.rectangle("fill", pos[1] - def.width/2, pos[2] - def.height/2, def.width, def.height)

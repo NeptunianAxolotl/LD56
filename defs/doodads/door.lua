@@ -1,9 +1,10 @@
+
 local data = {
-	image = "wall_corner1",
+	image = "door_closed",
 	drawLayer = 300,
-	rotation = 0,
+	rotation = math.pi/2,
 	flip = false,
-	scale = 0.1,
+	scale = 0.13,
 	
 	wantRotations = true,
 }

@@ -1,5 +1,5 @@
 local data = {
-	image = "wall_corner1",
+	image = "wall_corner2",
 	drawLayer = 300,
 	rotation = 0,
 	flip = false,

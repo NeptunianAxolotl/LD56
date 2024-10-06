@@ -41,7 +41,11 @@ local function NewBlock(world, blockDef, position)
 	
 	function self.Draw(drawQueue)
 		drawQueue:push({y=self.def.drawLayer + self.pos[1]*0.0001 + self.pos[2]*0.0001; f=function()
-			self.def.draw(self, drawQueue)
+			if self.def.image then
+				DoodadHandler.DrawDoodad(self.def, self.pos, 1)
+			else
+				self.def.draw(self, drawQueue)
+			end
 			if LevelHandler.GetEditMode() then
 				love.graphics.setColor(1, 1, 1, 1)
 				love.graphics.setLineWidth(4)

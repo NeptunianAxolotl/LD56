@@ -25,6 +25,13 @@ local function ApplyRecharge(dt, name)
 	end
 end
 
+local function MaybeRotatePlacement(defName)
+	if not EditDefs.rotateable[defName] then
+		return defName
+	end
+	return defName .. "_" .. self.placeRotation
+end
+
 local function CheckPaintItem(name, mousePos)
 	local levelData = LevelHandler.GetLevelData()
 	if mousePos[1] < 0 or mousePos[2] < 0 or mousePos[1] > levelData.width or mousePos[2] > levelData.height then
@@ -153,7 +160,7 @@ function api.Draw(drawQueue)
 		end
 	end
 	if self.currentItem == "editPlaceBlock" then
-		local placeDef = BlockDefs.defs[self.placeType]
+		local placeDef = BlockDefs.defs[MaybeRotatePlacement(self.placeType)]
 		drawQueue:push({y=placeDef.drawLayer; f=function()
 			local mousePos = self.world.GetMousePosition()
 			local mousePos = SnapMousePos(mousePos[1], mousePos[2])
@@ -161,9 +168,12 @@ function api.Draw(drawQueue)
 			love.graphics.setLineWidth(4)
 			love.graphics.rectangle("line", mousePos[1] - placeDef.width/2, mousePos[2] - placeDef.height/2, placeDef.width, placeDef.height)
 			love.graphics.setLineWidth(1)
+			if placeDef.image then
+				DoodadHandler.DrawDoodad(placeDef, mousePos, 0.5)
+			end
 		end})
 	elseif self.currentItem == "editPlaceDoodad" then
-		local placeDef = DoodadDefs.defs[self.placeType]
+		local placeDef = DoodadDefs.defs[MaybeRotatePlacement(self.placeType)]
 		drawQueue:push({y=placeDef.drawLayer; f=function()
 			local mousePos = self.world.GetMousePosition()
 			local mousePos = SnapMousePos(mousePos[1], mousePos[2])
@@ -225,7 +235,7 @@ function api.DrawInterface()
 			love.graphics.setColor(1, 1, 1, 1)
 			Font.SetSize(2)
 			love.graphics.printf("Placing: " .. self.currentItem, 20, 20, 8000, "left")
-			love.graphics.printf("Type: " .. (self.placeType or "NA"), 20, 60, 8000, "left")
+			love.graphics.printf("Type: " .. (MaybeRotatePlacement(self.placeType) or "NA"), 20, 60, 8000, "left")
 		end
 	end
 end
@@ -242,24 +252,23 @@ function api.KeyPressed(key, scancode, isRepeat)
 		if key == EditDefs.deletionKey then
 			self.currentItem = "editRemove"
 			self.placeType = false
-		end
-		if EditDefs.blocks[key] then
+		elseif key == EditDefs.rotationKey then
+			self.placeRotation = (self.placeRotation + 90)%360
+		elseif key == EditDefs.otherRotateKey then
+			self.placeRotation = (self.placeRotation - 90)%360
+		elseif EditDefs.blocks[key] then
 			self.currentItem = "editPlaceBlock"
 			self.placeType = EditDefs.blocks[key]
-		end
-		if EditDefs.nests[key] then
+		elseif EditDefs.nests[key] then
 			self.currentItem = "editPlaceNest"
 			self.placeType = EditDefs.nests[key]
-		end
-		if EditDefs.food[key] then
+		elseif EditDefs.food[key] then
 			self.currentItem = "editPlaceFood"
 			self.placeType = EditDefs.food[key]
-		end
-		if EditDefs.spawners[key] then
+		elseif EditDefs.spawners[key] then
 			self.currentItem = "editPlaceSpawner"
 			self.placeType = EditDefs.spawners[key]
-		end
-		if EditDefs.doodads[key] then
+		elseif EditDefs.doodads[key] then
 			self.currentItem = "editPlaceDoodad"
 			self.placeType = EditDefs.doodads[key]
 		end
@@ -297,19 +306,19 @@ function api.MousePressed(x, y, button)
 		end
 	elseif self.currentItem == "editPlaceBlock" then
 		local mousePos = SnapMousePos(x, y)
-		BlockHandler.SpawnBlock(self.placeType, mousePos)
+		BlockHandler.SpawnBlock(MaybeRotatePlacement(self.placeType), mousePos)
 	elseif self.currentItem == "editPlaceNest" then
 		local mousePos = SnapMousePos(x, y)
-		AntHandler.AddNest(self.placeType, mousePos)
+		AntHandler.AddNest(MaybeRotatePlacement(self.placeType), mousePos)
 	elseif self.currentItem == "editPlaceFood" then
 		local mousePos = SnapMousePos(x, y)
-		AntHandler.AddFoodSource(self.placeType, mousePos)
+		AntHandler.AddFoodSource(MaybeRotatePlacement(self.placeType), mousePos)
 	elseif self.currentItem == "editPlaceSpawner" then
 		local mousePos = SnapMousePos(x, y)
-		AntHandler.AddSpawner(self.placeType, mousePos)
+		AntHandler.AddSpawner(MaybeRotatePlacement(self.placeType), mousePos)
 	elseif self.currentItem == "editPlaceDoodad" then
 		local mousePos = SnapMousePos(x, y)
-		DoodadHandler.AddDoodad(self.placeType, mousePos)
+		DoodadHandler.AddDoodad(MaybeRotatePlacement(self.placeType), mousePos)
 	elseif self.currentItem == "editRemove" then
 		local mousePos = {x, y}
 		local block = BlockHandler.GetBlockObjectAt(mousePos)
@@ -366,6 +375,7 @@ function api.Initialize(world)
 		world = world,
 		currentItem = "renovate",
 		currentBlock = false,
+		placeRotation = 90,
 		charges = {},
 		recharge = {},
 	}

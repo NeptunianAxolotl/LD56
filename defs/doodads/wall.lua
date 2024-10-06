@@ -1,7 +1,8 @@
+
 local data = {
-	image = "wall_corner1",
-	drawLayer = 300,
-	rotation = 0,
+	image = "wall_straight",
+	drawLayer = 250,
+	rotation = math.pi/2,
 	flip = false,
 	scale = 0.1,
 	

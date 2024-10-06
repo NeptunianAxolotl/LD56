@@ -67,7 +67,7 @@ local globals = {
 	
 	MOUSE_SCROLL_MULT = 0,
 	KEYBOARD_SCROLL_MULT = 1.4,
-	EDIT_GRID = 10,
+	EDIT_GRID = 20,
 	
 	MOUSE_EDGE = 8,
 	MOUSE_SCROLL = 1200,
