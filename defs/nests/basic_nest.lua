@@ -4,9 +4,10 @@ local data = {
 	antType = "ant",
 	health = 50,
 	blockerType = "placement_blocker_ignore_save",
+	victoryNestValue = 1,
 	
 	image = "antsnest",
-	drawLayer = 10,
+	drawLayer = 30,
 	scale = 0.1,
 	fadeTime = 1.4,
 	

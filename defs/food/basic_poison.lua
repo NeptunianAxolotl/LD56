@@ -7,9 +7,10 @@ local data = {
 	closestDistScale = 1,
 	totalFood = false,
 	blockerType = "placement_blocker_ignore_save",
+	defeatAvoidingFoodValue = 0,
 	
 	image = "poison_pile",
-	drawLayer = 110,
+	drawLayer = 60,
 	scale = 0.1,
 	
 	init = function (self)

@@ -33,6 +33,13 @@ local globals = {
 	HEALTH_BAR_COL = {13/255, 180/255, 80/255},
 	HEALTH_BAR_BACK = {200/255, 11/255, 00/255},
 	
+	
+	TEST_WON = false,
+	TEST_LOST = false,
+	
+	BUTTON_FLASH_PERIOD = 0.6,
+	
+	
 	PLANK_SCALE = 0.65,
 	MOUSE_ITEM_SCALE = 0.7,
 	SHOP_IMAGE_SCALE = 0.9,

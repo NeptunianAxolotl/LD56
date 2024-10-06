@@ -6,6 +6,10 @@ local data = {
 	width = 1350,
 	height = 800,
 	lifetimeMultiplier = 1,
+	
+	gameWon = "The ants have been successfully removed.",
+	gameLost = "The ants ate all your food, you'll have to try again.",
+	
 	items = {
 		"renovate",
 		"scent",

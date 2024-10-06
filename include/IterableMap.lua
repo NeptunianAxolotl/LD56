@@ -154,6 +154,17 @@ function IterableMap.GetFirstSatisfies(self, funcName, ...)
 	end
 end
 
+function IterableMap.SumWithFunction(self, funcName, ...)
+	local count = 0
+	local i = 1
+	while i <= self.indexMax do
+		local key = self.keyByIndex[i]
+		count = count + (self.dataByKey[key][funcName](...) or 0)
+		i = i + 1
+	end
+	return count
+end
+
 function IterableMap.GetMinimum(self, minFunc, ...)
 	local i = 1
 	local minItem = false

@@ -41,7 +41,7 @@ function api.GetPaused()
 end
 
 function api.GetGameOver()
-	return self.gameWon or self.gameLost, self.gameWon, self.gameLost, self.overType
+	return self.gameWon or self.gameLost or Global.TEST_WON or Global.TEST_LOST, self.gameWon or Global.TEST_WON, self.gameLost or Global.TEST_LOST, self.overType
 end
 
 function api.GetLifetime()
@@ -87,9 +87,6 @@ function api.KeyPressed(key, scancode, isRepeat)
 	if key == "p" then
 		api.ToggleMenu()
 	end
-	if api.GetGameOver() then
-		return -- No doing actions
-	end
 	if GameHandler.KeyPressed and GameHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
@@ -110,19 +107,16 @@ function api.MousePressed(x, y, button)
 	end
 	local uiX, uiY = self.interfaceTransform:inverse():transformPoint(x, y)
 	
-	if api.GetGameOver() then
-		return -- No doing actions
-	end
 	if DialogueHandler.MousePressedInterface(uiX, uiY, button) then
 		return
 	end
 	x, y = CameraHandler.GetCameraTransform():inverse():transformPoint(x, y)
 	
 	-- Send event to game components
-	if BlockHandler.MousePressed(x, y, button) then
+	if ItemHandler.MousePressed(x, y, button) then
 		return true
 	end
-	if ItemHandler.MousePressed(x, y, button) then
+	if BlockHandler.MousePressed(x, y, button) then
 		return true
 	end
 	

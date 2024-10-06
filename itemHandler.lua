@@ -211,6 +211,11 @@ local function DrawLevelTextAndItems()
 		love.graphics.printf(levelData.description, Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 100, Global.SHOP_WIDTH - 10, "left")
 	end
 	
+	local gameOver, won, lost = self.world.GetGameOver()
+	if gameOver then
+		return
+	end
+	
 	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 130
 	local shopItemsY = 400
 	local mousePos = self.world.GetMousePositionInterface()
@@ -219,7 +224,7 @@ local function DrawLevelTextAndItems()
 		local name = levelData.items[i]
 		local itemDef = ItemDefs.defs[name]
 		local disabled = itemDef.maxCharges and self.charges[name] < 1
-		self.hoveredItem = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 120, 120, mousePos, name, disabled, false, false, false, fontOffset, borderThickness) or self.hoveredItem
+		self.hoveredItem = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 120, 120, mousePos, name, disabled, false, false, false, false, false) or self.hoveredItem
 		if self.currentItem ~= name then
 			Resources.DrawImage(itemDef.shopImage, shopItemsX + 60, shopItemsY + 60, 0, 1, Global.SHOP_IMAGE_SCALE)
 		end
@@ -234,12 +239,37 @@ local function DrawLevelTextAndItems()
 			shopItemsY = shopItemsY + 140
 		end
 	end
+end
+
+local function DrawLevelVictoryState()
+	self.hoveredEndLevelAction = false
 	
-	love.graphics.setLineWidth(1)
+	local gameOver, won, lost = self.world.GetGameOver()
+	if not gameOver then
+		return
+	end
+	local levelData = LevelHandler.GetLevelData()
+	
+	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 110
+	local shopItemsY = 400
+	local shopItemsY = 950
+	local mousePos = self.world.GetMousePositionInterface()
+	
+	if won then
+		love.graphics.setColor(0, 0, 0, 0.8)
+		Font.SetSize(3)
+		love.graphics.printf(levelData.gameWon or "The ants have been removed.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 700, Global.SHOP_WIDTH - 10, "left")
+		self.hoveredEndLevelAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 80, mousePos, "Next Level", false, true, false, 2, 16, false) or self.hoveredEndLevelAction
+	end
+	if lost then
+		love.graphics.printf(levelData.gameOver or "The ants ate too much food. Press Ctrl+R to restart.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 700, Global.SHOP_WIDTH - 10, "left")
+		self.hoveredEndLevelAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 80, mousePos, "Restart", false, true, false, 2, 16, false) or self.hoveredEndLevelAction
+	end
 end
 
 function api.DrawInterface()
 	DrawLevelTextAndItems()
+	DrawLevelVictoryState()
 	if self.currentItem and not self.currentBlock then
 		local itemDef = ItemDefs.defs[self.currentItem]
 		if itemDef then
@@ -300,6 +330,16 @@ function api.MousePressed(x, y, button)
 		self.currentBlock = false
 		return
 	end
+	
+	if self.hoveredEndLevelAction then
+		if self.hoveredEndLevelAction == "Next Level" then
+			self.world.GetCosmos().SwitchLevel(true)
+		elseif self.hoveredEndLevelAction == "Restart" then
+			self.world.Restart()
+		end
+		return
+	end
+	
 	if self.currentItem == "renovate" then
 		local mousePos = {x, y}
 		if self.currentBlock then

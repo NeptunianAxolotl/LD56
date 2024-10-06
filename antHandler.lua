@@ -106,6 +106,34 @@ function api.ClosestAnt(pos, dist)
 	return GetClosest(self.ants, pos, dist)
 end
 
+function api.CountImportantNests()
+	return IterableMap.SumWithFunction(self.nests, "CountNests")
+end
+
+function api.CountImportantFood()
+	return IterableMap.SumWithFunction(self.foodSources, "CountImportantFood")
+end
+
+function api.GetNestHealth()
+	return IterableMap.SumWithFunction(self.nests, "AddNestHealth")
+end
+
+function api.GetFoodHealth()
+	return IterableMap.SumWithFunction(self.foodSources, "AddFoodHealth")
+end
+
+function api.GetInitialNestHealth()
+	return self.initialNestHealth
+end
+
+function api.GetInitialFoodHealth()
+	return self.initialFoodHealth
+end
+
+function api.GetAntCount()
+	return IterableMap.Count(self.ants)
+end
+
 function api.IsGroundCreatureInRectangle(pos, width, height)
 	local creature = IterableMap.GetFirstSatisfies(self.creatures, "GroundRectangleHitTest", pos, width, height)
 	return creature and true or false
@@ -203,6 +231,10 @@ function api.Initialize(world)
 		local spawner = levelData.spawners[i]
 		api.AddSpawner(spawner[1], spawner[2], spawner[3])
 	end
+	
+	self.initialNestHealth = api.GetNestHealth()
+	self.initialFoodHealth = api.GetFoodHealth()
 end
+
 
 return api

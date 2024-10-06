@@ -16,6 +16,14 @@ local function NewNest(world, myDef, position, extraData)
 		self.def.init(self)
 	end
 	
+	function self.CountNests()
+		return (not self.destroyed) and self.def.victoryNestValue
+	end
+	
+	function self.AddNestHealth()
+		return math.max(0, self.health)
+	end
+	
 	function self.Destroy()
 		if not self.destroyed then
 			EffectsHandler.SpawnFadeEffect(self.def.image, self.pos, self.def.scale, self.def.rotation, self.def.drawLayer, self.def.fadeTime or 1, self.def.color)

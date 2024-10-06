@@ -7,9 +7,10 @@ local data = {
 	scentStrength = 1.5,
 	closestDistScale = 0.8,
 	blockerType = "placement_blocker_ignore_save",
+	defeatAvoidingFoodValue = 1,
 	
 	image = "cheese",
-	drawLayer = 110,
+	drawLayer = 60,
 	scale = 0.1,
 
 	init = function (self)

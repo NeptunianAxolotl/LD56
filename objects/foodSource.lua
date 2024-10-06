@@ -4,7 +4,8 @@ local function NewNest(world, myDef, position, extraData)
 	local self = {}
 	self.pos = position
 	self.def = myDef
-	self.foodLeft = self.def.totalFood
+	self.maxFood = (extraData and extraData.totalFood) or self.def.totalFood
+	self.foodLeft = self.maxFood
 	
 	if self.def.blockerType then
 		self.blocker = BlockHandler.SpawnBlock(self.def.blockerType, util.CopyTable(self.pos))
@@ -12,6 +13,14 @@ local function NewNest(world, myDef, position, extraData)
 	
 	if self.def.init then
 		self.def.init(self)
+	end
+	
+	function self.CountImportantFood()
+		return (not self.destroyed) and self.def.defeatAvoidingFoodValue
+	end
+	
+	function self.AddFoodHealth()
+		return self.foodLeft and (math.max(0, self.foodLeft) * self.def.defeatAvoidingFoodValue) or 0
 	end
 	
 	function self.Destroy()
@@ -22,7 +31,7 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.FoodTaken()
-		if self.def.totalFood then
+		if self.maxFood then
 			self.foodLeft = self.foodLeft - 1
 			if self.foodLeft <= 0 then
 				self.Destroy()
@@ -52,7 +61,7 @@ local function NewNest(world, myDef, position, extraData)
 			else
 				self.def.draw(self, drawQueue)
 			end
-			if self.def.totalFood then
+			if self.maxFood then
 				Font.SetSize(2)
 				love.graphics.setColor(0, 0, 0, 0.5)
 				love.graphics.print(self.foodLeft, self.pos[1] - 10, self.pos[2] + 40)

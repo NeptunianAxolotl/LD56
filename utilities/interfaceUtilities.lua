@@ -182,6 +182,7 @@ function api.DrawButton(x, y, width, height, mousePos, text, disabled, flash, ca
 	
 	love.graphics.setLineWidth(borderThickness)
 	love.graphics.rectangle("line", x, y, width, height, 4, 4, 16)
+	love.graphics.setLineWidth(1)
 	return hovered and text
 end
 
@@ -193,6 +194,7 @@ function api.DrawPanel(x, y, width, height, borderThickness)
 	love.graphics.setColor(unpack(Global.BUTTON_BORDER))
 	love.graphics.setLineWidth(borderThickness)
 	love.graphics.rectangle("line", x, y, width, height, 8, 8, 16)
+	love.graphics.setLineWidth(1)
 end
 
 --------------------------------------------------

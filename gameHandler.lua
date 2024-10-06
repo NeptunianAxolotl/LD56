@@ -1,14 +1,11 @@
 
 local Font = require("include/font")
 
-local EffectsHandler = require("effectsHandler")
-local Resources = require("resourceHandler")
 MusicHandler = require("musicHandler")
 BGMHandler = require("bgmHandler") -- Uncomment when I have the remotest confidence this works - LWG
 
 local self = {}
 local api = {}
-local world
 
 --------------------------------------------------
 -- Updating
@@ -38,6 +35,8 @@ end
 --------------------------------------------------
 
 function api.Update(dt)
+	local nestCount = AntHandler.CountImportantNests()
+	local foodCount = AntHandler.CountImportantFood()
 end
 
 function api.DrawInterface()
@@ -45,8 +44,9 @@ function api.DrawInterface()
 end
 
 function api.Initialize(parentWorld)
-	self = {}
-	world = parentWorld
+	self = {
+		world = parentWorld,
+	}
 end
 
 return api

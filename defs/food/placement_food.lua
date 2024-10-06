@@ -6,9 +6,10 @@ local data = {
 	scentRadius = 70,
 	scentStrength = 0.8,
 	closestDistScale = 0.5,
+	defeatAvoidingFoodValue = 0,
 	
 	image = "strawberry",
-	drawLayer = 110,
+	drawLayer = 60,
 	scale = 0.1,
 	
 	init = function (self)
