@@ -161,6 +161,22 @@ function api.GetSaveData()
 	return nestData, foodData, spawners
 end
 
+function api.GetAntCount()
+  local antCount = 0
+  for x in pairs(self.ants) do antCount = antCount + 1 end
+  return antCount
+end
+
+function api.GetFoodAmount()
+  local foodCount = 0
+  for x in pairs(self.foodSources) do 
+    if x.foodType == "good" then
+      foodCount = foodCount + x.totalFood
+      end
+    end
+  return foodCount
+  end
+
 function api.Initialize(world)
 	local levelData = LevelHandler.GetLevelData()
 	self = {
