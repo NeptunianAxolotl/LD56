@@ -9,6 +9,7 @@ local data = {
 	feelerAngle = 0.5,
 	turnCheckLength = 5,
 	turnCheckAngle = 0.7,
+	lifetime = 800,
 	init = function (self)
 	end,
 	update = function (self, dt)

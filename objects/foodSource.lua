@@ -27,7 +27,7 @@ local function NewNest(world, myDef, position)
 		if self.destroyed then
 			return true
 		end
-		ScentHandler.AddScent("food", self.pos, 120, dt*2)
+		ScentHandler.AddScent("food", self.pos, self.def.scentRadius, dt*self.def.scentStrength)
 	end
 	
 	function self.WriteSaveData()

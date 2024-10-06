@@ -83,7 +83,7 @@ function love.load(arg)
 	print(string.format("Version %d.%d.%d - %s", major, minor, revision, codename))
 
 	love.window.setTitle("ant antics")
-	love.graphics.setDefaultFilter("linear", "linear", 2) -- Removing this helps some things and really hurts others
+	love.graphics.setDefaultFilter("linear", "linear", 1) -- nearest this helps some things and really hurts others
 
 	love.graphics.setBackgroundColor(Global.BACK_COL[1], Global.BACK_COL[2], Global.BACK_COL[3], 1)
 

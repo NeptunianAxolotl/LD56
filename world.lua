@@ -278,7 +278,8 @@ function api.Draw()
 end
 
 function api.Initialize(cosmos, levelData)
-	self = {}
+	self = {
+	}
 	util.SetDefaultWrap(levelData.width, levelData.height)
 	
 	self.cosmos = cosmos

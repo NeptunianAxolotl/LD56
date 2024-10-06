@@ -324,6 +324,13 @@ function api.MousePressed(x, y, button)
 	elseif self.currentItem == "nop" then
 		self.lastPaintPos = false
 		MopScentCheck()
+	elseif self.currentItem == "place_food" then
+		if api.GetCharges("place_food") > 0 then
+			local itemDef = ItemDefs.defs[self.currentItem]
+			local mousePos = {x, y}
+			AntHandler.AddFoodSource(itemDef.placeFoodType, mousePos)
+			api.UseCharge("place_food")
+		end
 	end
 end
 

@@ -49,6 +49,12 @@ local function ClosestToWithDist(data, maxDistSq, pos, filterFunc)
 	if distSq > maxDistSq then
 		return false
 	end
+	if data.def.closestDistScale then
+		distSq = distSq / (data.def.closestDistScale * data.def.closestDistScale)
+		if distSq > maxDistSq then
+			return false
+		end
+	end
 	return distSq
 end
 

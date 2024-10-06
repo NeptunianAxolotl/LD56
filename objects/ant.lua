@@ -12,6 +12,7 @@ local function NewAnt(world, creatureDef, position, size)
 	self.stuckTime = false
 	self.spiderRunTime = false
 	self.pickedUp = false
+	self.life = self.def.lifetime
 	
 	if self.def.init then
 		self.def.init(self)
@@ -57,6 +58,11 @@ local function NewAnt(world, creatureDef, position, size)
 		if self.pickedUp then
 			self.pos = world.GetMousePosition()
 			return
+		end
+		self.life = self.life - dt * LevelHandler.GetLifeRateMultiplier()
+		if self.life < 0 then
+			self.Destroy()
+			return true
 		end
 		
 		local directionChange = false

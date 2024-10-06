@@ -2,6 +2,9 @@
 local data = {
 	foodType = "poison",
 	foodValue = 1,
+	scentRadius = 120,
+	scentStrength = 1.8,
+	closestDistScale = 1,
 	totalFood = false,
 	init = function (self)
 	end,
