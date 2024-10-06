@@ -10,6 +10,7 @@ local data = {
 		"accelerate",
 		"pickup",
 		"scent",
+		"mop",
 	},
 	spawners = {
 		{
