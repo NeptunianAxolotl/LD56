@@ -69,8 +69,16 @@ function api.Draw(drawQueue)
 				end
 			end
 		end
+		--love.graphics.rectangle( mode, x, y, width, height, rx, ry, segments )
+		love.graphics.setColor(0,0,0,1)
+		local rectangleDepth = 500
+		love.graphics.rectangle("fill", -rectangleDepth, -rectangleDepth, 2600+2*rectangleDepth, rectangleDepth)
+		love.graphics.rectangle("fill", -rectangleDepth, -rectangleDepth, rectangleDepth, 1400+2*rectangleDepth)
+		love.graphics.rectangle("fill", -rectangleDepth, 1400, 2600+2*rectangleDepth, rectangleDepth)
+		love.graphics.rectangle("fill", 2600, -rectangleDepth, rectangleDepth, 1400+2*rectangleDepth)
 
 	end})
+
 end
 
 function api.Initialize(world, levelIndex, mapDataOverride)
