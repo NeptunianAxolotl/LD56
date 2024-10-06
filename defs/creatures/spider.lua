@@ -21,28 +21,57 @@ local data = {
 		local extraData = {dt = dt}
 		AntHandler.DoFunctionToAntsInArea("ApplySpiderFear", self.pos, self.def.fearRadius, extraData)
 
-		local walkconstant = 0.1
-		local stepangle = 0.1
-		self.walktimer = ((self.walktimer or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2)
+		local walkconstant = 0.2
+		local stepangle = 0.2
 
+		local offset_leg1 = math.pi*(1/8) --1
+		local offset_leg2 = math.pi*(5/8) --5
+		local offset_leg3 = math.pi*(3/8) --3
+		local offset_leg4 = math.pi*(7/8) --7
+		
+		local offset_leg5 = math.pi*(4/8) --4
+		local offset_leg6 = math.pi*(6/8) --6
+		local offset_leg7 = math.pi*(2/8) --2
+		local offset_leg8 = math.pi*(8/8) --8
 
+		self.walktimer1 = ((self.walktimer1 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg1)
+		self.walkangle1 = math.sin(self.walktimer1)*stepangle
 
-		self.walkangle = math.sin(self.walktimer)*stepangle
+		self.walktimer2 = ((self.walktimer2 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg2)
+		self.walkangle2 = math.sin(self.walktimer2)*stepangle
+
+		self.walktimer3 = ((self.walktimer3 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg3)
+		self.walkangle3 = math.sin(self.walktimer3)*stepangle
+
+		self.walktimer4 = ((self.walktimer4 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg4)
+		self.walkangle4 = math.sin(self.walktimer4)*stepangle
+
+		self.walktimer5 = ((self.walktimer5 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg5)
+		self.walkangle5 = math.sin(self.walktimer5)*stepangle
+
+		self.walktimer6 = ((self.walktimer6 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg6)
+		self.walkangle6 = math.sin(self.walktimer6)*stepangle
+
+		self.walktimer7 = ((self.walktimer7 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg7)
+		self.walkangle7 = math.sin(self.walktimer7)*stepangle
+
+		self.walktimer8 = ((self.walktimer8 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg8)
+		self.walkangle8 = math.sin(self.walktimer8)*stepangle
 
 		print(self.walkangle)
 	end,
 	
 	draw = function (self, drawQueue)
 		--Resources.DrawImage("spider_small", self.pos[1], self.pos[2], self.direction, 1, 6.6666666*5)
-		local spider_scale = 1.4 
-		Resources.DrawImage("spider_leg_L1", self.pos[1], self.pos[2], self.direction+self.walkangle, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L2", self.pos[1], self.pos[2], self.direction-self.walkangle, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L3", self.pos[1], self.pos[2], self.direction+self.walkangle, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L4", self.pos[1], self.pos[2], self.direction-self.walkangle, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R1", self.pos[1], self.pos[2], self.direction+self.walkangle, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R2", self.pos[1], self.pos[2], self.direction-self.walkangle, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R3", self.pos[1], self.pos[2], self.direction+self.walkangle, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R4", self.pos[1], self.pos[2], self.direction-self.walkangle, 1, spider_scale)
+		local spider_scale = 1.4
+		Resources.DrawImage("spider_leg_L1", self.pos[1], self.pos[2], self.direction+self.walkangle1, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L2", self.pos[1], self.pos[2], self.direction+self.walkangle2, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L3", self.pos[1], self.pos[2], self.direction+self.walkangle3, 1, spider_scale)
+		Resources.DrawImage("spider_leg_L4", self.pos[1], self.pos[2], self.direction+self.walkangle4, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R1", self.pos[1], self.pos[2], self.direction+self.walkangle5, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R2", self.pos[1], self.pos[2], self.direction+self.walkangle6, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R3", self.pos[1], self.pos[2], self.direction+self.walkangle7, 1, spider_scale)
+		Resources.DrawImage("spider_leg_R4", self.pos[1], self.pos[2], self.direction+self.walkangle8, 1, spider_scale)
 		Resources.DrawImage("spider_body", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 		Resources.DrawImage("spider_head", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 
