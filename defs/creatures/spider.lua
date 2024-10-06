@@ -52,9 +52,11 @@ local data = {
 			local toAnt = util.AngleFromPointToPoint(self.pos, closestAnt.pos)
 			local angleDiff = util.AngleSubtractShortest(toAnt, self.direction)
 			print(angleDiff)
-			directionChange = directionChange + dt * angleDiff * 100
+			directionChange = directionChange + dt * angleDiff * 1000
+			
 			if antDist < 50 then
 				chasespeed = 0
+				closestAnt.Destroy()
 			else
 				chasespeed = 3
 			end
