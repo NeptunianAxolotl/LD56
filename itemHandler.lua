@@ -257,6 +257,7 @@ function api.MousePressed(x, y, button)
 			BlockHandler.RemoveBlock(block)
 			return true
 		end
+		AntHandler.DeleteObjectAt(mousePos)
 	elseif self.currentItem == "airhorn" then
 		if api.GetCharges("airhorn") > 0 then
 			local mousePos = {x, y}

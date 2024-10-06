@@ -108,6 +108,24 @@ function api.NearFoodSource(pos, dist)
 	return GetClosest(self.foodSources, pos, dist)
 end
 
+function api.DeleteObjectAt(pos)
+	local spawner = IterableMap.GetFirstSatisfies(self.spawners, "HitTest", pos)
+	if spawner then
+		spawner.Destroy()
+		return
+	end
+	local nest = IterableMap.GetFirstSatisfies(self.nests, "HitTest", pos)
+	if nest then
+		nest.Destroy()
+		return
+	end
+	local foodSource = IterableMap.GetFirstSatisfies(self.foodSources, "HitTest", pos)
+	if foodSource then
+		foodSource.Destroy()
+		return
+	end
+end
+
 function api.Update(dt)
 	IterableMap.ApplySelf(self.ants, "Update", dt)
 	IterableMap.ApplySelf(self.creatures, "Update", dt)
