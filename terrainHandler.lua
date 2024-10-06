@@ -11,9 +11,9 @@ local function SetupLevel()
 	local plankimages = {"wood1", "wood2", "wood3", "wood4"}
 
 	local plankarray = {}
-	for i = 1, 100 do 
+	for i = 1, 11 do 
 		plankarray[i] = {}
-		for j=1,10 do 
+		for j=1,27 do 
 			plankarray[i][j] = util.SampleList(plankimages)
 		end
 	end
@@ -58,13 +58,14 @@ function api.Draw(drawQueue)
 
 		for i = 1, #self.plankarray do
 			for j = 1, #self.plankarray[i] do
-				local x = i * 65 + -50
-				local y = j * 200 + -250
+				local x = i * 265 + -300
+				local y = j * 65 + -200
 				--DrawImage(image, x, y, rotation, alpha, scale)
-				if math.mod(i,2) == 0 then
-					Resources.DrawImage(self.plankarray[i][j], x, y+100, math.pi/2, 1, 0.2)
+				--math.pi/2
+				if math.mod(j,2) == 0 then
+					Resources.DrawImage(self.plankarray[i][j], x+265/2, y, 0, 1, 0.2)
 				else
-					Resources.DrawImage(self.plankarray[i][j], x, y, math.pi/2, 1, 0.2)
+					Resources.DrawImage(self.plankarray[i][j], x, y, 0, 1, 0.2)
 				end
 			end
 		end
