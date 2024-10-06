@@ -11,13 +11,18 @@ local data = {
 	turnCheckAngle = 0.7,
 	lifetime = 800,
 	drawLayer = 100,
+	
+	image = "ant_small",
+	scale = 6,
+	color = {0.3, 0.3, 0.3},
+	
 	init = function (self)
 	end,
 	update = function (self, dt)
 	end,
 	draw = function (self, drawQueue)
 		local alpha = ((self.stuckTime or 0) > 0.5 and math.max(0.06, (1 - (self.stuckTime - 0.5)*6))) or 1
-		Resources.DrawImage("ant_small", self.pos[1], self.pos[2], self.direction, alpha, 6, {0.3, 0.3, 0.3})
+		Resources.DrawImage(self.def.image, self.pos[1], self.pos[2], self.direction, alpha, self.def.scale, self.def.color)
 		if self.hasFood == "poison" then
 			Resources.DrawImage("green_ant", self.pos[1], self.pos[2], self.direction, 0.8*alpha, 1.4)
 		elseif self.hasFood then

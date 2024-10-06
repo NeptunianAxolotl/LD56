@@ -1,4 +1,3 @@
-
 
 local EffectDefs = util.LoadDefDirectory("effects")
 local NewEffect = require("objects/effect")
@@ -16,7 +15,7 @@ function api.SpawnEffect(name, pos, data)
 		IterableMap.Add(self.worldEffects, NewEffect(data, def))
 	end
 end
-
+function api.SpawnFadeEffect(image, pos, scale, rotation, drawLayer, fadeTime, color)	local def = {		actual_image = image,		rotation = rotation,		drawLayer = drawLayer,		alphaScale = true,		duration = fadeTime,		color = color,	}	local data = {		pos = pos,		scale = scale,	}	IterableMap.Add(self.worldEffects, NewEffect(data, def))end
 function api.Update(dt)
 	IterableMap.ApplySelf(self.worldEffects, "Update", dt)
 	IterableMap.ApplySelf(self.interfaceEffects, "Update", dt)

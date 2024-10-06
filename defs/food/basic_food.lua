@@ -8,6 +8,10 @@ local data = {
 	closestDistScale = 0.8,
 	blockerType = "placement_blocker_ignore_save",
 	
+	image = "cheese",
+	drawLayer = 110,
+	scale = 0.1,
+
 	init = function (self)
 	end,
 	update = function (self, dt)

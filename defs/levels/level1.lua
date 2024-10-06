@@ -5,6 +5,7 @@ local data = {
 	requiredCakes = 0,
 	width = 1350,
 	height = 800,
+	lifetimeMultiplier = 1,
 	items = {
 		"renovate",
 		"scent",
@@ -407,8 +408,6 @@ local data = {
 			},
 		},
 	},
-	lifetimeMultiplier = 1,
-	zoom = 1.4,
 }
 
 return data

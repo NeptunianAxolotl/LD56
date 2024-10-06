@@ -46,8 +46,12 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=18; f=function()
-			self.def.draw(self, drawQueue)
+		drawQueue:push({y=self.def.drawLayer; f=function()
+			if self.def.image then
+				DoodadHandler.DrawDoodad(self.def, self.pos, 1)
+			else
+				self.def.draw(self, drawQueue)
+			end
 			if self.def.totalFood then
 				Font.SetSize(2)
 				love.graphics.setColor(0, 0, 0, 0.5)

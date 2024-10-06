@@ -19,6 +19,9 @@ local function NewAnt(world, creatureDef, position, size)
 	end
 	
 	function self.Destroy()
+		if not self.destroyed then
+			EffectsHandler.SpawnFadeEffect(self.def.image, self.pos, self.def.scale, self.direction, self.def.drawLayer, 0.4, self.def.color)
+		end
 		self.destroyed = true
 	end
 	
