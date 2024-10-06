@@ -1,9 +1,8 @@
 
 local globals = {
-	BACK_COL = {36/255, 77/255, 135/255},
+	BACK_COL = {141/255, 75/255, 14/255},
 	TILE_COL = {124/255, 149/255, 61/255},
 	BACK_COL_EDITOR = {1.2*10/255, 1.2*84/255, 1.2*156/255},
-	
 	
 	HOVER_HIGHLIGHT = {240/255, 179/255, 86/255},
 	BUTTON_BORDER = {99/255, 68/255, 36/255},
@@ -31,6 +30,8 @@ local globals = {
 	TEXT_COL            = {9/255, 11/255, 17/255},
 	FLOATING_TEXT_COL   = {0.95,0.95,0.9},
 	
+	
+	PLANK_SCALE = 0.8,
 	MOUSE_ITEM_SCALE = 0.7,
 	SHOP_IMAGE_SCALE = 0.9,
 	

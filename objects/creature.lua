@@ -85,7 +85,7 @@ local function NewCreature(world, creatureDef, position, size)
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=18; f=function()
+		drawQueue:push({y=self.def.drawLayer + self.pos[1]*0.0001 + self.pos[2]*0.0001; f=function()
 			self.def.draw(self, drawQueue)
 		end})
 	end

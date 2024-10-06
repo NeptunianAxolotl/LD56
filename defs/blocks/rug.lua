@@ -4,6 +4,7 @@ local data = {
 	height = 250,
 	blockTypes = {"placement"},
 	canBeMoved = false,
+	drawLayer = 20,
 	init = function (self)
 	end,
 	update = function (self, dt)

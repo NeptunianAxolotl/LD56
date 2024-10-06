@@ -4,8 +4,8 @@ local deletionKey = "q"
 local blocks = {
 	w = "wall",
 	e = "wall_90",
-	s = "log",
-	d = "log_90",
+	s = "couch",
+	d = "couch_90",
 	r = "rug",
 }
 

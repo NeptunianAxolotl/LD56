@@ -138,7 +138,7 @@ function api.Draw(drawQueue)
 	end
 	if self.currentItem then
 		local itemDef = ItemDefs.defs[self.currentItem]
-		if itemDef.effectRadius then
+		if itemDef and itemDef.effectRadius then
 			drawQueue:push({y=60; f=function()
 				local mousePos = self.world.GetMousePosition()
 				love.graphics.setColor(0.2, 0.8, 1, 0.5)
