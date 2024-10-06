@@ -5,11 +5,11 @@ local data = {
 	blockTypes = {"placement", "ant"},
 	canBeMoved = true,
 	
-	pushWidth = 130,
-	pushHeight = 350,
+	pushWidth = 140,
+	pushHeight = 380,
 	pushOffsetX = 0,
 	pushOffsetY = 175,
-	fanStrength = 0.6,
+	fanStrength = 15,
 	fanCardinalDirection = 0,
 	
 	image = "fan",

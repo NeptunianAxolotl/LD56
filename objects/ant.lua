@@ -42,18 +42,25 @@ local function NewAnt(world, creatureDef, position, size)
 	
 	function self.ApplyFanPush(pos, left, right, top, bot, extraData)
 		local distFactor = BlockHandler.GetFanDistFactor(self.pos, left, right, top, bot, extraData.direction)
-		local distStrength = (0.5 + 0.5*distFactor)
-		if distFactor < 0.2 then
-			distStrength = 0.6*(distFactor/0.2)
-		elseif distFactor > 0.7 then
-			distStrength = distStrength + 5*(distFactor - 0.7)
+		local distStrength = (0.7 + 0.3*distFactor)
+		if distFactor < 0.02 then
+			distStrength = distFactor - distFactor*10
+		elseif distFactor > 0.6 then
+			distStrength = distStrength + 6*(distFactor - 0.6)
 		end
-		local newPos = util.Add(self.pos, util.Mult(distStrength * extraData.strength, extraData.pushVector))
+		local newPos = util.Add(self.pos, util.Mult(extraData.dt * distStrength * extraData.strength, extraData.pushVector))
 		TerrainHandler.WrapPosInPlace(newPos)
 		if not BlockHandler.BlockAt("ant", newPos) then
 			self.pos = newPos
 		end
-		self.fanTimer = 0.2
+		
+		local angleToFan = util.AngleFromPointToPoint(self.pos, extraData.pos)
+		local angleDiff = util.AngleSubtractShortest(angleToFan, self.direction)
+		self.direction = self.direction - 0.1 * math.pow((2 -  math.abs(angleDiff)), 2) * (angleDiff + 0.000001) / (math.abs(angleDiff) + 0.000001) * extraData.dt
+		
+		if distFactor > 0.1 then
+			self.fanTimer = 0.15
+		end
 	end
 	
 	function self.SetPickedUp()
@@ -120,7 +127,7 @@ local function NewAnt(world, creatureDef, position, size)
 		end
 		
 		if self.fanTimer then
-			directionChange = directionChange * 0.3
+			directionChange = directionChange * 0.25
 		end
 		
 		local speed = creatureDef.speed * self.speedMult * (self.accelMult or 1)

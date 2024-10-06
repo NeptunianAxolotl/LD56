@@ -7,7 +7,7 @@ local function NewBlock(world, blockDef, position)
 	
 	if self.def.pushWidth then
 		self.extraFanData = {
-			dt = dt,
+			pos = self.pos,
 			direction = self.def.fanCardinalDirection,
 			strength = self.def.fanStrength,
 			pushVector = util.Unit({self.def.pushOffsetX, self.def.pushOffsetY}),
@@ -24,6 +24,7 @@ local function NewBlock(world, blockDef, position)
 		end
 		
 		if self.def.pushWidth then
+			self.extraFanData.dt = dt
 			local fanX, fanY = self.pos[1] + self.def.pushOffsetX, self.pos[2] + self.def.pushOffsetY
 			AntHandler.DoFunctionToAntsInRectangle("ApplyFanPush", 
 				fanX - self.def.pushWidth/2, fanX + self.def.pushWidth/2,
