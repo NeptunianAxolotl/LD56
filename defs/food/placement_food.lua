@@ -6,6 +6,11 @@ local data = {
 	scentRadius = 70,
 	scentStrength = 0.8,
 	closestDistScale = 0.5,
+	
+	image = "strawberry",
+	drawLayer = 110,
+	scale = 0.1,
+	
 	init = function (self)
 	end,
 	update = function (self, dt)

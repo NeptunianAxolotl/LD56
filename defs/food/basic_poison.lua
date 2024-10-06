@@ -6,6 +6,12 @@ local data = {
 	scentStrength = 1.8,
 	closestDistScale = 1,
 	totalFood = false,
+	blockerType = "placement_blocker_ignore_save",
+	
+	image = "poison_pile",
+	drawLayer = 110,
+	scale = 0.1,
+	
 	init = function (self)
 	end,
 	update = function (self, dt)

@@ -23,18 +23,18 @@ function api.SpawnCreature(defName, pos)
 	IterableMap.Add(self.creatures, new)
 end
 
-function api.AddNest(defName, pos)
-	local nest = NewNest(self.world, NestDefs.defs[defName], pos)
+function api.AddNest(defName, pos, extraData)
+	local nest = NewNest(self.world, NestDefs.defs[defName], pos, extraData)
 	IterableMap.Add(self.nests, nest)
 end
 
-function api.AddFoodSource(defName, pos)
-	local foodSource = NewFoodSource(self.world, FoodDefs.defs[defName], pos)
+function api.AddFoodSource(defName, pos, extraData)
+	local foodSource = NewFoodSource(self.world, FoodDefs.defs[defName], pos, extraData)
 	IterableMap.Add(self.foodSources, foodSource)
 end
 
-function api.AddSpawner(defName, pos)
-	local spawner = NewSpawner(self.world, SpawnerDefs.defs[defName], pos)
+function api.AddSpawner(defName, pos, extraData)
+	local spawner = NewSpawner(self.world, SpawnerDefs.defs[defName], pos, extraData)
 	IterableMap.Add(self.spawners, spawner)
 end
 
@@ -193,15 +193,15 @@ function api.Initialize(world)
 	
 	for i = 1, #levelData.nests do
 		local nest = levelData.nests[i]
-		api.AddNest(nest[1], nest[2])
+		api.AddNest(nest[1], nest[2], nest[3])
 	end
 	for i = 1, #levelData.food do
 		local food = levelData.food[i]
-		api.AddFoodSource(food[1], food[2])
+		api.AddFoodSource(food[1], food[2], food[3])
 	end
 	for i = 1, #levelData.spawners do
 		local spawner = levelData.spawners[i]
-		api.AddSpawner(spawner[1], spawner[2])
+		api.AddSpawner(spawner[1], spawner[2], spawner[3])
 	end
 end
 
