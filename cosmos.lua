@@ -148,6 +148,7 @@ function api.Update(dt, realDt)
 	self.realTime = self.realTime + realDt
 	MusicHandler.Update(realDt)
 	SoundHandler.Update(realDt)
+  BGMHandler.Update(realDt)
 	World.Update(dt)
 end
 
@@ -163,6 +164,7 @@ function api.Initialize()
 	self.curLevelData = LevelDefs[self.inbuiltLevelName]
 	MusicHandler.Initialize(api)
 	SoundHandler.Initialize(api)
+  BGMHandler.Initialize(api)
 	World.Initialize(api, self.curLevelData)
 end
 

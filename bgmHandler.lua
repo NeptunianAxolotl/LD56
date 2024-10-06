@@ -14,10 +14,6 @@
 -- 4. Assign notes to the rhythm generators, lowest to highest, SKIPPING BUCKETS WITH ZERO VOLUME. (This may result in higher pitches not occuring and is expected.)
 -- 5. Schedule timers to play all the notes until the next tick of the slowest rhythm generator.
 
-
-local SoundHandler = require("soundHandler")
-local soundFiles = util.LoadDefDirectory("resources/soundDefs")
-
 local self = {}
 local api = {}
 local cosmos
@@ -28,7 +24,7 @@ local tuningConstant = 1.0 -- Multiplier for the base sample to set it to the co
 local noteEvents = {} -- Table to store cued note events
 local soundSources = {} -- Sound sources at particular harmonics
 
-local notePath = "" -- Path to the note sound effect
+local notePath = "resources/sounds/music/marimba-note-a#.ogg" -- Path to the note sound effect
 
 local musicTimer = -1
 
@@ -38,24 +34,14 @@ function api.computePolyrhythm(newTempo, newCount)
   rhythmGeneratorCount = newCount or rhythmGeneratorCount
   
   -- TODO: HISTOGRAM CALCULATION - HARDCODED FOR NOW - SHOULD BE SENSITIVE TO RHYTHMGENERATORCOUNT AND GAME VALUES
-  local histogram = {
-      [1] = 10,
-      [2] = 10,
-      [3] = 10,
-      [4] = 10,
-      [5] = 10,
-      [6] = 10,
-      [7] = 10,
-      [8] = 10,
-      [9] = 10,
-      [10] = 10,
-      [11] = 10,
-      [12] = 10,
-      [13] = 10,
-      [14] = 10,
-      [15] = 10,
-      [16] = 10
-    }
+  local histogram = {}
+  
+  for i=1,rhythmGeneratorCount,1 do
+    histogram[i] = math.random() * rhythmGeneratorCount - 2 * i
+    if histogram[i] < 0 then
+      histogram[i] = 0
+      end
+    end
     
   local maxKey = 0
   local maxValue = 0
@@ -75,7 +61,7 @@ function api.computePolyrhythm(newTempo, newCount)
   
   -- Completely reinitialize the sequencer
   noteEvents = {}
-  musicTimer = tempo / 60
+  musicTimer = 60 / tempo
   
   local harmonic = 0 -- Initial value - we would never truly use a "zeroth" harmonic
   
@@ -94,11 +80,11 @@ function api.computePolyrhythm(newTempo, newCount)
       soundSources[harmonic]:setVolume(v) -- set volume as required
       
       -- Set the sound to play N times every tick of the slowest rhythm generator
-      for i=1,i<=harmonic,1 do
+      for i=1,k,1 do
         local noteEvent = {}
         noteEvent.source = soundSources[harmonic]
         noteEvent.played = false
-        noteEvent.delay = musicTimer - ((i-1) * musicTimer / harmonic)
+        noteEvent.delay = musicTimer - ((i-1) * musicTimer / k)
         table.insert(noteEvents,noteEvent)
         end
       end
@@ -112,7 +98,8 @@ function api.Update(dt)
   
   -- Play notes if unplayed and due
   for k,v in pairs(noteEvents) do
-      if v.played == false and v.delay <= musicTimer then
+      if v.played == false and v.delay >= musicTimer then
+        v.source:stop()
         v.source:play()
         noteEvents[k].played = true
     end
@@ -126,7 +113,7 @@ end
 function api.Initialize(newCosmos)
 	self = {}
 	cosmos = newCosmos
-	--api.computePolyrhythm(tempo,rhythmGeneratorCount) -- UNCOMMENT WHEN READY
+	api.computePolyrhythm(tempo,rhythmGeneratorCount) -- UNCOMMENT WHEN READY
 end
 
 return api

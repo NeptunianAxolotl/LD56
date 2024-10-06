@@ -5,6 +5,13 @@ local data = {
 	width = 2600,
 	height = 1400,
 	lifetimeMultiplier = 1,
+	hints = {
+		{
+			pos = {1800, 200},
+			size = {200, 100},
+			text = "- Hello.",
+		},
+	},
 	items = {
 		"renovate",
 		"airhorn",
@@ -50,105 +57,105 @@ local data = {
 	},
 	blocks = {
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1430,
 				250,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1630,
 				250,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1830,
 				250,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				2030,
 				250,
 			},
 		},
 		{
-			"wall",
+			"wall_vert",
 			{
 				2150,
 				330,
 			},
 		},
 		{
-			"wall",
+			"wall_vert",
 			{
 				2150,
 				530,
 			},
 		},
 		{
-			"rug",
+			"rug_0",
 			{
 				520,
 				260,
 			},
 		},
 		{
-			"wall",
+			"wall_vert",
 			{
 				2150,
 				730,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				2070,
 				1050,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1870,
 				1050,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1670,
 				1050,
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				1470,
 				1050,
 			},
 		},
 		{
-			"wall",
+			"wall_vert",
 			{
 				1350,
 				970,
 			},
 		},
 		{
-			"wall",
+			"wall_vert",
 			{
 				1350,
 				370,
 			},
 		},
 		{
-			"rug",
+			"rug_0",
 			{
 				1000,
 				960,
@@ -162,14 +169,14 @@ local data = {
 			},
 		},
 		{
-			"rug",
+			"rug_0",
 			{
 				770,
 				1030,
 			},
 		},
 		{
-			"rug",
+			"rug_0",
 			{
 				880,
 				820,
@@ -183,28 +190,28 @@ local data = {
 			},
 		},
 		{
-			"rug",
+			"rug_0",
 			{
 				260,
 				490,
 			},
 		},
 		{
-			"rug",
+			"rug_0",
 			{
 				310,
 				300,
 			},
 		},
 		{
-			"rug",
+			"rug_0",
 			{
 				450,
 				480,
 			},
 		},
 		{
-			"wall",
+			"wall_vert",
 			{
 				1350,
 				850,
@@ -218,7 +225,7 @@ local data = {
 			},
 		},
 		{
-			"wall_90",
+			"wall_hor",
 			{
 				860,
 				1260,
