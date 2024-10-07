@@ -2,7 +2,7 @@ local data = {
 	humanName = "Poison Shortage",
 	width = 1550,
 	height = 1020,
-	description = "These piles of poison have finite pills! I will complain to the supplier.\n\n",
+	description = "These piles of poison only have finite pills! I will complain to the supplier. The client is worried about ants eating their strawberries. Make sure at least two survive.\n\nUse soap to wipe away ant trails.",
 	gameWon = "",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 2,
@@ -15,7 +15,7 @@ local data = {
 		nestSpawnRate = 1,
 	},
 	maxItemMod = {
-		scent = 0.5,
+		scent = 0.35,
 	},
 	itemRechargeMod = {
 		scent = 0.6,
@@ -71,6 +71,13 @@ local data = {
 			{
 				1360,
 				580,
+			},
+		},
+		{
+			"strawberry_food",
+			{
+				880,
+				380,
 			},
 		},
 	},
@@ -967,4 +974,6 @@ local data = {
 			},
 		},
 	},
-}return data
+}
+
+return data

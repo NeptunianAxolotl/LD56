@@ -7,7 +7,7 @@ local data = {
 	scentRadius = 100,
 	scentStrength = 1.5,
 	closestDistScale = 0.8,
-	blockerType = "placement_blocker_ignore_save",
+	blockerType = "placement_blocker_small_ignore_save",
 	defeatAvoidingFoodValue = 1,
 	
 	image = "strawberry",
