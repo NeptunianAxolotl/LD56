@@ -1,13 +1,16 @@
 local data = {
 	humanName = "Redecorating",
 	nextLevel = "level2",
+	width = 1350,
+	height = 800,
 	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 0,
+	nestHealthMult = 1,
+	foodHealthMult = 1,
+	initialItemsProp = 1,
 	lifetimeMultiplier = 1,
-	width = 1350,
-	height = 800,
 	items = {
 		"renovate",
 		"scent",
@@ -235,20 +238,6 @@ local data = {
 		{
 			"wall_big",
 			{
-				660,
-				20,
-			},
-		},
-		{
-			"wall_big",
-			{
-				960,
-				0,
-			},
-		},
-		{
-			"wall_big",
-			{
 				1340,
 				500,
 			},
@@ -257,49 +246,70 @@ local data = {
 			"wall_big",
 			{
 				1340,
-				820,
+				200,
 			},
 		},
 		{
 			"wall_big",
 			{
-				1060,
+				880,
+				-20,
+			},
+		},
+		{
+			"wall_big",
+			{
+				620,
+				0,
+			},
+		},
+		{
+			"wall_big",
+			{
+				20,
+				500,
+			},
+		},
+		{
+			"wall_big",
+			{
+				20,
+				800,
+			},
+		},
+		{
+			"wall_big",
+			{
+				300,
+				880,
+			},
+		},
+		{
+			"wall_big",
+			{
+				620,
+				880,
+			},
+		},
+		{
+			"wall_big",
+			{
+				940,
 				860,
 			},
 		},
 		{
 			"wall_big",
 			{
+				1240,
+				860,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1360,
 				740,
-				860,
-			},
-		},
-		{
-			"wall_big",
-			{
-				440,
-				860,
-			},
-		},
-		{
-			"wall_big",
-			{
-				140,
-				860,
-			},
-		},
-		{
-			"wall_big",
-			{
-				40,
-				600,
-			},
-		},
-		{
-			"wall_big",
-			{
-				40,
-				420,
 			},
 		},
 	},
@@ -333,10 +343,10 @@ local data = {
 			},
 		},
 		{
-			"void",
+			"window_closed_180",
 			{
-				500,
-				900,
+				440,
+				160,
 			},
 		},
 		{
@@ -403,17 +413,17 @@ local data = {
 			},
 		},
 		{
-			"void",
+			"window_closed_90",
 			{
-				1160,
-				880,
+				200,
+				440,
 			},
 		},
 		{
-			"void",
+			"wall_180",
 			{
-				860,
-				900,
+				500,
+				160,
 			},
 		},
 		{
@@ -494,73 +504,10 @@ local data = {
 			},
 		},
 		{
-			"void",
+			"wall_90",
 			{
-				0,
 				200,
-			},
-		},
-		{
-			"void",
-			{
-				380,
-				-20,
-			},
-		},
-		{
-			"void",
-			{
-				740,
-				-40,
-			},
-		},
-		{
-			"void",
-			{
-				1140,
-				160,
-			},
-		},
-		{
-			"void",
-			{
-				1380,
-				540,
-			},
-		},
-		{
-			"void",
-			{
-				100,
-				900,
-			},
-		},
-		{
-			"void",
-			{
-				0,
 				580,
-			},
-		},
-		{
-			"window_closed_180",
-			{
-				440,
-				160,
-			},
-		},
-		{
-			"wall_180",
-			{
-				500,
-				160,
-			},
-		},
-		{
-			"window_closed_90",
-			{
-				200,
-				440,
 			},
 		},
 		{
@@ -571,13 +518,98 @@ local data = {
 			},
 		},
 		{
-			"wall_90",
+			"void",
 			{
-				200,
+				1180,
+				920,
+			},
+		},
+		{
+			"void",
+			{
+				840,
+				920,
+			},
+		},
+		{
+			"void",
+			{
+				460,
+				920,
+			},
+		},
+		{
+			"void",
+			{
+				140,
+				920,
+			},
+		},
+		{
+			"void",
+			{
+				-20,
 				580,
 			},
 		},
+		{
+			"void",
+			{
+				-20,
+				200,
+			},
+		},
+		{
+			"void",
+			{
+				320,
+				-60,
+			},
+		},
+		{
+			"void",
+			{
+				700,
+				-60,
+			},
+		},
+		{
+			"void",
+			{
+				1040,
+				-60,
+			},
+		},
+		{
+			"void",
+			{
+				1200,
+				-40,
+			},
+		},
+		{
+			"void",
+			{
+				1160,
+				140,
+			},
+		},
+		{
+			"void",
+			{
+				1400,
+				460,
+			},
+		},
+		{
+			"void",
+			{
+				1400,
+				740,
+			},
+		},
 	},
+	itemRehargeMult = 1,
 }
 
 return data

@@ -177,7 +177,7 @@ function api.Draw(drawQueue)
 	end
 	if self.currentItem == "editPlaceBlock" then
 		local placeDef = BlockDefs.defs[MaybeRotatePlacement(self.placeType)]
-		drawQueue:push({y=placeDef.drawLayer; f=function()
+		drawQueue:push({y=200000; f=function()
 			local mousePos = self.world.GetMousePosition()
 			local mousePos = SnapMousePos(mousePos[1], mousePos[2])
 			love.graphics.setColor(1, 1, 1, 1)
@@ -190,7 +190,7 @@ function api.Draw(drawQueue)
 		end})
 	elseif self.currentItem == "editPlaceDoodad" then
 		local placeDef = DoodadDefs.defs[MaybeRotatePlacement(self.placeType)]
-		drawQueue:push({y=placeDef.drawLayer; f=function()
+		drawQueue:push({y=200000; f=function()
 			local mousePos = self.world.GetMousePosition()
 			local mousePos = SnapMousePos(mousePos[1], mousePos[2])
 			DoodadHandler.DrawDoodad(placeDef, mousePos, 0.5)
