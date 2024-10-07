@@ -324,6 +324,8 @@ local function DrawMenu()
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Quit", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	offset = offset - 55
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Resume", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	offset = offset - 55
+	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Sandbox Mode: Off", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 end
 
 function api.DrawInterface()

@@ -47,7 +47,7 @@ local function NewNest(world, myDef, position, extraData)
 				self.Destroy()
 			end
 		elseif foodValue > 0 then
-			self.spawnTimer = self.spawnTimer + foodValue
+			self.spawnTimer = self.spawnTimer + foodValue / self.def.spawnFrequency
 		end
 	end
 	
