@@ -1,5 +1,5 @@
 local data = {
-	humanName = "Redecorating",
+	humanName = "Long Butterfly House",
 	width = 1350,
 	height = 900,
 	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
@@ -17,9 +17,7 @@ local data = {
 	items = {
 		"renovate",
 		"airhorn",
-		"accelerate",
 		"pickup",
-		"scent",
 		"mop",
 	},
 	spawners = {
@@ -49,24 +47,24 @@ local data = {
 	},
 	food = {
 		{
-			"basic_poison",
-			{
-				1140,
-				440,
-			},
-		},
-		{
-			"basic_food",
-			{
-				940,
-				440,
-			},
-		},
-		{
 			"basic_food",
 			{
 				1880,
 				980,
+			},
+		},
+		{
+			"basic_food",
+			{
+				620,
+				440,
+			},
+		},
+		{
+			"basic_poison",
+			{
+				820,
+				440,
 			},
 		},
 	},
@@ -184,10 +182,87 @@ local data = {
 			},
 		},
 		{
-			"couch_270",
+			"placement_blocker",
 			{
-				140,
-				440,
+				480,
+				160,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				640,
+				160,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				800,
+				160,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				960,
+				160,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				960,
+				40,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				640,
+				40,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				480,
+				40,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				800,
+				40,
+			},
+		},
+		{
+			"wall_hor",
+			{
+				480,
+				-20,
+			},
+		},
+		{
+			"wall_hor",
+			{
+				640,
+				-20,
+			},
+		},
+		{
+			"wall_hor",
+			{
+				800,
+				-20,
+			},
+		},
+		{
+			"wall_hor",
+			{
+				960,
+				-20,
 			},
 		},
 	},
@@ -473,10 +548,10 @@ local data = {
 			},
 		},
 		{
-			"void",
+			"door_closed_0",
 			{
-				780,
-				40,
+				720,
+				800,
 			},
 		},
 		{
@@ -493,5 +568,14 @@ local data = {
 				40,
 			},
 		},
+		{
+			"void",
+			{
+				760,
+				40,
+			},
+		},
 	},
-}return data
+}
+
+return data
