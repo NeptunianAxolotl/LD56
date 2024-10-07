@@ -27,13 +27,25 @@ local data = {
 	update = function (self, dt)
 		ScentHandler.AddScent("explore", self.pos, self.def.mopRadius, -dt*self.def.mopStrength)
 		ScentHandler.AddScent("food", self.pos, self.def.mopRadius, -dt*self.def.mopStrength)
-	end,
+
+		self.wingtimer = (self.wingtimer or 0) + dt * ((self.lastSpeed or 65)/65)
+		if self.wingtimer > 0.15 then
+			self.wingtimer = 0
+		end 
+		print(self.wingtimer)
+		end,
 	
 	draw = function (self, drawQueue)
+
+		local butterflyImage = "butterflyA"
+		if (self.wingtimer or 0) > 0.075 then
+			butterflyImage = "butterflyB"
+		end
+
 		if (self.direction + math.pi/2)%(math.pi*2) > math.pi then
-			Resources.DrawImage("butterflyA", self.pos[1], self.pos[2], 0, 1, 1)
+			Resources.DrawImage(butterflyImage, self.pos[1], self.pos[2], 0, 1, 1)
 		else
-			Resources.DrawImage("butterflyA", self.pos[1], self.pos[2], 0, 1, self.def.flipTable)
+			Resources.DrawImage(butterflyImage, self.pos[1], self.pos[2], 0, 1, self.def.flipTable)
 		end
 	end,
 	
