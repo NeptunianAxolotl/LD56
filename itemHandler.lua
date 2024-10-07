@@ -75,6 +75,9 @@ local function MopScentCheck()
 end
 
 function api.Update(dt)
+	if not GameHandler.GetLevelBegun() then
+		dt = dt*0.05
+	end
 	for i = 1, #ItemDefs.itemList do
 		ApplyRecharge(dt, ItemDefs.itemList[i])
 	end
