@@ -1,7 +1,7 @@
 local data = {
 	humanName = "Redecorating",
-	prevLevel = "level1",
 	nextLevel = "level_bee",
+	prevLevel = "level1",
 	width = 1350,
 	height = 880,
 	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
@@ -9,17 +9,18 @@ local data = {
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 0,
 	tweaks = {
-		nestHealthMult = 1,
 		foodHealthMult = 1,
 		initialItemsProp = 1,
 		itemRechargeMult = 1,
 		lifetimeMultiplier = 1,
+		nestHealthMult = 1,
 		nestSpawnRate = 0.35,
 		spiderActivityMult = 2,
 	},
 	items = {
 		"renovate",
 		"airhorn",
+		"accelerate",
 	},
 	spawners = {
 		{
@@ -53,7 +54,7 @@ local data = {
 			"wall_big",
 			{
 				420,
-				220,
+				-20,
 			},
 		},
 		{
@@ -143,8 +144,8 @@ local data = {
 		{
 			"wall_big",
 			{
-				1000,
-				640,
+				400,
+				220,
 			},
 		},
 		{
@@ -168,6 +169,34 @@ local data = {
 				0,
 			},
 		},
+		{
+			"wall_big",
+			{
+				1120,
+				880,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1280,
+				880,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1340,
+				-40,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1020,
+				640,
+			},
+		},
 	},
 	doodads = {
 		{
@@ -182,6 +211,97 @@ local data = {
 			{
 				200,
 				540,
+			},
+		},
+		{
+			"wall_outer_90",
+			{
+				540,
+				360,
+			},
+		},
+		{
+			"wall_inner_0",
+			{
+				880,
+				720,
+			},
+		},
+		{
+			"wall_270",
+			{
+				880,
+				620,
+			},
+		},
+		{
+			"wall_270",
+			{
+				880,
+				580,
+			},
+		},
+		{
+			"wall_0",
+			{
+				980,
+				500,
+			},
+		},
+		{
+			"wall_0",
+			{
+				1100,
+				500,
+			},
+		},
+		{
+			"wall_180",
+			{
+				1100,
+				140,
+			},
+		},
+		{
+			"wall_inner_0",
+			{
+				1200,
+				500,
+			},
+		},
+		{
+			"void",
+			{
+				1100,
+				720,
+			},
+		},
+		{
+			"void",
+			{
+				1380,
+				740,
+			},
+		},
+		{
+			"void",
+			{
+				1420,
+				400,
+			},
+		},
+		{
+			"void",
+			{
+				1420,
+				120,
+			},
+		},
+		{
+			"void",
+			{
+				1080,
+				-80,
 			},
 		},
 	},

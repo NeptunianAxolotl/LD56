@@ -131,6 +131,7 @@ local function NewAnt(world, creatureDef, position, size)
 		if self.fanTimer then
 			directionChange = directionChange * 0.25
 		end
+		directionChange = directionChange * (1 + ((self.accelMult or 1) - 1)*0.2)
 		
 		local speed = creatureDef.speed * self.speedMult * (self.accelMult or 1)
 		if self.airhornEffect then
