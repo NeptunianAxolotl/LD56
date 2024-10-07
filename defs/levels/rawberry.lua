@@ -2,7 +2,7 @@ local data = {
 	humanName = "Rawberry",
 	width = 1500,
 	height = 1000,
-	description = "We now own a lot of near-useless strawberries. Try using them to lure ants, the client only cares about their wedding cake.\n\nAt least this bare room has a nice butterfly too look at, but beware, its wings are so powerful they blow away scent.",
+	description = "We now own a lot of near-useless strawberries. Try using them to lure ants, the client only cares about their wedding cake.",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate the cake.\n\nPress Ctrl+R to try again.",
 	mustRetainAtLeastThisMuchFood = 1,
@@ -22,13 +22,6 @@ local data = {
 		"place_food",
 	},
 	spawners = {
-		{
-			"single_forever_butterfly",
-			{
-				740,
-				360,
-			},
-		},
 	},
 	nests = {
 		{

@@ -3,14 +3,15 @@ local order = {
 	"level1",
 	"level2",
 	"level3",
-	"level4",
-	"rawberry",
 	"hallway",
+	"level4",
 	"butterflys",
+	"rawberry",
 	"level5",
-	"scake",
+	"hallway2",
 	"level_bee",
 	"annoyance",
+	"scake",
 }
 
 return order

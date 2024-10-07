@@ -1,8 +1,8 @@
 local data = {
-	humanName = "Long Butterfly House",
+	humanName = "Long Butterfly Hall",
 	width = 1350,
 	height = 900,
-	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
+	description = "This hallway is full of butterflies. Don't worry, all they do is blow away scent with their powerful wings. There is also something curious about the side doors.",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 1,
@@ -16,7 +16,6 @@ local data = {
 	},
 	items = {
 		"renovate",
-		"airhorn",
 		"pickup",
 		"mop",
 	},

@@ -1,15 +1,15 @@
 local data = {
-	humanName = "Artful Strawberry",
+	humanName = "Strawberry Returns",
 	width = 1350,
 	height = 800,
-	description = "This equisite strawberries are guarded by a lone spider. You must overcome the guardian to reach the prize at the far end of the gallery.",
+	description = "Another strawberry joins the fray. Aided by only one additional plant.",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
-	mustRetainAtLeastThisMuchFood = 1,
+	mustRetainAtLeastThisMuchFood = 2,
 	tweaks = {
-		foodHealthMult = 1,
+		foodHealthMult = 2,
 		initialItemsProp = 1,
-		itemRechargeMult = 1,
+		itemRechargeMult = 0.8,
 		lifetimeMultiplier = 1,
 		nestHealthMult = 1,
 		nestSpawnRate = 1,
@@ -49,6 +49,13 @@ local data = {
 		{
 			"strawberry_food",
 			{
+				920,
+				680,
+			},
+		},
+		{
+			"strawberry_food",
+			{
 				420,
 				120,
 			},
@@ -81,13 +88,6 @@ local data = {
 			{
 				1180,
 				-140,
-			},
-		},
-		{
-			"houseplant",
-			{
-				680,
-				540,
 			},
 		},
 		{
@@ -431,6 +431,20 @@ local data = {
 			{
 				1460,
 				80,
+			},
+		},
+		{
+			"houseplant",
+			{
+				800,
+				420,
+			},
+		},
+		{
+			"houseplant",
+			{
+				560,
+				420,
 			},
 		},
 	},
@@ -965,6 +979,13 @@ local data = {
 			{
 				760,
 				580,
+			},
+		},
+		{
+			"wall_inner_270",
+			{
+				1320,
+				0,
 			},
 		},
 	},
