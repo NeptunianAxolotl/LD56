@@ -41,7 +41,7 @@ local data = {
 			butterflyImage = "butterfly_b"
 		end
 
-		local butterfly_scale = 1.4
+		local butterfly_scale = 1.1
 		if (self.direction + math.pi/2)%(math.pi*2) > math.pi then
 			Resources.DrawImage(butterflyImage, self.pos[1], self.pos[2], 0, 1, butterfly_scale)
 		else
