@@ -5,22 +5,28 @@ local otherRotateKey = "x"
 
 local blocks = {
 	w = "wall_hor",
-	d = "placement_blocker",
-	s = "wall_big",
 	e = "wall_vert",
+	
+	d = "placement_blocker",
 	r = "rug",
 	t = "houseplant",
 	y = "couch",
-	f = "vase",
-	g = "fan",
+	
+	f = "wall_big",
+	h = "vase",
+	j = "fan",
+	
+	i = "flying_door_hor",
+	o = "flying_door_vert",
 }
 
 local spawners = {
 	kp7 = "single_spider",
+	kp8 = "many_bees",
 }
 
 local nests = {
-	kp8 = "basic_nest",
+	kp4 = "basic_nest",
 }
 
 local food = {
@@ -31,20 +37,28 @@ local food = {
 local doodads = {
 	a = "void",
 	c = "wall",
-	v = "wall_inner",
-	b = "wall_outer",
+	s = "wall_inner",
+	d = "wall_outer",
+	v = "door_closed",
+	b = "door_open",
+	n = "window_closed",
+	m = "window_open",
+	[","] = "window_garden",
 }
 
 local rotateable = {
 	wall = true,
 	wall_inner = true,
 	wall_outer = true,
+	door_closed = true,
+	door_open = true,
+	window_closed = true,
+	window_open = true,
+	window_garden = true,
+	
 	couch = true,
 	rug = true,
 	fan = true,
-	door = true,
-	wall_edge_inner = true,
-	wall_edge_inner_flip = true
 }
 
 local data = {

@@ -73,8 +73,14 @@ local function NewBlock(world, blockDef, position)
 			else
 				self.def.draw(self, drawQueue)
 			end
-			if LevelHandler.GetEditMode() then
-				love.graphics.setColor(1, 1, 1, 1)
+		end})
+		if LevelHandler.GetEditMode() then
+			drawQueue:push({y=1000 + (self.pos[2] + self.pos[1])*0.0001; f=function()
+				if self.def.editColor then
+					love.graphics.setColor(self.def.editColor[1], self.def.editColor[2], self.def.editColor[3], 1)
+				else
+					love.graphics.setColor(1, 1, 1, 1)
+				end
 				love.graphics.setLineWidth(4)
 				love.graphics.rectangle("line", self.pos[1] - self.def.width/2, self.pos[2] - self.def.height/2, self.def.width, self.def.height)
 				love.graphics.setLineWidth(1)
@@ -91,8 +97,8 @@ local function NewBlock(world, blockDef, position)
 					)
 					love.graphics.setLineWidth(1)
 				end
-			end
-		end})
+			end})
+		end
 	end
 	
 	return self

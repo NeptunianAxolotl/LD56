@@ -15,13 +15,15 @@ local function NewDoodad(myDef, pos)
 	function self.Draw(drawQueue)
 		drawQueue:push({y=self.def.drawLayer + (self.pos[2] + self.pos[1])*0.0001; f=function()
 			DoodadHandler.DrawDoodad(self.def, self.pos, 1)
-			if LevelHandler.GetEditMode() then
+		end})
+		if LevelHandler.GetEditMode() then
+			drawQueue:push({y=1000 + (self.pos[2] + self.pos[1])*0.0001; f=function()
 				love.graphics.setColor(0, 1, 0, 1)
 				love.graphics.setLineWidth(2)
 				love.graphics.circle("line", self.pos[1], self.pos[2], 70)
 				love.graphics.setLineWidth(1)
-			end
-		end})
+			end})
+		end
 	end
 	
 	return self

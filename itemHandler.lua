@@ -245,7 +245,7 @@ local function DrawLevelVictoryState()
 	self.hoveredEndLevelAction = false
 	
 	local gameOver, won, lost = self.world.GetGameOver()
-	if not gameOver then
+	if not gameOver or LevelHandler.GetEditMode() then
 		return
 	end
 	local levelData = LevelHandler.GetLevelData()

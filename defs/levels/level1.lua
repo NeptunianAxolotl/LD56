@@ -2,6 +2,8 @@ local data = {
 	humanName = "Redecorating",
 	nextLevel = "level2",
 	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
+	gameWon = "The ants have been successfully removed.",
+	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 0,
 	lifetimeMultiplier = 1,
 	width = 1350,
@@ -303,13 +305,6 @@ local data = {
 	},
 	doodads = {
 		{
-			"door_0",
-			{
-				620,
-				160,
-			},
-		},
-		{
 			"wall_0",
 			{
 				280,
@@ -338,17 +333,10 @@ local data = {
 			},
 		},
 		{
-			"wall_90",
+			"void",
 			{
-				200,
-				600,
-			},
-		},
-		{
-			"wall_90",
-			{
-				200,
-				480,
+				500,
+				900,
 			},
 		},
 		{
@@ -359,6 +347,13 @@ local data = {
 			},
 		},
 		{
+			"door_closed_180",
+			{
+				640,
+				160,
+			},
+		},
+		{
 			"wall_0",
 			{
 				800,
@@ -366,10 +361,10 @@ local data = {
 			},
 		},
 		{
-			"wall_90",
+			"wall_180",
 			{
-				200,
-				340,
+				800,
+				160,
 			},
 		},
 		{
@@ -401,24 +396,24 @@ local data = {
 			},
 		},
 		{
-			"wall_180",
+			"wall_inner_90",
 			{
-				440,
-				160,
+				200,
+				700,
 			},
 		},
 		{
-			"wall_180",
+			"void",
 			{
-				600,
-				160,
+				1160,
+				880,
 			},
 		},
 		{
-			"wall_180",
+			"void",
 			{
-				740,
-				160,
+				860,
+				900,
 			},
 		},
 		{
@@ -436,10 +431,10 @@ local data = {
 			},
 		},
 		{
-			"wall_inner_90",
+			"wall_90",
 			{
 				200,
-				700,
+				620,
 			},
 		},
 		{
@@ -548,29 +543,41 @@ local data = {
 			},
 		},
 		{
-			"void",
+			"window_closed_180",
+			{
+				440,
+				160,
+			},
+		},
+		{
+			"wall_180",
 			{
 				500,
-				900,
+				160,
 			},
 		},
 		{
-			"void",
+			"window_closed_90",
 			{
-				860,
-				900,
+				200,
+				440,
 			},
 		},
 		{
-			"void",
+			"wall_90",
 			{
-				1160,
-				880,
+				200,
+				300,
+			},
+		},
+		{
+			"wall_90",
+			{
+				200,
+				580,
 			},
 		},
 	},
-	gameLost = "The ants ate all your food, you'll have to try again.",
-	gameWon = "The ants have been successfully removed.",
 }
 
 return data

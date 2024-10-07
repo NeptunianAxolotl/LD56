@@ -38,20 +38,27 @@ function api.AddSpawner(defName, pos, extraData)
 	IterableMap.Add(self.spawners, spawner)
 end
 
-local function ClosestToWithDist(data, maxDistSq, pos, filterFunc)
+local function FilterOutPoison(data)
+	return data.def.foodType ~= "poison"
+end
+
+local function ClosestToWithDist(data, maxDistSq, pos, worldWrap, filterFunc)
 	if data.destroyed then
 		return false
 	end
 	if filterFunc and not filterFunc(data) then
 		return false
 	end
-	local distSq = util.DistSqWithWrap(data.pos[1], data.pos[2], pos[1], pos[2], self.worldWidth, self.worldHeight)
-	if distSq > maxDistSq then
+	local distSq = (worldWrap and
+		util.DistSqWithWrap(data.pos[1], data.pos[2], pos[1], pos[2], self.worldWidth, self.worldHeight) or
+		util.DistSq(data.pos, pos)
+	)
+	if maxDistSq and distSq > maxDistSq then
 		return false
 	end
 	if data.def.closestDistScale then
 		distSq = distSq / (data.def.closestDistScale * data.def.closestDistScale)
-		if distSq > maxDistSq then
+		if maxDistSq and distSq > maxDistSq then
 			return false
 		end
 	end
@@ -59,7 +66,15 @@ local function ClosestToWithDist(data, maxDistSq, pos, filterFunc)
 end
 
 local function GetClosest(thingMap, pos, maxDist, filterFunc)
-	local other, minValue = IterableMap.GetMinimum(thingMap, ClosestToWithDist, maxDist*maxDist, pos, filterFunc)
+	local other, minValue = IterableMap.GetMinimum(thingMap, ClosestToWithDist, maxDist and maxDist*maxDist, pos, true, filterFunc)
+	if not other then
+		return
+	end
+	return other, math.sqrt(minValue)
+end
+
+local function GetClosestNoWrap(thingMap, pos, maxDist, filterFunc)
+	local other, minValue = IterableMap.GetMinimum(thingMap, ClosestToWithDist, maxDist and maxDist*maxDist, pos, false, filterFunc)
 	if not other then
 		return
 	end
@@ -163,6 +178,10 @@ end
 
 function api.NearFoodSource(pos, dist)
 	return GetClosest(self.foodSources, pos, dist)
+end
+
+function api.GetClosestNonPoisonFoodNoWrap(pos, dist)
+	return GetClosestNoWrap(self.foodSources, pos, dist, FilterOutPoison)
 end
 
 function api.DeleteObjectAt(pos)

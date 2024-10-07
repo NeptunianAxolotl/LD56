@@ -21,7 +21,7 @@ local function NewSpawner(world, myDef, position, extraData)
 		if self.destroyed then
 			return true
 		end
-		self.def.update(dt)
+		self.def.update(self, dt)
 	end
 	
 	function self.WriteSaveData()
