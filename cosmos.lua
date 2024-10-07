@@ -41,7 +41,6 @@ function api.LoadLevelByTable(levelTable)
 end
 
 function api.SwitchLevel(goNext)
-	local nameKey = (goNext and "nextLevel") or "prevLevel"
 	local index = 1
 	for i = 1, #levelOrder do
 		if levelOrder[i] == self.inbuiltLevelName then

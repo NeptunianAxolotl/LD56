@@ -11,7 +11,6 @@ local order = {
 	"scake",
 	"level_bee",
 	"annoyance",
-	"butterflys",
 }
 
 return order

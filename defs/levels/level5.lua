@@ -1,14 +1,14 @@
 local data = {
-	humanName = "Level 5",
+	humanName = "Bees Want Cheese",
 	width = 1550,
 	height = 1020,
-	description = ".",
+	description = "Bees from a nearby window are eyeing up this cheese, but ignore them, your job is only to exterminate ants. If only the bees weren't such messy eaters.\n\nFeel free the borrow the Cheese Display Aroma Enhancer (fan).",
 	gameWon = "",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	worldWrap = true,
 	mustRetainAtLeastThisMuchFood = 1,
 	tweaks = {
-		foodHealthMult = 0.4,
+		foodHealthMult = 1.2,
 		initialItemsProp = 1,
 		itemRechargeMult = 1,
 		lifetimeMultiplier = 1,
@@ -57,10 +57,17 @@ local data = {
 			},
 		},
 		{
-			"cake_food",
+			"basic_food",
 			{
-				1140,
-				380,
+				1180,
+				340,
+			},
+		},
+		{
+			"basic_food",
+			{
+				1180,
+				460,
 			},
 		},
 	},
@@ -150,10 +157,10 @@ local data = {
 			},
 		},
 		{
-			"fan_270",
+			"houseplant",
 			{
-				700,
-				720,
+				980,
+				800,
 			},
 		},
 		{
@@ -301,6 +308,13 @@ local data = {
 			{
 				160,
 				320,
+			},
+		},
+		{
+			"fan_270",
+			{
+				1020,
+				400,
 			},
 		},
 	},
