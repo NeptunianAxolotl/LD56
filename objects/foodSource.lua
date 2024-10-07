@@ -89,8 +89,9 @@ local function NewFoodSource(world, myDef, position, extraData)
 			else
 				self.def.draw(self, drawQueue)
 			end
+			local foodProp = self.maxFood and self.foodLeft/self.maxFood
 			if foodProp and foodProp < 1 then
-				InterfaceUtil.DrawBar(Global.HEALTH_BAR_COL, Global.HEALTH_BAR_BACK, foodProp, false, false, util.Add(self.pos, {-55, 30}), {110, 24})
+				InterfaceUtil.DrawBar(Global.HEALTH_BAR_COL, Global.HEALTH_BAR_BACK, foodProp, false, false, util.Add(self.pos, {-44, 28}), {88, 18})
 			end
 		end})
 	end

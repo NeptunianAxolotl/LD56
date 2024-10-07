@@ -145,13 +145,13 @@ function api.DrawButton(x, y, width, height, mousePos, text, disabled, flash, ca
 	borderThickness = borderThickness or 6
 	
 	if disabled and not hovered then
-		love.graphics.setColor(Global.PANEL_DISABLE_COL[1], Global.PANEL_DISABLE_COL[2], Global.PANEL_DISABLE_COL[3], 1)
+		love.graphics.setColor(Global.BUTTON_DISABLE_COL[1], Global.BUTTON_DISABLE_COL[2], Global.BUTTON_DISABLE_COL[3], 1)
 	elseif (flash and (self.animDt%Global.BUTTON_FLASH_PERIOD < Global.BUTTON_FLASH_PERIOD/2)) then
-		love.graphics.setColor(Global.PANEL_FLASH_COL[1], Global.PANEL_FLASH_COL[2], Global.PANEL_FLASH_COL[3], 1)
+		love.graphics.setColor(Global.BUTTON_FLASH_COL[1], Global.BUTTON_FLASH_COL[2], Global.BUTTON_FLASH_COL[3], 1)
 	elseif hovered then
-		love.graphics.setColor(Global.PANEL_HIGHLIGHT_COL[1], Global.PANEL_HIGHLIGHT_COL[2], Global.PANEL_HIGHLIGHT_COL[3], 1)
+		love.graphics.setColor(Global.BUTTON_HIGHLIGHT_COL[1], Global.BUTTON_HIGHLIGHT_COL[2], Global.BUTTON_HIGHLIGHT_COL[3], 1)
 	else
-		love.graphics.setColor(Global.PANEL_COL[1], Global.PANEL_COL[2], Global.PANEL_COL[3], 1)
+		love.graphics.setColor(Global.BUTTON_COL[1], Global.BUTTON_COL[2], Global.BUTTON_COL[3], 1)
 	end
 	love.graphics.setLineWidth(borderThickness*0.5)
 	love.graphics.rectangle("fill", x, y, width, height, 4, 4, 16)
