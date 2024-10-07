@@ -48,6 +48,9 @@ local function NewBlock(world, blockDef, position)
 				self.extraFanData
 			)
 		end
+		if self.def.update then
+			self.def.update(self, dt)
+		end
 	end
 	
 	function self.GetBlockBounds(snap, radius)
@@ -80,7 +83,11 @@ local function NewBlock(world, blockDef, position)
 	function self.Draw(drawQueue)
 		drawQueue:push({y=self.def.drawLayer + self.pos[1]*0.001 + self.pos[2]*0.0001; f=function()
 			if self.def.image then
-				DoodadHandler.DrawDoodad(self.def, self.pos, 1)
+				if self.fanAnim and self.fanAnim > 0.5 then
+					DoodadHandler.DrawDoodad(self.def, self.pos, 1, 1, self.def.image2)
+				else
+					DoodadHandler.DrawDoodad(self.def, self.pos, 1)
+				end
 			else
 				self.def.draw(self, drawQueue)
 			end

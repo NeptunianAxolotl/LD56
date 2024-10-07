@@ -37,7 +37,7 @@ local function NewFoodSource(world, myDef, position, extraData)
 	function self.Destroy()
 		if not self.destroyed then
 			EffectsHandler.SpawnFadeEffect(
-				self.def.image, self.pos, self.def.scale * GetFoodSize(self),
+				self.def.image, self.pos, (self.def.scale or 1) * GetFoodSize(self),
 				self.def.rotation, self.def.drawLayer, self.def.fadeTime or 1, self.def.color)
 		end
 		self.destroyed = true

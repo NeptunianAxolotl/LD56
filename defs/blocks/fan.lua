@@ -12,7 +12,8 @@ local data = {
 	fanStrength = 15,
 	fanCardinalDirection = 0,
 	
-	image = "fan",
+	image = "fan_a",
+	image2 = "fan_b",
 	drawLayer = 160,
 	rotation = 0,
 	flip = false,
@@ -22,6 +23,7 @@ local data = {
 	init = function (self)
 	end,
 	update = function (self, dt)
+		self.fanAnim = ((self.fanAnim or 0) + dt*2.8)%1
 	end,
 	draw = function (self, drawQueue)
 	end,
