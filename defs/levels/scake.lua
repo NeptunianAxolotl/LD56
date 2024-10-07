@@ -16,6 +16,7 @@ local data = {
 	},
 	itemRechargeMod = {
 		scent = 10,
+		airhorn = 2,
 	},
 	items = {
 		"renovate",
