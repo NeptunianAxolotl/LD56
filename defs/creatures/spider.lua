@@ -78,7 +78,7 @@ local data = {
 		local activityMult = (LevelHandler.GetLevelData().tweaks.spiderActivityMult or 1)
 		local searchMult = (LevelHandler.GetLevelData().tweaks.spiderSearchMult or 1)
 		
-		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, self.def.antSearchRadius * searchMult)
+		local closestAnt, antDist = AntHandler.ClosestAntNoStuck(self.pos, self.def.antSearchRadius * searchMult)
 		
 		self.wanderDirection = (self.wanderDirection or 0) + dt*(math.random()*40 - 20)
 		self.wanderDirection = math.max(-1, math.min(1, self.wanderDirection))

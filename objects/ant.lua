@@ -105,7 +105,7 @@ local function NewAnt(world, creatureDef, position, size)
 		end
 		
 		local directionChange = false
-		if math.random() < 0.4 then
+		if math.random() < 0.4 + (self.accelMult or 0)*0.1 then
 			local leftPos = util.Add(self.pos, util.PolarToCart(creatureDef.feelerLength, self.direction + creatureDef.feelerAngle + self.feelerOffset))
 			local rightPos = util.Add(self.pos, util.PolarToCart(creatureDef.feelerLength, self.direction - creatureDef.feelerAngle + self.feelerOffset))
 			TerrainHandler.WrapPosInPlace(leftPos)
@@ -201,7 +201,7 @@ local function NewAnt(world, creatureDef, position, size)
 			ScentHandler.AddScent("explore", self.pos, 30, dt)
 		end
 		
-		if math.random() < 0.1 then
+		if math.random() < 0.1 + (self.accelMult or 0)*0.3 then
 			if self.hasFood then
 				local nearNest, nestDist = AntHandler.NearNest(self.pos, self.def.searchNestDist)
 				if nearNest then

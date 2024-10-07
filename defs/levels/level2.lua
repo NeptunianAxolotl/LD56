@@ -1,10 +1,10 @@
 local data = {
-	humanName = "Resident Spider",
+	humanName = "Pet Spider",
 	nextLevel = "level3",
 	prevLevel = "level1",
 	width = 1350,
 	height = 880,
-	description = "Who thought a pet spider would help? Poison is the only way! But the spider is a nuisance, so try honking it or feeding it coffee.\n\nTools can be selected with the number keys on your keyboard",
+	description = "Who thought buying a spider would help? Poison is the only way! But the spider is a nuisance, so try honking it or feeding it coffee.\n\nTools can be selected with the number keys on your keyboard",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 0,

@@ -55,6 +55,10 @@ local function OnlyGood(data)
 	return data.def.foodType == "good"
 end
 
+local function FilterOutStuckAnt(data)
+	return (data.stuckTime or 0) < 0.5
+end
+
 local function ClosestToWithDist(data, maxDistSq, pos, worldWrap, filterFunc)
 	if data.destroyed then
 		return false
@@ -148,8 +152,8 @@ function api.DropAnt(pos, ant)
 	return true
 end
 
-function api.ClosestAnt(pos, dist)
-	return GetClosest(self.ants, pos, dist)
+function api.ClosestAntNoStuck(pos, dist)
+	return GetClosest(self.ants, pos, dist, FilterOutStuckAnt)
 end
 
 function api.CountImportantNests()
