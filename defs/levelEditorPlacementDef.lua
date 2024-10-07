@@ -24,9 +24,12 @@ local blocks = {
 
 local spawners = {
 	kp7 = "single_spider",
-	kp8 = "many_bees",
-	kp9 = "many_butterfly",
-	kp6 = "single_bee",
+	["kp/"] = "many_bees",
+	["kp*"] = "single_bee",
+	kp8 = "many_wasp",
+	kp9 = "single_wasp",
+	kp5 = "many_butterfly",
+	kp6 = "single_forever_butterfly",
 }
 
 local nests = {

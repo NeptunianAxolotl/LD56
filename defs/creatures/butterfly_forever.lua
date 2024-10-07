@@ -12,9 +12,6 @@ local data = {
 	
 	mopRadius = 60,
 	mopStrength = 3,
-	
-	enterGoalTime = 3,
-	enterWanderTime = 20,
 
 	flipTable = {-1, 1},
 	init = function (self)
@@ -50,29 +47,6 @@ local data = {
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
-		local goal = false
-		local goalStrength = 0
-		if not self.airhornEffect then
-			if self.leavingTimer then
-				self.leavingTimer = self.leavingTimer + dt
-				goal = self.homePos
-				goalStrength = 1200 * (self.leavingTimer / (30 + self.leavingTimer ))
-				if util.DistSq(self.pos, self.homePos) < self.def.arriveDist * self.def.arriveDist then
-					self.Destroy()
-				end
-			elseif self.enterTimer then
-				self.enterTimer = self.enterTimer + dt
-				if self.enterTimer < self.def.enterGoalTime then
-					goal = self.enterGoal
-					goalStrength = 1200 * (1 - self.enterTimer / self.def.enterGoalTime)
-				end
-				if self.enterTimer > self.def.enterWanderTime then
-					self.enterTimer = false
-					self.leavingTimer = 0
-				end
-			end
-		end
-		
 		local directionChange = false
 		if math.random() < 0.1 then
 			directionChange = math.random()*26 - 13
@@ -80,13 +54,7 @@ local data = {
 			directionChange = math.random()*3 - 1.5
 		end
 		directionChange = directionChange * 5
-		
-		if goal then
-			local toGoal = util.AngleFromPointToPoint(self.pos, goal)
-			local angleDiff = util.AngleSubtractShortest(toGoal, self.direction)
-			directionChange = directionChange + dt * angleDiff * goalStrength
-		end
-		
+
 		local speed = self.def.speed * self.speedMult * (self.accelMult or 1)
 		if self.airhornEffect then
 			speed = speed * (1 + self.airhornEffect*4 * self.def.airhornMult)
