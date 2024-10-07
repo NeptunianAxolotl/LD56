@@ -1,6 +1,7 @@
 
 local data = {
 	foodType = "good",
+	foodImage = "strawberry",
 	foodValue = 1,
 	totalFood = 10,
 	scentRadius = 70,

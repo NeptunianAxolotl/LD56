@@ -38,11 +38,16 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.ApplyFood(foodType, foodValue)
-		if foodType == "poison" and not LevelHandler.GetEditMode() then
+		if LevelHandler.GetEditMode() then
+			return
+		end
+		if foodType == "poison" then
 			self.health = self.health - foodValue
 			if self.health <= 0 then
 				self.Destroy()
 			end
+		elseif foodValue > 0 then
+			self.spawnTimer = self.spawnTimer + foodValue
 		end
 	end
 	

@@ -240,7 +240,7 @@ end
 function api.GetFoodAmount()
   local foodCount = 0
   for k,v in pairs(self.foodSources.dataByKey) do 
-    if v.foodType == "good" then
+    if v.foodType ~= "poison" then
       foodCount = foodCount + v.totalFood
       end
     end

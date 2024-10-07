@@ -1,6 +1,7 @@
 
 local data = {
 	foodType = "poison",
+	foodImage = "poison",
 	foodValue = 1,
 	scentRadius = 120,
 	scentStrength = 1.8,
