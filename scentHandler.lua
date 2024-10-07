@@ -13,7 +13,7 @@ local function InitializeScent(name, linger, red, green, blue)
 
 	local strength = {}
 
-	for idx = 1, height * width do
+	for idx = 1, width * height do
 		strength[idx] = 0
 	end
 
@@ -40,11 +40,12 @@ end
 
 function api.AddScent(name, pos, radius, newStrength)
 	local scent = self.scents[name]
-	local xFrac = (pos[1] - 0.5)/scent.gridSize
-	local yFrac = (pos[2] - 0.5)/scent.gridSize
-	local x = math.floor(pos[1]/scent.gridSize)
-	local y = math.floor(pos[2]/scent.gridSize)
-	local gridRad = radius/scent.gridSize
+	local gridSize = scent.gridSize
+	local xFrac = (pos[1] - 0.5)/gridSize
+	local yFrac = (pos[2] - 0.5)/gridSize
+	local x = math.floor(pos[1]/gridSize)
+	local y = math.floor(pos[2]/gridSize)
+	local gridRad = radius/gridSize
 	local gridRadSq = gridRad*gridRad
 
 	local scent_strength = scent.strength
@@ -55,12 +56,12 @@ function api.AddScent(name, pos, radius, newStrength)
 			local iw, jw = TerrainHandler.WrapGrid(i, j)
 			local distSq = (xFrac - i)*(xFrac - i) + (yFrac - j)*(yFrac - j)
 			if distSq < gridRadSq then
-				local idx = 1+iw+jw*width
-				local existing = scent_strength[idx]
-				scent_strength[idx] = existing + newStrength * (1 - distSq / gridRadSq)
-				if scent_strength[idx] < 0 then
-					scent_strength[idx] = 0
+				local idx = 1+jw*width+iw
+				local outStrength = scent_strength[idx] + newStrength * (1 - distSq / gridRadSq)
+				if outStrength < 0 then
+					outStrength = 0
 				end
+				scent_strength[idx] = outStrength
 			end
 		end
 	end
@@ -73,9 +74,8 @@ function api.Update(dt)
 
 	for name, scent in pairs(self.scents) do
 		local decayBy = math.pow(scent.linger, dt)
-
 		local scent_strength = scent.strength
-		for idx = 1, scent.height * scent.width do
+		for idx = 1, #scent_strength do
 			scent_strength[idx] = scent_strength[idx] * decayBy
 		end
 	end
@@ -89,7 +89,7 @@ local function DrawScent(name, alpha, strengthScale)
 	local scent_strength = scent.strength
 
 	imageData:mapPixel(function(x,y, r,g,b,a)
-		local strength = scent_strength[1+y*scent.width+x]
+		local strength = scent_strength[1+y*width+x]
 		return r, g, b, (alpha * strength / (strengthScale + strength))
 	end)
 
