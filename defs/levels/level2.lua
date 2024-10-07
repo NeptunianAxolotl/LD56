@@ -1,6 +1,6 @@
 local data = {
 	humanName = "Redecorating",
-	nextLevel = "level_bee",
+	nextLevel = "level3",
 	prevLevel = "level1",
 	width = 1350,
 	height = 880,
