@@ -15,7 +15,7 @@ local data = {
 		nestSpawnRate = 1,
 	},
 	itemRechargeMod = {
-		scent = 10,
+		scent = 7,
 		airhorn = 2,
 	},
 	items = {
