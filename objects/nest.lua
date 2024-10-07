@@ -67,6 +67,10 @@ local function NewNest(world, myDef, position, extraData)
 		end
 	end
 	
+	function self.ShiftPosition(vector)
+		self.pos = util.Add(self.pos, vector)
+	end
+	
 	function self.WriteSaveData()
 		return {self.def.name, self.pos, extraData}
 	end

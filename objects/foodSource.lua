@@ -56,6 +56,10 @@ local function NewFoodSource(world, myDef, position, extraData)
 		end
 	end
 	
+	function self.ShiftPosition(vector)
+		self.pos = util.Add(self.pos, vector)
+	end
+	
 	function self.WriteSaveData()
 		if self.def.ignoreSave then
 			return false

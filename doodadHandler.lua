@@ -37,6 +37,10 @@ local function SetupWorld()
 	end
 end
 
+function api.ShiftEverything(vector)
+	IterableMap.ApplySelf(self.doodadList, "ShiftPosition", vector)
+end
+
 function api.ExportObjects()
 	local objList = IterableMap.ApplySelfMapToList(self.doodadList, "WriteSaveData")
 	return objList

@@ -25,6 +25,10 @@ local function NewBlock(world, blockDef, position)
 		end
 	end
 	
+	function self.ShiftPosition(vector)
+		self.pos = util.Add(self.pos, vector)
+	end
+	
 	function self.Update(dt)
 		if self.destroyed then
 			return true

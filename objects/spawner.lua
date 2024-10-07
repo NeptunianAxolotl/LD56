@@ -24,6 +24,10 @@ local function NewSpawner(world, myDef, position, extraData)
 		self.def.update(self, dt)
 	end
 	
+	function self.ShiftPosition(vector)
+		self.pos = util.Add(self.pos, vector)
+	end
+	
 	function self.WriteSaveData()
 		return {self.def.name, self.pos, extraData}
 	end

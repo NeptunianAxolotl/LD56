@@ -168,6 +168,24 @@ function api.KeyPressed(key, scancode, isRepeat)
 		self.setDifficultyMode = not self.setDifficultyMode
 		return true
 	end
+	
+	if self.editMode then
+		local vector = false
+		if key == "up" then
+			vector = {0, -Global.EDIT_GRID}
+		elseif key == "left" then
+			vector = {-Global.EDIT_GRID, 0}
+		elseif key == "down" then
+			vector = {0, Global.EDIT_GRID}
+		elseif key == "right" then
+			vector = {Global.EDIT_GRID, 0}
+		end
+		if vector then
+			AntHandler.ShiftEverything(vector)
+			BlockHandler.ShiftEverything(vector)
+			DoodadHandler.ShiftEverything(vector)
+		end
+	end
 end
 
 function api.Draw(drawQueue)

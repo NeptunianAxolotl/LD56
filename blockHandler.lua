@@ -120,6 +120,10 @@ function api.GetSaveData()
 	return blockData
 end
 
+function api.ShiftEverything(vector)
+	IterableMap.ApplySelf(self.blocks, "ShiftPosition", vector)
+end
+
 function api.MousePressed(x, y, button)
 end
 

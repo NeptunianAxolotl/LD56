@@ -236,6 +236,12 @@ function api.Draw(drawQueue)
 	IterableMap.ApplySelf(self.spawners, "Draw", drawQueue)
 end
 
+function api.ShiftEverything(vector)
+	IterableMap.ApplySelf(self.nests, "ShiftPosition", vector)
+	IterableMap.ApplySelf(self.foodSources, "ShiftPosition", vector)
+	IterableMap.ApplySelf(self.spawners, "ShiftPosition", vector)
+end
+
 function api.GetSaveData()
 	local nestData = IterableMap.ApplySelfMapToList(self.nests, "WriteSaveData")
 	local foodData = IterableMap.ApplySelfMapToList(self.foodSources, "WriteSaveData")
