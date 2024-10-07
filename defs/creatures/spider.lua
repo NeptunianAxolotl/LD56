@@ -62,14 +62,14 @@ local data = {
 	draw = function (self, drawQueue)
 		--Resources.DrawImage("spider_small", self.pos[1], self.pos[2], self.direction, 1, 6.6666666*5)
 		local spider_scale = 1.4
-		Resources.DrawImage("spider_leg_1", self.pos[1], self.pos[2], self.direction+self.walkangle1, 1, spider_scale)
-		Resources.DrawImage("spider_leg_2", self.pos[1], self.pos[2], self.direction+self.walkangle2, 1, spider_scale)
-		Resources.DrawImage("spider_leg_3", self.pos[1], self.pos[2], self.direction+self.walkangle3, 1, spider_scale)
-		Resources.DrawImage("spider_leg_4", self.pos[1], self.pos[2], self.direction+self.walkangle4, 1, spider_scale)
-		Resources.DrawImage("spider_leg_right_1", self.pos[1], self.pos[2], self.direction+self.walkangle5, 1, spider_scale)
-		Resources.DrawImage("spider_leg_right_2", self.pos[1], self.pos[2], self.direction+self.walkangle6, 1, spider_scale)
-		Resources.DrawImage("spider_leg_right_3", self.pos[1], self.pos[2], self.direction+self.walkangle7, 1, spider_scale)
-		Resources.DrawImage("spider_leg_right_4", self.pos[1], self.pos[2], self.direction+self.walkangle8, 1, spider_scale)
+		Resources.DrawImage("spider_leg_1", self.pos[1], self.pos[2], self.direction+(self.walkangle1 or 0), 1, spider_scale)
+		Resources.DrawImage("spider_leg_2", self.pos[1], self.pos[2], self.direction+(self.walkangle2 or 0), 1, spider_scale)
+		Resources.DrawImage("spider_leg_3", self.pos[1], self.pos[2], self.direction+(self.walkangle3 or 0), 1, spider_scale)
+		Resources.DrawImage("spider_leg_4", self.pos[1], self.pos[2], self.direction+(self.walkangle4 or 0), 1, spider_scale)
+		Resources.DrawImage("spider_leg_right_1", self.pos[1], self.pos[2], self.direction+(self.walkangle5 or 0), 1, spider_scale)
+		Resources.DrawImage("spider_leg_right_2", self.pos[1], self.pos[2], self.direction+(self.walkangle6 or 0), 1, spider_scale)
+		Resources.DrawImage("spider_leg_right_3", self.pos[1], self.pos[2], self.direction+(self.walkangle7 or 0), 1, spider_scale)
+		Resources.DrawImage("spider_leg_right_4", self.pos[1], self.pos[2], self.direction+(self.walkangle8 or 0), 1, spider_scale)
 		Resources.DrawImage("spider_body", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 		Resources.DrawImage("spider_head", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 	end,
@@ -113,7 +113,8 @@ local data = {
 		local chasespeed = 1
 
 		if closestAnt and not self.airhornEffect then
-			local toAnt = util.AngleFromPointToPointWithWrap(self.pos, closestAnt.pos)
+			local AngleFunc = LevelHandler.GetLevelData().worldWrap and util.AngleFromPointToPointWithWrap or util.AngleFromPointToPoint
+			local toAnt = AngleFunc(self.pos, closestAnt.pos)
 			local angleDiff = util.AngleSubtractShortest(toAnt, self.direction)
 			directionChange = directionChange + dt * angleDiff * 1000
 			

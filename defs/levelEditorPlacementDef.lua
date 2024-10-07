@@ -28,7 +28,7 @@ local spawners = {
 	["kp*"] = "single_bee",
 	kp8 = "many_wasp",
 	kp9 = "single_wasp",
-	kp0 = "many_butterfly",
+	kp5 = "many_butterfly",
 	kp6 = "single_forever_butterfly",
 }
 
@@ -45,6 +45,7 @@ local food = {
 
 local doodads = {
 	a = "void",
+	[";"] = "void_long",
 	l = "small_void",
 	d = "wall_inner",
 	f = "wall_outer",

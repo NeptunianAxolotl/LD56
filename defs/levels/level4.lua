@@ -1,6 +1,6 @@
 local data = {
 	humanName = "Level 4",
-	nextLevel = "hallway",
+	nextLevel = "level5",
 	prevLevel = "level3",
 	width = 1550,
 	height = 1020,
@@ -690,10 +690,10 @@ local data = {
 			},
 		},
 		{
-			"wall_270",
+			"void",
 			{
-				700,
 				140,
+				1040,
 			},
 		},
 		{
@@ -942,10 +942,24 @@ local data = {
 			},
 		},
 		{
-			"void",
+			"wall_small_270",
 			{
-				140,
-				1040,
+				700,
+				80,
+			},
+		},
+		{
+			"wall_small_270",
+			{
+				700,
+				160,
+			},
+		},
+		{
+			"wall_small_270",
+			{
+				700,
+				120,
 			},
 		},
 	},

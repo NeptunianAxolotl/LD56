@@ -235,11 +235,10 @@ end
 
 function api.DrawInterface()
 	local gameOver, gameWon, gameLost = self.world.GetGameOver()
-	local windowX, windowY = love.window.getMode()
-	local overX = windowX*0.32
-	local overWidth = windowX*0.36
-	local overY = windowY*0.3
-	local overHeight = windowY*0.4
+	local overX = Global.VIEW_WIDTH*0.32
+	local overWidth = Global.VIEW_WIDTH*0.36
+	local overY = Global.VIEW_HEIGHT*0.3
+	local overHeight = Global.VIEW_HEIGHT*0.4
 	
 	local drawWindow = self.loadingLevelGetName or self.saveLevelGetName or self.townWantConf or self.setDifficultyMode
 	if drawWindow then

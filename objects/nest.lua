@@ -9,7 +9,7 @@ local function NewNest(world, myDef, position, extraData)
 		self.maxHealth = self.maxHealth * (LevelHandler.GetLevelData().tweaks.nestHealthMult or 1)
 	end
 	self.health = self.maxHealth
-	self.spawnTimer = 0
+	self.spawnTimer = 1 / self.def.spawnFrequency
 	
 	if self.def.blockerType then
 		self.blocker = BlockHandler.SpawnBlock(self.def.blockerType, util.CopyTable(self.pos))

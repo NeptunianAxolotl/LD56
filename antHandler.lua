@@ -66,7 +66,7 @@ local function ClosestToWithDist(data, maxDistSq, pos, worldWrap, filterFunc)
 	if filterFunc and not filterFunc(data) then
 		return false
 	end
-	local distSq = (worldWrap and
+	local distSq = (worldWrap and self.worldWrap and
 		util.DistSqWithWrap(data.pos[1], data.pos[2], pos[1], pos[2], self.worldWidth, self.worldHeight) or
 		util.DistSq(data.pos, pos)
 	)
@@ -102,7 +102,10 @@ local function DoFunctionIfInDistance(key, data, index, doFunc, pos, radius, ext
 	if data.destroyed then
 		return false
 	end
-	local distSq = util.DistSqWithWrap(data.pos[1], data.pos[2], pos[1], pos[2], self.worldWidth, self.worldHeight)
+	local distSq = (self.worldWrap and
+		util.DistSqWithWrap(data.pos[1], data.pos[2], pos[1], pos[2], self.worldWidth, self.worldHeight) or
+		util.DistSq(data.pos, pos)
+	)
 	if distSq > radius*radius then
 		return false
 	end
@@ -224,6 +227,9 @@ function api.DeleteObjectAt(pos)
 end
 
 function api.Update(dt)
+	if not GameHandler.GetLevelBegun() then
+		dt = dt*0.05
+	end
 	IterableMap.ApplySelf(self.ants, "Update", dt)
 	IterableMap.ApplySelf(self.creatures, "Update", dt)
 	IterableMap.ApplySelf(self.nests, "Update", dt)
@@ -281,6 +287,7 @@ function api.PreInitialize(world)
 		foodSources = IterableMap.New(),
 		worldWidth = levelData.width,
 		worldHeight = levelData.height,
+		worldWrap = levelData.worldWrap,
 	}
 end
 
