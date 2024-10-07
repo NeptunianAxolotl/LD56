@@ -18,6 +18,9 @@ local data = {
 	},
 	items = {
 		"renovate",
+		"airhorn",
+		"accelerate",
+		"scent",
 	},
 	spawners = {
 	},
