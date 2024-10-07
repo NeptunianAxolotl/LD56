@@ -47,7 +47,6 @@ local function NewFoodSource(world, myDef, position, extraData)
 	end
 	
 	function self.Update(dt)
-		print(self.def.foodType)
 		if self.destroyed then
 			return true
 		end

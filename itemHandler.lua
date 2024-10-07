@@ -355,13 +355,6 @@ function api.DrawInterface()
 end
 
 function api.KeyPressed(key, scancode, isRepeat)
-	if tonumber(key) then
-		local levelData = LevelHandler.GetLevelData()
-		if levelData.items[tonumber(key)] then
-			self.currentItem = levelData.items[tonumber(key)]
-			return true
-		end
-	end
 	if LevelHandler.GetEditMode() then
 		if key == EditDefs.deletionKey then
 			self.currentItem = "editRemove"
@@ -385,6 +378,14 @@ function api.KeyPressed(key, scancode, isRepeat)
 		elseif EditDefs.doodads[key] then
 			self.currentItem = "editPlaceDoodad"
 			self.placeType = EditDefs.doodads[key]
+		end
+	end
+	local number = key and (tonumber(key) or tonumber(string.sub(key, 3, 3)))
+	if number then
+		local levelData = LevelHandler.GetLevelData()
+		if levelData.items[number] then
+			self.currentItem = levelData.items[number]
+			return true
 		end
 	end
 end
