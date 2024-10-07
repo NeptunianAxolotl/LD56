@@ -32,7 +32,7 @@ end
 
 function api.ToggleEditMode()
 	self.editMode = not self.editMode
-	ItemHandler.EditModeToggled()
+	ItemHandler.ReplaceActiveItem()
 end
 
 function api.OpenSaveMenu()

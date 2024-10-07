@@ -37,9 +37,11 @@ function api.Update(dt)
 	local nestCount = AntHandler.CountImportantNests()
 	local foodCount = AntHandler.CountImportantFood()
 	if nestCount <= 0 then
+		ItemHandler.ReplaceActiveItem()
 		self.world.SetGameOver(true)
 	end
 	if foodCount < levelData.mustRetainAtLeastThisMuchFood then
+		ItemHandler.ReplaceActiveItem()
 		self.world.SetGameOver(false)
 	end
 end

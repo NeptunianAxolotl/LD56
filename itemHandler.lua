@@ -121,7 +121,7 @@ local function CanPlaceBlock(def, pos)
 	return true
 end
 
-function api.EditModeToggled()
+function api.ReplaceActiveItem()
 	self.currentItem = false
 	self.currentBlock = false
 end
@@ -384,6 +384,7 @@ function api.KeyPressed(key, scancode, isRepeat)
 end
 
 function HandleHoveredMenuAction()
+	api.ReplaceActiveItem()
 	if self.hoveredMenuAction == "Menu" then
 		self.world.ToggleMenu()
 	elseif self.hoveredMenuAction == "Toggle Music" then

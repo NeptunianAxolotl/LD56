@@ -219,6 +219,7 @@ local function NewAnt(world, creatureDef, position, size)
 					if foodDist < self.def.foodDist then
 						nearFood.FoodTaken()
 						self.hasFood = nearFood.def.foodType
+						self.foodImage = nearFood.def.foodImage
 						self.foodValue = nearFood.def.foodValue
 						self.direction = self.direction + math.pi
 					else
