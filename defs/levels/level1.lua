@@ -14,7 +14,7 @@ local data = {
 		nestSpawnRate = 1,
 	},
 	maxItemMod = {
-		scent = 1.2,
+		scent = 1.1,
 	},
 	itemRechargeMod = {
 		scent = 1.8,

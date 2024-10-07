@@ -80,6 +80,10 @@ local function ToggleWinStateForDebug()
 	end
 end
 
+function api.GetDifficulty()
+	return self.difficulty
+end
+
 --------------------------------------------------
 -- Input
 --------------------------------------------------
@@ -273,12 +277,12 @@ function api.Draw()
 	love.graphics.replaceTransform(self.emptyTransform)
 end
 
-function api.Initialize(cosmos, levelData)
-	self = {
-	}
+function api.Initialize(cosmos, levelData, difficulty)
+	self = {}
 	util.SetDefaultWrap(levelData.width, levelData.height)
 	
 	self.cosmos = cosmos
+	self.difficulty = difficulty
 	self.cameraTransform = love.math.newTransform()
 	self.interfaceTransform = love.math.newTransform()
 	self.emptyTransform = love.math.newTransform()

@@ -12,16 +12,30 @@ local function SnapMousePos(x, y)
 	return {math.floor((x + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID, math.floor((y + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID}
 end
 
+local difficultyRechargeMap = {
+	1.6,
+	1,
+	0.75,
+	0.5,
+}
+
+local difficultyItemsMap = {
+	1.2,
+	1,
+	0.8,
+	0.6,
+}
+
 local function GetMaxCharges(name)
-	local maxCharges = ItemDefs.defs[name].maxCharges or 1
+	local maxCharges = (ItemDefs.defs[name].maxCharges or 1)
 	if self.levelData.maxItemMod then
-		maxCharges = math.floor(maxCharges * (self.levelData.maxItemMod[name] or 1))
+		maxCharges = math.floor(1 + maxCharges * (self.levelData.maxItemMod[name] or 1) * difficultyItemsMap[self.world.GetDifficulty()])
 	end
 	return maxCharges
 end
 
 local function GetRechargeTimeMod(name)
-	local recharge = (LevelHandler.GetLevelData().tweaks.itemRechargeMult or 1)
+	local recharge = (LevelHandler.GetLevelData().tweaks.itemRechargeMult or 1) * difficultyRechargeMap[self.world.GetDifficulty()]
 	if self.levelData.itemRechargeMod then
 		recharge = recharge * (self.levelData.itemRechargeMod[name] or 1)
 	end
@@ -265,7 +279,7 @@ local function DrawLevelTextAndItems()
 		end
 		if itemDef.maxCharges then
 			love.graphics.setColor(0.3, 0.3, 0.3, 0.8)
-			love.graphics.print(api.GetChargeString(name), shopItemsX + 10, shopItemsY + 90)
+			love.graphics.print(api.GetChargeString(name), shopItemsX + 8, shopItemsY + 90)
 		end
 		if i%2 == 1 then
 			shopItemsX = shopItemsX + 140
@@ -308,11 +322,11 @@ local function DrawMenu()
 		return
 	end
 
-	local buttons = 12
+	local buttons = 11
 	local sections = 3
 	
 	if LevelHandler.GetEditMode() then
-		buttons = buttons - 3
+		buttons = buttons - 1
 	end
 	
 	local overWidth = Global.VIEW_WIDTH*0.16
@@ -334,10 +348,6 @@ local function DrawMenu()
 		offset = offset + 55
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Music Softer", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 		offset = offset + 55
-		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Effects Louder", false, false, false, 3, 8, 4) or self.hoveredMenuAction
-		offset = offset + 55
-		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Effects Softer", false, false, false, 3, 8, 4) or self.hoveredMenuAction
-		offset = offset + 55
 	end
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Toggle Editor", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	offset = offset + 55
@@ -348,6 +358,17 @@ local function DrawMenu()
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Next Level", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	offset = offset + 55
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Previous Level", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	offset = offset + 55
+	local difficulty = self.world.GetCosmos().GetDifficulty()
+	if difficulty == 1 then
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Hard Mode", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	elseif difficulty == 2 then
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Harder Mode", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	elseif difficulty == 3 then
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Insane Mode", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	elseif difficulty == 4 then
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Reset Difficulty", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	end
 	offset = offset + 55
 	
 	local offset = overY + overHeight
@@ -433,15 +454,19 @@ function HandleHoveredMenuAction()
 	if self.hoveredMenuAction == "Menu" then
 		self.world.ToggleMenu()
 	elseif self.hoveredMenuAction == "Toggle Music" then
-		
+		self.world.GetCosmos().ToggleMusic()
 	elseif self.hoveredMenuAction == "Music Louder" then
-		
+		self.world.GetCosmos().MusicLouder()
 	elseif self.hoveredMenuAction == "Music Softer" then
-		
-	elseif self.hoveredMenuAction == "Effects Louder" then
-		
-	elseif self.hoveredMenuAction == "Effects Louder" then
-	
+		self.world.GetCosmos().MusicSofter()
+	elseif self.hoveredMenuAction == "Hard Mode" then
+		self.world.GetCosmos().SetDifficulty(2)
+	elseif self.hoveredMenuAction == "Harder Mode" then
+		self.world.GetCosmos().SetDifficulty(3)
+	elseif self.hoveredMenuAction == "Insane Mode" then
+		self.world.GetCosmos().SetDifficulty(4)
+	elseif self.hoveredMenuAction == "Reset Difficulty" then
+		self.world.GetCosmos().SetDifficulty(1)
 	elseif self.hoveredMenuAction == "Sandbox Mode: On" or self.hoveredMenuAction == "Sandbox Mode: Off" then
 		GameHandler.ToggleSandboxMode()
 	elseif self.hoveredMenuAction == "Save Level" then

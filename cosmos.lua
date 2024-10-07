@@ -23,21 +23,41 @@ function api.ToggleMusic()
 	end
 end
 
+function api.MusicLouder()
+	self.musicVolume = self.musicVolume * 1.4
+end
+
+function api.MusicSofter()
+	self.musicVolume = self.musicVolume / 1.4
+end
+
 function api.MusicEnabled()
 	return self.musicEnabled
 end
 
+function api.GetMusicVolume()
+	return self.musicVolume
+end
 --------------------------------------------------
 -- Resets etc
 --------------------------------------------------
 
+function api.SetDifficulty(newDifficulty)
+	self.difficulty = newDifficulty
+	api.RestartWorld()
+end
+
+function api.GetDifficulty()
+	return self.difficulty
+end
+
 function api.RestartWorld()
-	World.Initialize(api, self.curLevelData)
+	World.Initialize(api, self.curLevelData, self.difficulty)
 end
 
 function api.LoadLevelByTable(levelTable)
 	self.curLevelData = levelTable
-	World.Initialize(api, self.curLevelData)
+	World.Initialize(api, self.curLevelData, self.difficulty)
 end
 
 function api.SwitchLevel(goNext)
@@ -54,7 +74,7 @@ function api.SwitchLevel(goNext)
 	end
 	self.inbuiltLevelName = newLevelName
 	self.curLevelData = LevelDefs[self.inbuiltLevelName]
-	World.Initialize(api, self.curLevelData)
+	World.Initialize(api, self.curLevelData, self.difficulty)
 end
 
 function api.GetScrollSpeeds()
@@ -163,6 +183,8 @@ function api.Initialize()
 		realTime = 0,
 		inbuiltLevelName = Global.INIT_LEVEL,
 		musicEnabled = true,
+		musicVolume = 1,
+		difficulty = 1,
 		mouseScrollSpeed = Global.MOUSE_SCROLL_MULT,
 		keyScrollSpeed = Global.KEYBOARD_SCROLL_MULT,
 		grabInput = Global.MOUSE_SCROLL_MULT > 0,
@@ -170,8 +192,8 @@ function api.Initialize()
 	self.curLevelData = LevelDefs[self.inbuiltLevelName]
 	MusicHandler.Initialize(api)
 	SoundHandler.Initialize(api)
-  BGMHandler.Initialize(api)
-	World.Initialize(api, self.curLevelData)
+	BGMHandler.Initialize(api)
+	World.Initialize(api, self.curLevelData, self.difficulty)
 end
 
 return api
