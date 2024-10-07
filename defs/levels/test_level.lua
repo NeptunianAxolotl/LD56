@@ -5,11 +5,14 @@ local data = {
 	height = 1400,
 	description = "The owner of this house hired you to deal with their ant problem, but your apprentice put the poison inside rather than near the nest! Worse, you were explicitly told not to touch the decorative cake in the front yard. Use a combination of furniture rearrangement, airhorns, and drugs, to send the health of the nest to zero before the cake suffers the same fate. (Press the number keys and click buttons)",
 	mustRetainAtLeastThisMuchFood = 0,
-	nestHealthMult = 1,
-	foodHealthMult = 1,
-	initialItemsProp = 1,
-	itemRechargeMult = 1,
-	lifetimeMultiplier = 1,
+	tweaks = {
+		nestHealthMult = 1,
+		foodHealthMult = 1,
+		initialItemsProp = 1,
+		itemRechargeMult = 1,
+		lifetimeMultiplier = 1,
+		nestSpawnRate = 1,
+	},
 	hints = {
 		{
 			pos = {1800, 200},

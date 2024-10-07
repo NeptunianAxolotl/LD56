@@ -14,7 +14,7 @@ end
 local function ApplyRecharge(dt, name)
 	local itemDef = ItemDefs.defs[name]
 	if itemDef.maxCharges and self.charges[name] < itemDef.maxCharges then
-		local itemRechargeMult = LevelHandler.GetLevelData().itemRechargeMult
+		local itemRechargeMult = (LevelHandler.GetLevelData().tweaks.itemRechargeMult or 1)
 		self.recharge[name] = self.recharge[name] - dt * itemRechargeMult
 		if self.recharge[name] < 0 then
 			self.charges[name] = self.charges[name] + 1
@@ -534,7 +534,7 @@ function api.Initialize(world, levelData)
 	}
 	for i = 1, #ItemDefs.itemList do
 		local name = ItemDefs.itemList[i]
-		self.charges[name] = math.floor((ItemDefs.defs[name].maxCharges or 1) * (levelData.initialItemsProp))
+		self.charges[name] = math.floor((ItemDefs.defs[name].maxCharges or 1) * (levelData.tweaks.initialItemsProp or 1))
 		self.recharge[name] = 0
 	end
 end

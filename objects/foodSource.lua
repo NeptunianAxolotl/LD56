@@ -6,7 +6,7 @@ local function NewNest(world, myDef, position, extraData)
 	self.def = myDef
 	self.maxFood = (extraData and extraData.totalFood) or self.def.totalFood
 	if self.maxFood and not self.def.placementLater then
-		self.maxFood = self.maxFood * LevelHandler.GetLevelData().foodHealthMult
+		self.maxFood = self.maxFood * (LevelHandler.GetLevelData().tweaks.foodHealthMult or 1)
 	end
 	self.foodLeft = self.maxFood
 	

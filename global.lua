@@ -86,9 +86,8 @@ local globals = {
 	
 	SAVE_ORDER = {
 		"humanName", "nextLevel", "prevLevel",  "width", "height",
-		"description",  "gameWon", "gameLost",
-		"mustRetainAtLeastThisMuchFood", "nestHealthMult", "foodHealthMult", "initialItemsProp",
-		"itemRechargeMult", "lifetimeMultiplier",
+		"description", "gameWon", "gameLost",
+		"mustRetainAtLeastThisMuchFood", "tweaks",
 		"hints", "items", "spawners", "nests", "food", "blocks", "doodads"
 	},
 	SAVE_INLINE = {"pos", "size"},

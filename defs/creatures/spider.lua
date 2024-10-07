@@ -8,7 +8,7 @@ local data = {
 	movePeriodMult = 1,
 	waitPeriodMult = 1,
 	staminaRecharge = 0.3,
-	staminaSpend = 0.15,
+	staminaSpend = 0.12,
 	pathingType = "ant",
 	airhornMult = 2,
 	drawLayer = 120,
@@ -75,13 +75,16 @@ local data = {
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
-		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, self.def.antSearchRadius)
+		local activityMult = (LevelHandler.GetLevelData().tweaks.spiderActivityMult or 1)
+		local searchMult = (LevelHandler.GetLevelData().tweaks.spiderSearchMult or 1)
+		
+		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, self.def.antSearchRadius * searchMult)
 		
 		self.wanderDirection = (self.wanderDirection or 0) + dt*(math.random()*40 - 20)
 		self.wanderDirection = math.max(-1, math.min(1, self.wanderDirection))
 		
 		if self.waittimer and not self.airhornEffect and not self.accelMult then 
-			self.waittimer = self.waittimer - dt
+			self.waittimer = self.waittimer - dt*activityMult
             if self.waittimer < 0 then
                 self.waittimer = false
             end
@@ -123,7 +126,7 @@ local data = {
 		end
 
 		if chasespeed > 1 then
-			self.spiderStamina = self.spiderStamina - dt*self.def.staminaSpend
+			self.spiderStamina = self.spiderStamina - dt*self.def.staminaSpend / activityMult
 		else
 			self.spiderStamina = self.spiderStamina + dt*self.def.staminaRecharge
 		end

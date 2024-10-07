@@ -74,7 +74,7 @@ local function NewBlock(world, blockDef, position)
 				self.def.draw(self, drawQueue)
 			end
 		end})
-		if LevelHandler.GetEditMode() then
+		if LevelHandler.GetEditMode() or LevelHandler.GetDebugDraw() then
 			drawQueue:push({y=1000 + (self.pos[2] + self.pos[1])*0.0001; f=function()
 				if self.def.editColor then
 					love.graphics.setColor(self.def.editColor[1], self.def.editColor[2], self.def.editColor[3], 1)

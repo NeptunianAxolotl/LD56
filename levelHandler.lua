@@ -155,6 +155,10 @@ function api.KeyPressed(key, scancode, isRepeat)
 		api.OpenLoadMenu()
 		return true
 	end
+	if key == "g" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		self.debugDraw = not self.debugDraw
+		return true
+	end
 	if key == "k" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
 		api.OpenSaveMenu()
 		return true
@@ -273,13 +277,17 @@ function api.GetEditMode()
 	return self.editMode
 end
 
+function api.GetDebugDraw()
+	return self.debugDraw
+end
+
 function api.Initialize(world, levelData, difficulty)
 	self = {
 		world = world,
 		editMode = false,
 		levelData = levelData,
 		difficulty = difficulty,
-		lifeRateMult = 1 / (levelData.lifetimeMultiplier or 1)
+		lifeRateMult = 1 / (levelData.tweaks.lifetimeMultiplier or 1)
 	}
 end
 

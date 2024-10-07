@@ -188,7 +188,7 @@ function api.GetPhysicsWorld()
 end
 
 local function UpdateCamera(dt)
-	CameraHandler.Update(dt, LevelHandler.GetEditMode() and 6 or 1)
+	CameraHandler.Update(dt, LevelHandler.GetEditMode() and {150, 150, 150, 200})
 end
 
 --------------------------------------------------
