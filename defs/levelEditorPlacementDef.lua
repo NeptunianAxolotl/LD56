@@ -41,6 +41,7 @@ local food = {
 	kp2 = "basic_poison",
 	kp3 = "limited_poison",
 	kp0 = "cake_food",
+	["kp."] = "strawberry_food",
 }
 
 local doodads = {

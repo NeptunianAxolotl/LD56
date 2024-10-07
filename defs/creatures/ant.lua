@@ -13,7 +13,7 @@ local data = {
 	drawLayer = 100,
 	
 	image = "ant_small",
-	scale = 6,
+	scale = 0.6,
 	color = {0.3, 0.3, 0.3},
 	
 	init = function (self)
