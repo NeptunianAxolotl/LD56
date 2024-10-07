@@ -15,7 +15,7 @@ local data = {
 	
 	enterGoalTime = 3,
 	enterWanderTime = 20,
-	
+
 	flipTable = {-1, 1},
 	init = function (self)
 		self.SetHomePosition(self.pos)
@@ -42,10 +42,11 @@ local data = {
 			butterflyImage = "butterflyB"
 		end
 
+		local butterfly_scale = 1.4
 		if (self.direction + math.pi/2)%(math.pi*2) > math.pi then
-			Resources.DrawImage(butterflyImage, self.pos[1], self.pos[2], 0, 1, 1)
+			Resources.DrawImage(butterflyImage, self.pos[1], self.pos[2], 0, 1, butterfly_scale)
 		else
-			Resources.DrawImage(butterflyImage, self.pos[1], self.pos[2], 0, 1, self.def.flipTable)
+			Resources.DrawImage(butterflyImage, self.pos[1], self.pos[2], 0, 1, {-butterfly_scale, butterfly_scale})
 		end
 	end,
 	
