@@ -8,7 +8,7 @@ local data = {
 	airhornMult = 2,
 	drawLayer = 320,
 	
-	arriveDist = 40,
+	arriveDist = 30,
 	
 	mopRadius = 60,
 	mopStrength = 3,

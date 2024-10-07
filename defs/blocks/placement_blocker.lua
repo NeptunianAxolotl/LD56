@@ -5,6 +5,7 @@ local data = {
 	blockTypes = {"placement"},
 	canBeMoved = false,
 	drawLayer = 20,
+	editFillColor = {0, 0.8, 0.3},
 	init = function (self)
 	end,
 	update = function (self, dt)

@@ -35,7 +35,7 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.ApplyFood(foodType, foodValue)
-		if foodType == "poison" then
+		if foodType == "poison" and not LevelHandler.GetEditMode() then
 			self.health = self.health - foodValue
 			if self.health <= 0 then
 				self.Destroy()

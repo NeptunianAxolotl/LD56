@@ -1,20 +1,22 @@
 
 local deletionKey = "q"
-local rotationKey = "z"
-local otherRotateKey = "x"
+local rotationKey = "x"
+local otherRotateKey = "z"
 
 local blocks = {
 	w = "wall_hor",
 	e = "wall_vert",
 	
-	d = "placement_blocker",
+	s = "placement_blocker",
 	r = "rug",
 	t = "houseplant",
 	y = "couch",
 	
-	f = "wall_big",
-	h = "vase",
-	j = "fan",
+	g = "wall_filler",
+	h = "wall_big",
+	
+	j = "vase",
+	k = "fan",
 	
 	i = "flying_door_hor",
 	o = "flying_door_vert",
@@ -37,18 +39,20 @@ local food = {
 
 local doodads = {
 	a = "void",
+	d = "wall_inner",
+	f = "wall_outer",
 	c = "wall",
-	s = "wall_inner",
-	d = "wall_outer",
-	v = "door_closed",
-	b = "door_open",
-	n = "window_closed",
-	m = "window_open",
-	[","] = "window_garden",
+	v = "wall_small",
+	b = "door_closed",
+	n = "door_open",
+	m = "window_closed",
+	[","] = "window_open",
+	["."] = "window_garden",
 }
 
 local rotateable = {
 	wall = true,
+	wall_small = true,
 	wall_inner = true,
 	wall_outer = true,
 	door_closed = true,

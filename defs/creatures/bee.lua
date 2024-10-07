@@ -1,6 +1,6 @@
 
 local data = {
-	speed = 65,
+	speed = 110,
 	turnCheckLength = 20,
 	turnCheckAngle = 0.6,
 	
@@ -10,10 +10,10 @@ local data = {
 	
 	pickDist = 80,
 	pickTime = 0.8,
-	arriveDist = 40,
+	arriveDist = 30,
 	
-	scentRadius = 45,
-	scentStrength = 10,
+	scentRadius = 50,
+	scentStrength = 15,
 	
 	flipTable = {-1, 1},
 	init = function (self)
