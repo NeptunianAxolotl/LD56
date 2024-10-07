@@ -39,6 +39,9 @@ function IterableMap.Add(self, key, data)
 	self.keyByIndex[self.indexMax] = key
 	self.dataByKey[key] = data
 	self.indexByKey[key] = self.indexMax
+	if type(data) == "table" then
+		data.map_key = key
+	end
 	return key
 end
 
