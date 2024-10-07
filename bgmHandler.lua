@@ -77,7 +77,7 @@ function api.computePolyrhythm(newTempo, newCount)
         soundSources[harmonic]:setPitch(harmonic * tuningConstant) -- set tuning for this source (once-off)
       end
       
-      soundSources[harmonic]:setVolume(v * Global.MUSIC_VOLUME) -- set volume as required
+      soundSources[harmonic]:setVolume(v * Global.MUSIC_VOLUME * 0.6) -- set volume as required
       
       -- Set the sound to play N times every tick of the slowest rhythm generator
       for i=1,k,1 do
