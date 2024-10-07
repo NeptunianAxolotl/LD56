@@ -1,8 +1,8 @@
 local data = {
-	humanName = "Level 4",
+	humanName = "Poison Shortage",
 	width = 1550,
 	height = 1020,
-	description = "This poison is cheap, it runs out.\n\nPlease leave the client with more than half of their pantry of cheese.\n\nTry the mop.",
+	description = "These piles of poison have finite pills! I will complain to the supplier.\n\n",
 	gameWon = "",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 2,
@@ -39,7 +39,7 @@ local data = {
 	},
 	food = {
 		{
-			"basic_food",
+			"strawberry_food",
 			{
 				920,
 				260,
@@ -53,14 +53,14 @@ local data = {
 			},
 		},
 		{
-			"basic_food",
+			"strawberry_food",
 			{
 				1040,
 				360,
 			},
 		},
 		{
-			"basic_food",
+			"strawberry_food",
 			{
 				740,
 				320,

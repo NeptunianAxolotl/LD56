@@ -12,7 +12,7 @@ local data = {
 	
 	image = "strawberry",
 	drawLayer = 60,
-	scale = 0.06,
+	scale = 0.07,
 
 	init = function (self)
 	end,

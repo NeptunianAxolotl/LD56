@@ -165,11 +165,13 @@ function api.Draw(drawQueue)
 				self.currentBlock.def.height
 			)
 			local mousePos = self.world.GetMousePosition()
+			BlockHandler.RemoveFromBlockCache(self.currentBlock)
 			if CanPlaceBlock(self.currentBlock.def, mousePos) then
 				love.graphics.setColor(0.2, 0.8, 1, 0.5)
 			else
 				love.graphics.setColor(1, 0.1, 0.1, 0.5)
 			end
+			BlockHandler.AddToBlockCache(self.currentBlock)
 			
 			love.graphics.rectangle("fill",
 				mousePos[1] - self.currentBlock.def.width/2,

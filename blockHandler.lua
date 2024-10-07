@@ -30,7 +30,7 @@ function api.GetFanDistFactor(pos, left, right, top, bot, direction)
 	return 0
 end
 
-local function AddToBlockCache(blockData)
+function api.AddToBlockCache(blockData)
 	for cacheType = 1, #blockData.def.blockTypes do
 		local cache = self.blockCache[blockData.def.blockTypes[cacheType]]
 		local left, right, top, bot = blockData.GetBlockBounds(Global.BLOCK_CACHE_GRID_SIZE, Global.BLOCK_RADIUS[blockData.def.blockTypes[cacheType]])
@@ -45,7 +45,7 @@ local function AddToBlockCache(blockData)
 	end
 end
 
-local function RemoveFromBlockCache(blockData)
+function api.RemoveFromBlockCache(blockData)
 	for cacheType = 1, #blockData.def.blockTypes do
 		local cache = self.blockCache[blockData.def.blockTypes[cacheType]]
 		local left, right, top, bot = blockData.GetBlockBounds(Global.BLOCK_CACHE_GRID_SIZE, Global.BLOCK_RADIUS[blockData.def.blockTypes[cacheType]])
@@ -97,13 +97,13 @@ end
 
 function api.SpawnBlock(defName, pos)
 	local block = NewBlock(self.world, BlockDefs.defs[defName], pos)
-	AddToBlockCache(block)
+	api.AddToBlockCache(block)
 	IterableMap.Add(self.blocks, block)
 	return block
 end
 
 function api.RemoveBlock(block)
-	RemoveFromBlockCache(block)
+	api.RemoveFromBlockCache(block)
 	block.Destroy()
 end
 
