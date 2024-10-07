@@ -78,7 +78,7 @@ local data = {
 		
 		local speed = self.def.speed * self.speedMult * (self.accelMult or 1)
 		if self.airhornEffect then
-			speed = speed * (1 + self.airhornEffect*4 * self.def.airhornMult)
+			speed = speed * (1 + self.airhornEffect * 1.5 * self.def.airhornMult)
 			directionChange = directionChange * (0.4 * (2 - self.airhornEffect))
 			self.pickupFoodTimer = false
 		end

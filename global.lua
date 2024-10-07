@@ -83,8 +83,10 @@ local globals = {
 	CAMERA_BOUND = 1600,
 	
 	SAVE_ORDER = {
-		"humanName", "nextLevel", "prevLevel", "description", "gameWon", "gameLost", "mustRetainAtLeastThisMuchFood",
-		"lifetimeMultiplier", "width", "height", "hints", "items", "spawners", "nests", "food", "blocks", "doodads"
+		"humanName", "nextLevel", "prevLevel",  "width", "height",
+		"description",  "gameWon", "gameLost",
+		"mustRetainAtLeastThisMuchFood", "nestHealthMult", "foodHealthMult", "initialItemsProp", "lifetimeMultiplier",
+		"hints", "items", "spawners", "nests", "food", "blocks", "doodads"
 	},
 	SAVE_INLINE = {"pos", "size"},
 }

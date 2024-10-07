@@ -5,6 +5,9 @@ local function NewNest(world, myDef, position, extraData)
 	self.pos = position
 	self.def = myDef
 	self.maxHealth = (extraData and extraData.health) or self.def.health
+	if self.maxHealth and not self.def.placementLater then
+		self.maxHealth = self.maxHealth * LevelHandler.GetLevelData().nestHealthMult
+	end
 	self.health = self.maxHealth
 	self.spawnTimer = 0
 	

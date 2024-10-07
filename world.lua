@@ -300,7 +300,7 @@ function api.Initialize(cosmos, levelData)
 	
 	TerrainHandler.Initialize(api, levelData)
 	BlockHandler.Initialize(api)
-	ItemHandler.Initialize(api)
+	ItemHandler.Initialize(api, levelData)
 	AntHandler.Initialize(api)
 	ScentHandler.Initialize(api)
 	DoodadHandler.Initialize(api)

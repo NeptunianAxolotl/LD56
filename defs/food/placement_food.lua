@@ -11,6 +11,7 @@ local data = {
 	image = "strawberry",
 	drawLayer = 60,
 	scale = 0.1,
+	placementLater = true,
 	
 	init = function (self)
 	end,

@@ -14,7 +14,8 @@ end
 local function ApplyRecharge(dt, name)
 	local itemDef = ItemDefs.defs[name]
 	if itemDef.maxCharges and self.charges[name] < itemDef.maxCharges then
-		self.recharge[name] = self.recharge[name] - dt
+		local itemRehargeMult = LevelHandler.GetLevelData().itemRehargeMult
+		self.recharge[name] = self.recharge[name] - dt * itemRehargeMult
 		if self.recharge[name] < 0 then
 			self.charges[name] = self.charges[name] + 1
 			self.recharge[name] = self.recharge[name] + itemDef.rechargeTime
@@ -427,7 +428,7 @@ function api.MousePressed(x, y, button)
 	end
 end
 
-function api.Initialize(world)
+function api.Initialize(world, levelData)
 	self = {
 		world = world,
 		currentItem = false,
@@ -438,7 +439,7 @@ function api.Initialize(world)
 	}
 	for i = 1, #ItemDefs.itemList do
 		local name = ItemDefs.itemList[i]
-		self.charges[name] = ItemDefs.defs[name].maxCharges or 1
+		self.charges[name] = math.floor((ItemDefs.defs[name].maxCharges or 1) * (levelData.initialItemsProp))
 		self.recharge[name] = 0
 	end
 end

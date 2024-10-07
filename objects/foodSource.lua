@@ -5,6 +5,9 @@ local function NewNest(world, myDef, position, extraData)
 	self.pos = position
 	self.def = myDef
 	self.maxFood = (extraData and extraData.totalFood) or self.def.totalFood
+	if self.maxFood and not self.def.placementLater then
+		self.maxFood = self.maxFood * LevelHandler.GetLevelData().foodHealthMult
+	end
 	self.foodLeft = self.maxFood
 	
 	if self.def.blockerType then

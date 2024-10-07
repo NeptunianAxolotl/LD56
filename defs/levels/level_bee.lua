@@ -8,6 +8,10 @@ local data = {
 	lifetimeMultiplier = 1,
 	width = 1800,
 	height = 1050,
+	nestHealthMult = 1,
+	foodHealthMult = 1,
+	itemRehargeMult = 0.5,
+	initialItemsProp = 0,
 	items = {
 		"renovate",
 		"scent",
