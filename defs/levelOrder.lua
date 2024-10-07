@@ -6,6 +6,7 @@ local order = {
 	"level4",
 	"level5",
 	"rawberry",
+	"scake",
 	"hallway",
 	"level_bee",
 	"annoyance",

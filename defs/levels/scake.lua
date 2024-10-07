@@ -9,10 +9,13 @@ local data = {
 	tweaks = {
 		foodHealthMult = 1,
 		initialItemsProp = 1,
-		itemRechargeMult = 10,
+		itemRechargeMult = 1,
 		lifetimeMultiplier = 1,
-		nestHealthMult = 1,
+		nestHealthMult = 0.5,
 		nestSpawnRate = 1,
+	},
+	itemRechargeMod = {
+		scent = 10,
 	},
 	items = {
 		"renovate",
