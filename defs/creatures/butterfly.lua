@@ -25,8 +25,8 @@ local data = {
 	end,
 	
 	update = function (self, dt)
-		ScentHandler.AddScent("explore", self.pos, self.def.mopRadius, -self.def.mopStrength)
-		ScentHandler.AddScent("food", self.pos, self.def.mopRadius, -self.def.mopStrength)
+		ScentHandler.AddScent("explore", self.pos, self.def.mopRadius, -dt*self.def.mopStrength)
+		ScentHandler.AddScent("food", self.pos, self.def.mopRadius, -dt*self.def.mopStrength)
 	end,
 	
 	draw = function (self, drawQueue)
