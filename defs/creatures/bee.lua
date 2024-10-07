@@ -27,10 +27,11 @@ local data = {
 	end,
 	
 	draw = function (self, drawQueue)
-		if (self.direction + math.pi/2)%(math.pi*2) > math.pi then
-			Resources.DrawImage("bee", self.pos[1], self.pos[2], 0, 1, 1)
-		else
-			Resources.DrawImage("bee", self.pos[1], self.pos[2], 0, 1, self.def.flipTable)
+		local flip = ((self.direction + math.pi/2)%(math.pi*2) < math.pi)
+		Resources.DrawImage("bee", self.pos[1], self.pos[2], 0, 1, flip and self.def.flipTable)
+		if self.hasFood and self.foodImage then
+			local foodPos = util.Add(self.pos, {(flip and 1 or -1) * 12, 12})
+			Resources.DrawImage(self.foodImage, foodPos[1], foodPos[2], 0, 1, flip and {-0.04, 0.04} or 0.04)
 		end
 	end,
 	
@@ -49,6 +50,7 @@ local data = {
 					local closestFood, foodDist = AntHandler.GetClosestNonPoisonFoodNoWrap(self.pos)
 					if foodDist and foodDist < self.def.pickDist then
 						self.hasFood = true
+						self.foodImage = closestFood.def.foodImage
 					end
 				end
 				return 0, 0

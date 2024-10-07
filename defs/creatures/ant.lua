@@ -26,10 +26,9 @@ local data = {
 			alpha = alpha * self.life / Global.WIN_FADE_TIME
 		end
 		Resources.DrawImage(self.def.image, self.pos[1], self.pos[2], self.direction, alpha, self.def.scale, self.def.color)
-		if self.hasFood == "poison" then
-			Resources.DrawImage("green_ant", self.pos[1], self.pos[2], self.direction, 0.8*alpha, 1.4)
-		elseif self.hasFood then
-			Resources.DrawImage("blue_ant", self.pos[1], self.pos[2], self.direction, 0.8*alpha, 1.4)
+		if self.hasFood and self.foodImage then
+			local foodPos = util.Add(self.pos, util.PolarToCart(15, self.direction))
+			Resources.DrawImage(self.foodImage, foodPos[1], foodPos[2], self.direction, alpha, 0.02)
 		end
 	end,
 }
