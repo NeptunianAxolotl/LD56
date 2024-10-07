@@ -2,9 +2,9 @@ local data = {
 	humanName = "Poison Shortage",
 	width = 1550,
 	height = 1020,
-	description = "These piles of poison only have finite pills! I will complain to the supplier. The client is worried about ants eating their strawberries. Make sure at least two survive.\n\nUse soap to wipe away ant trails.",
-	gameWon = "",
-	gameLost = "The ants ate all your food, you'll have to try again.",
+	description = "These piles of poison only have finite pills! I will complain to the supplier. The client is afraid for their strawberries, but they will probably pay us provided at least two survive.\n\nUse soap to wipe away ant trails.",
+	gameWon = "We removed the ants, but were only paid in strawberries!",
+	gameLost = "Too many strawberries were eaten.\n\nPress Ctrl+R to try again.",
 	mustRetainAtLeastThisMuchFood = 2,
 	tweaks = {
 		foodHealthMult = 0.4,
@@ -367,6 +367,34 @@ local data = {
 			{
 				580,
 				160,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				880,
+				520,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				880,
+				480,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				1120,
+				480,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				1120,
+				520,
 			},
 		},
 	},

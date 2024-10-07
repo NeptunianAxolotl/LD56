@@ -57,7 +57,7 @@ local function NewAnt(world, creatureDef, position, size)
 		
 		local angleToFan = util.AngleFromPointToPoint(self.pos, extraData.pos)
 		local angleDiff = util.AngleSubtractShortest(angleToFan, self.direction)
-		self.direction = self.direction - 0.4 * math.pow(math.max(0, 1.8 - math.abs(angleDiff)), 2) * (angleDiff + 0.000001) / (math.abs(angleDiff) + 0.000001) * extraData.dt
+		self.direction = self.direction - 0.4 * math.pow(math.max(0, 2.8 - math.abs(angleDiff)), 2) * (angleDiff + 0.000001) / (math.abs(angleDiff) + 0.000001) * extraData.dt
 		
 		if distFactor > 0.1 then
 			self.fanTimer = 0.15

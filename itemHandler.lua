@@ -258,9 +258,9 @@ local function DrawLevelTextAndItems()
 	for i = 1, #levelData.items do
 		local name = levelData.items[i]
 		local itemDef = ItemDefs.defs[name]
-		local disabled = itemDef.maxCharges and self.charges[name] < 1
-		self.hoveredItem = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 120, 120, mousePos, name, disabled, false, false, false, false, false) or self.hoveredItem
-		if self.currentItem ~= name then
+		local selectedItem = self.currentItem == name
+		self.hoveredItem = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 120, 120, mousePos, name, selectedItem, false, true, false, false, false) or self.hoveredItem
+		if not selectedItem then
 			Resources.DrawImage(itemDef.shopImage, shopItemsX + 60, shopItemsY + 60, 0, 1, Global.SHOP_IMAGE_SCALE)
 		end
 		if itemDef.maxCharges then

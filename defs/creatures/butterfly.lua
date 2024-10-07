@@ -25,8 +25,8 @@ local data = {
 	end,
 	
 	update = function (self, dt)
-		ScentHandler.AddScent("explore", self.pos, self.def.mopRadius, -dt*self.def.mopStrength)
-		ScentHandler.AddScent("food", self.pos, self.def.mopRadius, -dt*self.def.mopStrength)
+		ScentHandler.AddScent("explore", self.pos, self.def.mopRadius, -dt*self.def.mopStrength * (self.accelMult or 1))
+		ScentHandler.AddScent("food", self.pos, self.def.mopRadius, -dt*self.def.mopStrength * (self.accelMult or 1))
 
 		self.wingtimer = (self.wingtimer or 0) + dt * ((self.lastSpeed or 65)/65)
 		if self.wingtimer > 0.15 then

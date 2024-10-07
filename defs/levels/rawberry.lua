@@ -2,18 +2,18 @@ local data = {
 	humanName = "Rawberry",
 	width = 1500,
 	height = 1000,
-	description = "Strawberry",
+	description = "We now own a lot of near-useless strawberries. Try using them to lure ants, the client only cares about their wedding cake.\n\nAt least this uninspiring room has a nice butterfly. Don't worry, it just wipes away scent with its powerful wings.",
 	gameWon = "The ants have been successfully removed.",
-	gameLost = "The ants ate all your food, you'll have to try again.",
+	gameLost = "The ants ate the cake.\n\nPress Ctrl+R to try again.",
 	mustRetainAtLeastThisMuchFood = 1,
 	tweaks = {
 		foodHealthMult = 1,
-		poisonHealthMult = 0.65,
 		initialItemsProp = 1,
 		itemRechargeMult = 1,
 		lifetimeMultiplier = 1,
 		nestHealthMult = 1,
 		nestSpawnRate = 1,
+		poisonHealthMult = 0.65,
 	},
 	items = {
 		"renovate",
@@ -22,6 +22,13 @@ local data = {
 		"place_food",
 	},
 	spawners = {
+		{
+			"single_forever_butterfly",
+			{
+				740,
+				360,
+			},
+		},
 	},
 	nests = {
 		{
@@ -527,5 +534,14 @@ local data = {
 				500,
 			},
 		},
+		{
+			"door_closed_270",
+			{
+				1440,
+				480,
+			},
+		},
 	},
-}return data
+}
+
+return data

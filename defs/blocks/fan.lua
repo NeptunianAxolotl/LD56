@@ -1,7 +1,7 @@
 
 local data = {
-	width = 80,
-	height = 70,
+	width = 90,
+	height = 90,
 	blockTypes = {"placement", "ant"},
 	canBeMoved = true,
 	
@@ -17,7 +17,7 @@ local data = {
 	drawLayer = 160,
 	rotation = 0,
 	flip = false,
-	scale = 0.055,
+	scale = 0.072,
 	wantRotations = true,
 	
 	init = function (self)
