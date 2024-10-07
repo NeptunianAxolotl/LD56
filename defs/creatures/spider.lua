@@ -24,15 +24,15 @@ local data = {
 		local walkconstant = 0.2
 		local stepangle = 0.2
 
-		local offset_leg1 = 2*math.pi*(1/8) --1
-		local offset_leg2 = 2*math.pi*(5/8) --5
-		local offset_leg3 = 2*math.pi*(3/8) --3
-		local offset_leg4 = 2*math.pi*(7/8) --7
+		local offset_leg1 = math.pi*(1/8) --1
+		local offset_leg2 = math.pi*(5/8) --5
+		local offset_leg3 = math.pi*(3/8) --3
+		local offset_leg4 = math.pi*(7/8) --7
 		
-		local offset_leg5 = 2*math.pi*(4/8) --4
-		local offset_leg6 = 2*math.pi*(6/8) --6
-		local offset_leg7 = 2*math.pi*(2/8) --2
-		local offset_leg8 = 2*math.pi*(8/8) --8
+		local offset_leg5 = math.pi*(4/8) --4
+		local offset_leg6 = math.pi*(6/8) --6
+		local offset_leg7 = math.pi*(2/8) --2
+		local offset_leg8 = math.pi*(8/8) --8
 
 		self.walktimer1 = ((self.walktimer1 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg1)
 		self.walkangle1 = (math.sin(self.walktimer1) + math.sin((3 * self.walktimer1))/9 )*stepangle
