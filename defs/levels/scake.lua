@@ -1,10 +1,10 @@
 local data = {
-	humanName = "Round the Bend",
+	humanName = "Round The Bend",
 	width = 1350,
 	height = 900,
 	description = "Can ants navigate this maze and find the poison?\n\nCertainly.\n\nCan they do so without eating anything along the way?\n\nThat is where you come in.",
-	gameWon = "You killed all the ants, in every room. There are no more ants.\n\nThat button down there? Does nothing. However, there is a hard mode for each level.\n\nThanks for playing.",
-	gameLost = "Some of the food is gone, the rats will starve.\n\nPress Ctrl +R to try again.",
+	gameWon = "The ants found their way through the winding hallway, thanks to you.",
+	gameLost = "The loss of any food from this hall is too much to bear.\n\nPress Ctrl +R to try again.",
 	mustRetainAtLeastThisMuchFood = 4,
 	tweaks = {
 		foodHealthMult = 1,

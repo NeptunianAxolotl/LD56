@@ -12,6 +12,7 @@ local order = {
 	"level_bee",
 	"annoyance",
 	"scake",
+	"freedom",
 }
 
 return order

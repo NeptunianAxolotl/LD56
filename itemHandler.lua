@@ -22,8 +22,8 @@ local difficultyRechargeMap = {
 local difficultyItemsMap = {
 	1.2,
 	1,
-	0.8,
-	0.6,
+	0.75,
+	0.45,
 }
 
 local function GetMaxCharges(name)
