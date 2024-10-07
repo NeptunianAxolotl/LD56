@@ -43,6 +43,13 @@ local data = {
 				180,
 			},
 		},
+		{
+			"single_spider",
+			{
+				980,
+				540,
+			},
+		},
 	},
 	nests = {
 		{
@@ -731,4 +738,6 @@ local data = {
 			},
 		},
 	},
-}return data
+}
+
+return data
