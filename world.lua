@@ -89,10 +89,10 @@ function api.KeyPressed(key, scancode, isRepeat)
 	if GameHandler.KeyPressed and GameHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
-	if ItemHandler.KeyPressed(key, scancode, isRepeat) then
+	if LevelHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
-	if LevelHandler.KeyPressed(key, scancode, isRepeat) then
+	if ItemHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
 end

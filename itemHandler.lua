@@ -359,25 +359,33 @@ function api.KeyPressed(key, scancode, isRepeat)
 		if key == EditDefs.deletionKey then
 			self.currentItem = "editRemove"
 			self.placeType = false
+			return true
 		elseif key == EditDefs.rotationKey then
 			self.placeRotation = (self.placeRotation + 90)%360
+			return true
 		elseif key == EditDefs.otherRotateKey then
 			self.placeRotation = (self.placeRotation - 90)%360
+			return true
 		elseif EditDefs.blocks[key] then
 			self.currentItem = "editPlaceBlock"
 			self.placeType = EditDefs.blocks[key]
+			return true
 		elseif EditDefs.nests[key] then
 			self.currentItem = "editPlaceNest"
 			self.placeType = EditDefs.nests[key]
+			return true
 		elseif EditDefs.food[key] then
 			self.currentItem = "editPlaceFood"
 			self.placeType = EditDefs.food[key]
+			return true
 		elseif EditDefs.spawners[key] then
 			self.currentItem = "editPlaceSpawner"
 			self.placeType = EditDefs.spawners[key]
+			return true
 		elseif EditDefs.doodads[key] then
 			self.currentItem = "editPlaceDoodad"
 			self.placeType = EditDefs.doodads[key]
+			return true
 		end
 	end
 	local number = key and (tonumber(key) or tonumber(string.sub(key, 3, 3)))
