@@ -7,9 +7,9 @@ local data = {
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 2,
 	tweaks = {
-		foodHealthMult = 2,
+		foodHealthMult = 2.5,
 		initialItemsProp = 1,
-		itemRechargeMult = 0.9,
+		itemRechargeMult = 1,
 		lifetimeMultiplier = 1,
 		nestHealthMult = 1,
 		nestSpawnRate = 1,
@@ -444,6 +444,13 @@ local data = {
 			"houseplant",
 			{
 				800,
+				420,
+			},
+		},
+		{
+			"houseplant",
+			{
+				560,
 				420,
 			},
 		},
