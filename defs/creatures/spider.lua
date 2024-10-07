@@ -21,8 +21,8 @@ local data = {
 		local extraData = {dt = dt}
 		AntHandler.DoFunctionToAntsInArea("ApplySpiderFear", self.pos, self.def.fearRadius, extraData)
 
-		local walkconstant = 0.1
-		local stepangle = 0.3
+		local walkconstant = 0.2
+		local stepangle = 0.2
 
 		local offset_leg1 = math.pi*(1/8) --1
 		local offset_leg2 = math.pi*(5/8) --5
@@ -35,28 +35,28 @@ local data = {
 		local offset_leg8 = math.pi*(8/8) --8
 
 		self.walktimer1 = ((self.walktimer1 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg1)
-		self.walkangle1 = (math.sin(self.walktimer1)^2)*stepangle
+		self.walkangle1 = (math.sin(self.walktimer1) + math.sin((3 * self.walktimer1))/9 )*stepangle
 
 		self.walktimer2 = ((self.walktimer2 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg2)
-		self.walkangle2 = (math.sin(self.walktimer2)^2)*stepangle
+		self.walkangle2 = (math.sin(self.walktimer2) + math.sin((3 * self.walktimer2))/9 )*stepangle
 
 		self.walktimer3 = ((self.walktimer3 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg3)
-		self.walkangle3 = (math.sin(self.walktimer3)^2)*stepangle
+		self.walkangle3 = (math.sin(self.walktimer3) + math.sin((3 * self.walktimer3))/9 )*stepangle
 
 		self.walktimer4 = ((self.walktimer4 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg4)
-		self.walkangle4 = (math.sin(self.walktimer4)^2)*stepangle
+		self.walkangle4 = (math.sin(self.walktimer4) + math.sin((3 * self.walktimer4))/9 )*stepangle
 
 		self.walktimer5 = ((self.walktimer5 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg5)
-		self.walkangle5 = (math.sin(self.walktimer5)^2)*stepangle
+		self.walkangle5 = (math.sin(self.walktimer5) + math.sin((3 * self.walktimer5))/9 )*stepangle
 
 		self.walktimer6 = ((self.walktimer6 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg6)
-		self.walkangle6 = (math.sin(self.walktimer6)^2)*stepangle
+		self.walkangle6 = (math.sin(self.walktimer6) + math.sin((3 * self.walktimer6))/9 )*stepangle
 
 		self.walktimer7 = ((self.walktimer7 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg7)
-		self.walkangle7 = (math.sin(self.walktimer7)^2)*stepangle
+		self.walkangle7 = (math.sin(self.walktimer7) + math.sin((3 * self.walktimer7))/9 )*stepangle
 
 		self.walktimer8 = ((self.walktimer8 or 0) + walkconstant*dt*(self.lastSpeed or 0)) % (math.pi *2 + offset_leg8)
-		self.walkangle8 = (math.sin(self.walktimer8)^2)*stepangle
+		self.walkangle8 = (math.sin(self.walktimer8) + math.sin((3 * self.walktimer8))/9 )*stepangle
 	end,
 	
 	draw = function (self, drawQueue)
