@@ -13,6 +13,12 @@ local data = {
 		lifetimeMultiplier = 1,
 		nestSpawnRate = 1,
 	},
+	maxItemMod = {
+		scent = 1.2,
+	},
+	itemRechargeMod = {
+		scent = 1.8,
+	},
 	items = {
 		"renovate",
 		"scent",

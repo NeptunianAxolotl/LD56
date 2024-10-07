@@ -92,7 +92,7 @@ local globals = {
 		"humanName", "width", "height",
 		"description", "gameWon", "gameLost", "worldWrap",
 		"mustRetainAtLeastThisMuchFood", "tweaks",
-		"hints", "items", "spawners", "nests", "food", "blocks", "doodads"
+		"hints", "itemMods", "maxItemMod", "itemRechargeMod", "items", "spawners", "nests", "food", "blocks", "doodads"
 	},
 	SAVE_INLINE = {"pos", "size"},
 }

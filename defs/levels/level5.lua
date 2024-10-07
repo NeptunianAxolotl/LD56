@@ -15,6 +15,9 @@ local data = {
 		nestHealthMult = 1,
 		nestSpawnRate = 1,
 	},
+	itemMods = {
+		
+	},
 	items = {
 		"renovate",
 		"airhorn",
@@ -253,9 +256,9 @@ local data = {
 			},
 		},
 		{
-			"couch_0",
+			"houseplant",
 			{
-				400,
+				280,
 				200,
 			},
 		},

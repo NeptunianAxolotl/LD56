@@ -14,6 +14,12 @@ local data = {
 		nestHealthMult = 1,
 		nestSpawnRate = 1,
 	},
+	maxItemMod = {
+		scent = 0.5,
+	},
+	itemRechargeMod = {
+		scent = 0.6,
+	},
 	items = {
 		"renovate",
 		"scent",
