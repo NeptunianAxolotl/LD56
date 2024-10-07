@@ -4,12 +4,16 @@ local function NewDoodad(myDef, pos)
 	self.def = myDef
 	self.pos = pos
 	
-	function self.WriteSaveData()
-		return {self.def.name, self.pos}
-	end
-	
 	function self.RemoveAtPos(pos)
 		return (util.Dist(pos, self.pos) < 70)
+	end
+	
+	function self.ShiftPosition(vector)
+		self.pos = util.Add(self.pos, vector)
+	end
+	
+	function self.WriteSaveData()
+		return {self.def.name, self.pos}
 	end
 	
 	function self.Draw(drawQueue)

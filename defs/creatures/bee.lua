@@ -9,7 +9,7 @@ local data = {
 	drawLayer = 320,
 	
 	pickDist = 80,
-	pickTime = 0.8,
+	pickTime = 0.28,
 	arriveDist = 30,
 	
 	scentRadius = 45,
@@ -18,6 +18,7 @@ local data = {
 	flipTable = {-1, 1},
 	init = function (self)
 		self.SetHomePosition(self.pos)
+		self.wantNectar = true
 	end,
 	
 	update = function (self, dt)
@@ -37,6 +38,9 @@ local data = {
 	
 	GetSpeedAndDirection = function (self, dt)
 		local goal = false
+		
+		local SearchFunc = self.wantNectar and AntHandler.GetClosestNonPoisonFoodNoWrap or AntHandler.GetClosestAntGoodFoodFoodNoWrap
+		
 		if not self.airhornEffect then
 			if self.hasFood then
 				goal = self.homePos
@@ -47,15 +51,20 @@ local data = {
 				self.pickupFoodTimer = self.pickupFoodTimer - dt
 				if self.pickupFoodTimer < 0 then
 					self.pickupFoodTimer = false
-					local closestFood, foodDist = AntHandler.GetClosestNonPoisonFoodNoWrap(self.pos)
+					local closestFood, foodDist = SearchFunc(self.pos)
 					if foodDist and foodDist < self.def.pickDist then
-						self.hasFood = true
-						self.foodImage = closestFood.def.foodImage
+						if closestFood.def.foodType == "nectar" then
+							self.wantNectar = false
+						else
+							self.hasFood = true
+							self.foodImage = closestFood.def.foodImage
+							closestFood.FoodTaken()
+						end
 					end
 				end
 				return 0, 0
 			else
-				local closestFood, foodDist = AntHandler.GetClosestNonPoisonFoodNoWrap(self.pos)
+				local closestFood, foodDist = SearchFunc(self.pos)
 				if foodDist and foodDist < self.def.pickDist then
 					self.pickupFoodTimer = self.def.pickTime
 				elseif closestFood then

@@ -1,16 +1,18 @@
 local data = {
 	humanName = "test",
 	nextLevel = "level1",
-	description = "The owner of this house hired you to deal with their ant problem, but your apprentice put the poison inside rather than near the nest! Worse, you were explicitly told not to touch the decorative cake in the front yard. Use a combination of furniture rearrangement, airhorns, and drugs, to send the health of the nest to zero before the cake suffers the same fate. (Press the number keys and click buttons)",
 	width = 2600,
 	height = 1400,
-	lifetimeMultiplier = 1,
+	description = "The owner of this house hired you to deal with their ant problem, but your apprentice put the poison inside rather than near the nest! Worse, you were explicitly told not to touch the decorative cake in the front yard. Use a combination of furniture rearrangement, airhorns, and drugs, to send the health of the nest to zero before the cake suffers the same fate. (Press the number keys and click buttons)",
 	mustRetainAtLeastThisMuchFood = 0,
-	nestHealthMult = 1,
-	foodHealthMult = 1,
-	initialItemsProp = 1,
-	itemRechargeMult = 1,
-	lifetimeMultiplier = 1,
+	tweaks = {
+		nestHealthMult = 1,
+		foodHealthMult = 1,
+		initialItemsProp = 1,
+		itemRechargeMult = 1,
+		lifetimeMultiplier = 1,
+		nestSpawnRate = 1,
+	},
 	hints = {
 		{
 			pos = {1800, 200},
@@ -33,6 +35,27 @@ local data = {
 			{
 				900,
 				400,
+			},
+		},
+		{
+			"single_bee",
+			{
+				960,
+				380,
+			},
+		},
+		{
+			"single_bee",
+			{
+				940,
+				560,
+			},
+		},
+		{
+			"many_butterfly",
+			{
+				1120,
+				480,
 			},
 		},
 	},
@@ -237,6 +260,15 @@ local data = {
 				1260,
 			},
 		},
+		{
+			"fan_180",
+			{
+				1560,
+				500,
+			},
+		},
+	},
+	doodads = {
 	},
 	zoom = 1.4,
 }

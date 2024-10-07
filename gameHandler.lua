@@ -28,6 +28,19 @@ function api.GetViewRestriction()
 	return pointsToView
 end
 
+function api.BlockHealthChanges()
+	return self.world.GetGameOver() or self.sandboxMode
+end
+
+function api.GetSandboxMode()
+	return self.sandboxMode
+end
+
+function api.ToggleSandboxMode()
+	self.sandboxMode = not self.sandboxMode
+end
+
+
 --------------------------------------------------
 -- Updating
 --------------------------------------------------
@@ -37,11 +50,15 @@ function api.Update(dt)
 	local nestCount = AntHandler.CountImportantNests()
 	local foodCount = AntHandler.CountImportantFood()
 	if nestCount <= 0 then
-		ItemHandler.ReplaceActiveItem()
+		if not self.world.GetGameOver() then
+			ItemHandler.ReplaceActiveItem()
+		end
 		self.world.SetGameOver(true)
 	end
 	if foodCount < levelData.mustRetainAtLeastThisMuchFood then
-		ItemHandler.ReplaceActiveItem()
+		if not self.world.GetGameOver() then
+			ItemHandler.ReplaceActiveItem()
+		end
 		self.world.SetGameOver(false)
 	end
 end

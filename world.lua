@@ -1,26 +1,20 @@
 
 EffectsHandler = require("effectsHandler")
-DialogueHandler = require("dialogueHandler")
 TerrainHandler = require("terrainHandler")
-ShadowHandler = require("shadowHandler")
 
 ItemHandler = require("itemHandler")
 BlockHandler = require("blockHandler")
 AntHandler = require("antHandler")
 ScentHandler = require("scentHandler")
 LevelHandler = require("levelHandler")
-PlayerHandler = require("playerHandler")
 DoodadHandler = require("doodadHandler")
 
 InterfaceUtil = require("utilities/interfaceUtilities")
 Delay = require("utilities/delay")
 
-local PhysicsHandler = require("physicsHandler")
 CameraHandler = require("cameraHandler")
 Camera = require("utilities/cameraUtilities")
 
-ChatHandler = require("chatHandler")
-DeckHandler = require("deckHandler")
 GameHandler = require("gameHandler") -- Handles the gamified parts of the game, such as score, progress and interface.
 
 local PriorityQueue = require("include/PriorityQueue")
@@ -72,6 +66,20 @@ function api.SetGameOver(hasWon, overType)
 		self.overType = overType
 	end
 end
+
+local function ToggleWinStateForDebug()
+	if self.gameLost then
+		self.gameLost = false
+		self.gameWon = false
+	elseif self.gameWon then
+		self.gameLost = true
+		self.gameWon = false
+	else
+		self.gameLost = false
+		self.gameWon = true
+	end
+end
+
 --------------------------------------------------
 -- Input
 --------------------------------------------------
@@ -86,13 +94,17 @@ function api.KeyPressed(key, scancode, isRepeat)
 	if key == "p" then
 		api.ToggleMenu()
 	end
+	if Global.TEST_CAN_TOGGLE_WIN_STATE and key == "w" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		ToggleWinStateForDebug()
+		return true
+	end
 	if GameHandler.KeyPressed and GameHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
-	if ItemHandler.KeyPressed(key, scancode, isRepeat) then
+	if LevelHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
-	if LevelHandler.KeyPressed(key, scancode, isRepeat) then
+	if ItemHandler.KeyPressed(key, scancode, isRepeat) then
 		return
 	end
 end
@@ -105,10 +117,6 @@ function api.MousePressed(x, y, button)
 		return
 	end
 	local uiX, uiY = self.interfaceTransform:inverse():transformPoint(x, y)
-	
-	if DialogueHandler.MousePressedInterface(uiX, uiY, button) then
-		return
-	end
 	x, y = CameraHandler.GetCameraTransform():inverse():transformPoint(x, y)
 	
 	-- Send event to game components
@@ -188,7 +196,7 @@ function api.GetPhysicsWorld()
 end
 
 local function UpdateCamera(dt)
-	CameraHandler.Update(dt, LevelHandler.GetEditMode() and 6 or 1)
+	CameraHandler.Update(dt, LevelHandler.GetEditMode() and {150, 150, 150, 200})
 end
 
 --------------------------------------------------
@@ -208,16 +216,10 @@ function api.Update(dt)
 	self.lifetime = self.lifetime + dt
 	Delay.Update(dt)
 	InterfaceUtil.Update(dt)
-	PlayerHandler.Update(dt)
 	BlockHandler.Update(dt)
 	ItemHandler.Update(dt)
 	AntHandler.Update(dt)
 	ScentHandler.Update(dt)
-	--ShadowHandler.Update(api)
-	
-	PhysicsHandler.Update(dt)
-
-	ChatHandler.Update(dt)
 	EffectsHandler.Update(dt)
 	UpdateCamera(dt)
 end
@@ -234,9 +236,7 @@ function api.Draw()
 		d.f()
 	end
 	
-	--ShadowHandler.DrawGroundShadow(self.cameraTransform)
 	EffectsHandler.Draw(drawQueue)
-	PlayerHandler.Draw(drawQueue)
 	TerrainHandler.Draw(drawQueue)
 	BlockHandler.Draw(drawQueue)
 	ItemHandler.Draw(drawQueue)
@@ -251,7 +251,6 @@ function api.Draw()
 		if not d then break end
 		d.f()
 	end
-	--ShadowHandler.DrawVisionShadow(CameraHandler.GetCameraTransform())
 	
 	local windowX, windowY = love.window.getMode()
 	local aspectRatio = Global.VIEW_WIDTH/Global.VIEW_HEIGHT
@@ -268,8 +267,6 @@ function api.Draw()
 	-- Draw interface
 	GameHandler.DrawInterface()
 	EffectsHandler.DrawInterface()
-	DialogueHandler.DrawInterface()
-	ChatHandler.DrawInterface()
 	ItemHandler.DrawInterface()
 	LevelHandler.DrawInterface()
 	
@@ -291,22 +288,15 @@ function api.Initialize(cosmos, levelData)
 	Delay.Initialise()
 	InterfaceUtil.Initialize()
 	EffectsHandler.Initialize(api)
-	
 	LevelHandler.Initialize(api, levelData)
-	PhysicsHandler.Initialize(api)
-	PlayerHandler.Initialize(api)
-	ChatHandler.Initialize(api)
-	DialogueHandler.Initialize(api)
+	AntHandler.PreInitialize(api)
 	
 	TerrainHandler.Initialize(api, levelData)
-	BlockHandler.Initialize(api)
 	ItemHandler.Initialize(api, levelData)
+	BlockHandler.Initialize(api)
 	AntHandler.Initialize(api)
 	ScentHandler.Initialize(api)
 	DoodadHandler.Initialize(api)
-	--ShadowHandler.Initialize(api)
-	
-	DeckHandler.Initialize(api)
 	GameHandler.Initialize(api)
 	
 	local padding = {left = 0, right = Global.SHOP_WIDTH / Global.VIEW_WIDTH, top = 0, bot = 0}

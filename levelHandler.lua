@@ -32,6 +32,7 @@ end
 
 function api.ToggleEditMode()
 	self.editMode = not self.editMode
+	self.debugDraw = false
 	ItemHandler.ReplaceActiveItem()
 end
 
@@ -147,12 +148,16 @@ function api.KeyPressed(key, scancode, isRepeat)
 	end
 	
 	if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		self.ToggleEditMode()
+		api.ToggleEditMode()
 		EffectsHandler.SpawnEffect("error_popup", {1000, 15}, {text = "Edit mode: " .. (self.editMode and "enabled" or "disbled"), velocity = {0, 4}})
 		return true
 	end
 	if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
 		api.OpenLoadMenu()
+		return true
+	end
+	if key == "g" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		self.debugDraw = not self.debugDraw
 		return true
 	end
 	if key == "k" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
@@ -162,6 +167,24 @@ function api.KeyPressed(key, scancode, isRepeat)
 	if key == "h" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
 		self.setDifficultyMode = not self.setDifficultyMode
 		return true
+	end
+	
+	if self.editMode then
+		local vector = false
+		if key == "up" then
+			vector = {0, -Global.EDIT_GRID}
+		elseif key == "left" then
+			vector = {-Global.EDIT_GRID, 0}
+		elseif key == "down" then
+			vector = {0, Global.EDIT_GRID}
+		elseif key == "right" then
+			vector = {Global.EDIT_GRID, 0}
+		end
+		if vector then
+			AntHandler.ShiftEverything(vector)
+			BlockHandler.ShiftEverything(vector)
+			DoodadHandler.ShiftEverything(vector)
+		end
 	end
 end
 
@@ -273,13 +296,17 @@ function api.GetEditMode()
 	return self.editMode
 end
 
+function api.GetDebugDraw()
+	return self.debugDraw
+end
+
 function api.Initialize(world, levelData, difficulty)
 	self = {
 		world = world,
 		editMode = false,
 		levelData = levelData,
 		difficulty = difficulty,
-		lifeRateMult = 1 / (levelData.lifetimeMultiplier or 1)
+		lifeRateMult = 1 / (levelData.tweaks.lifetimeMultiplier or 1)
 	}
 end
 

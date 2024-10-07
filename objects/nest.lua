@@ -6,7 +6,7 @@ local function NewNest(world, myDef, position, extraData)
 	self.def = myDef
 	self.maxHealth = (extraData and extraData.health) or self.def.health
 	if self.maxHealth and not self.def.placementLater then
-		self.maxHealth = self.maxHealth * LevelHandler.GetLevelData().nestHealthMult
+		self.maxHealth = self.maxHealth * (LevelHandler.GetLevelData().tweaks.nestHealthMult or 1)
 	end
 	self.health = self.maxHealth
 	self.spawnTimer = 0
@@ -38,7 +38,7 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.ApplyFood(foodType, foodValue)
-		if LevelHandler.GetEditMode() then
+		if LevelHandler.GetEditMode() or GameHandler.BlockHealthChanges() then
 			return
 		end
 		if foodType == "poison" then
@@ -47,7 +47,7 @@ local function NewNest(world, myDef, position, extraData)
 				self.Destroy()
 			end
 		elseif foodValue > 0 then
-			self.spawnTimer = self.spawnTimer + foodValue
+			self.spawnTimer = self.spawnTimer + foodValue / self.def.spawnFrequency
 		end
 	end
 	
@@ -60,11 +60,15 @@ local function NewNest(world, myDef, position, extraData)
 			return true
 		end
 		ScentHandler.AddScent("explore", self.pos, 120, dt*2)
-		self.spawnTimer = self.spawnTimer + dt
+		self.spawnTimer = self.spawnTimer + dt * (LevelHandler.GetLevelData().tweaks.nestSpawnRate or 1)
 		while self.spawnTimer > 1 / self.def.spawnFrequency do
 			AntHandler.SpawnAnt(self.def.antType, self.pos)
 			self.spawnTimer = self.spawnTimer - 1 / self.def.spawnFrequency
 		end
+	end
+	
+	function self.ShiftPosition(vector)
+		self.pos = util.Add(self.pos, vector)
 	end
 	
 	function self.WriteSaveData()

@@ -24,9 +24,12 @@ local blocks = {
 
 local spawners = {
 	kp7 = "single_spider",
-	kp8 = "many_bees",
-	kp9 = "many_butterfly",
-	kp6 = "single_bee",
+	["kp/"] = "many_bees",
+	["kp*"] = "single_bee",
+	kp8 = "many_wasp",
+	kp9 = "single_wasp",
+	kp0 = "many_butterfly",
+	kp6 = "single_forever_butterfly",
 }
 
 local nests = {
@@ -36,10 +39,13 @@ local nests = {
 local food = {
 	kp1 = "basic_food",
 	kp2 = "basic_poison",
+	kp3 = "limited_poison",
+	kp0 = "cake_food",
 }
 
 local doodads = {
 	a = "void",
+	l = "small_void",
 	d = "wall_inner",
 	f = "wall_outer",
 	c = "wall",

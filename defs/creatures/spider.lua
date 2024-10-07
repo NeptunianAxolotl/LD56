@@ -8,7 +8,7 @@ local data = {
 	movePeriodMult = 1,
 	waitPeriodMult = 1,
 	staminaRecharge = 0.3,
-	staminaSpend = 0.15,
+	staminaSpend = 0.12,
 	pathingType = "ant",
 	airhornMult = 2,
 	drawLayer = 120,
@@ -62,26 +62,29 @@ local data = {
 	draw = function (self, drawQueue)
 		--Resources.DrawImage("spider_small", self.pos[1], self.pos[2], self.direction, 1, 6.6666666*5)
 		local spider_scale = 1.4
-		Resources.DrawImage("spider_leg_L1", self.pos[1], self.pos[2], self.direction+self.walkangle1, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L2", self.pos[1], self.pos[2], self.direction+self.walkangle2, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L3", self.pos[1], self.pos[2], self.direction+self.walkangle3, 1, spider_scale)
-		Resources.DrawImage("spider_leg_L4", self.pos[1], self.pos[2], self.direction+self.walkangle4, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R1", self.pos[1], self.pos[2], self.direction+self.walkangle5, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R2", self.pos[1], self.pos[2], self.direction+self.walkangle6, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R3", self.pos[1], self.pos[2], self.direction+self.walkangle7, 1, spider_scale)
-		Resources.DrawImage("spider_leg_R4", self.pos[1], self.pos[2], self.direction+self.walkangle8, 1, spider_scale)
+		Resources.DrawImage("spider_leg_1", self.pos[1], self.pos[2], self.direction+self.walkangle1, 1, spider_scale)
+		Resources.DrawImage("spider_leg_2", self.pos[1], self.pos[2], self.direction+self.walkangle2, 1, spider_scale)
+		Resources.DrawImage("spider_leg_3", self.pos[1], self.pos[2], self.direction+self.walkangle3, 1, spider_scale)
+		Resources.DrawImage("spider_leg_4", self.pos[1], self.pos[2], self.direction+self.walkangle4, 1, spider_scale)
+		Resources.DrawImage("spider_leg_right_1", self.pos[1], self.pos[2], self.direction+self.walkangle5, 1, spider_scale)
+		Resources.DrawImage("spider_leg_right_2", self.pos[1], self.pos[2], self.direction+self.walkangle6, 1, spider_scale)
+		Resources.DrawImage("spider_leg_right_3", self.pos[1], self.pos[2], self.direction+self.walkangle7, 1, spider_scale)
+		Resources.DrawImage("spider_leg_right_4", self.pos[1], self.pos[2], self.direction+self.walkangle8, 1, spider_scale)
 		Resources.DrawImage("spider_body", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 		Resources.DrawImage("spider_head", 	self.pos[1], self.pos[2], self.direction, 1, spider_scale)
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
-		local closestAnt, antDist = AntHandler.ClosestAnt(self.pos, self.def.antSearchRadius)
+		local activityMult = (LevelHandler.GetLevelData().tweaks.spiderActivityMult or 1)
+		local searchMult = (LevelHandler.GetLevelData().tweaks.spiderSearchMult or 1)
+		
+		local closestAnt, antDist = AntHandler.ClosestAntNoStuck(self.pos, self.def.antSearchRadius * searchMult)
 		
 		self.wanderDirection = (self.wanderDirection or 0) + dt*(math.random()*40 - 20)
 		self.wanderDirection = math.max(-1, math.min(1, self.wanderDirection))
 		
 		if self.waittimer and not self.airhornEffect and not self.accelMult then 
-			self.waittimer = self.waittimer - dt
+			self.waittimer = self.waittimer - dt*activityMult
             if self.waittimer < 0 then
                 self.waittimer = false
             end
@@ -123,7 +126,7 @@ local data = {
 		end
 
 		if chasespeed > 1 then
-			self.spiderStamina = self.spiderStamina - dt*self.def.staminaSpend
+			self.spiderStamina = self.spiderStamina - dt*self.def.staminaSpend / activityMult
 		else
 			self.spiderStamina = self.spiderStamina + dt*self.def.staminaRecharge
 		end

@@ -8,9 +8,6 @@ local function NewEffect(self, def)
 	-- pos
 	self.drawLayer = def.drawLayer or 0
 	local maxLife = (def.duration == "inherit" and def.image and Resources.GetAnimationDuration(def.image)) or def.duration
-	if not maxLife then
-		print(maxLife, def.image, def.actual_image)
-	end
 	self.life = maxLife
 	self.animTime = 0
 	self.direction = def.rotation or (def.randomDirection and math.random()*2*math.pi) or 0

@@ -37,6 +37,7 @@ local globals = {
 	TEST_WON = false,
 	TEST_LOST = false,
 	TEST_LEVEL_NAME = "test_level",
+	TEST_CAN_TOGGLE_WIN_STATE = true,
 	
 	WIN_FADE_TIME = 2,
 	BUTTON_FLASH_PERIOD = 0.6,
@@ -61,7 +62,7 @@ local globals = {
 	LINE_SPACING = 36,
 	INC_OFFSET = -15,
 	SCENT_GRID_SIZE = 10,
-	INIT_LEVEL = "level_bee",
+	INIT_LEVEL = "level1",
 	
 	SHOP_WIDTH = 400,
 	VIEW_WIDTH = 1920,
@@ -86,9 +87,8 @@ local globals = {
 	
 	SAVE_ORDER = {
 		"humanName", "nextLevel", "prevLevel",  "width", "height",
-		"description",  "gameWon", "gameLost",
-		"mustRetainAtLeastThisMuchFood", "nestHealthMult", "foodHealthMult", "initialItemsProp",
-		"itemRechargeMult", "lifetimeMultiplier",
+		"description", "gameWon", "gameLost",
+		"mustRetainAtLeastThisMuchFood", "tweaks",
 		"hints", "items", "spawners", "nests", "food", "blocks", "doodads"
 	},
 	SAVE_INLINE = {"pos", "size"},

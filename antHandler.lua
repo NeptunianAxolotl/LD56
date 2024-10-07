@@ -43,8 +43,20 @@ function api.AddSpawner(defName, pos, extraData)
 	return spawner
 end
 
+local function FilterOutNectar(data)
+	return data.def.foodType ~= "nectar"
+end
+
 local function FilterOutPoison(data)
 	return data.def.foodType ~= "poison"
+end
+
+local function OnlyGood(data)
+	return data.def.foodType == "good"
+end
+
+local function FilterOutStuckAnt(data)
+	return (data.stuckTime or 0) < 0.5
 end
 
 local function ClosestToWithDist(data, maxDistSq, pos, worldWrap, filterFunc)
@@ -140,8 +152,8 @@ function api.DropAnt(pos, ant)
 	return true
 end
 
-function api.ClosestAnt(pos, dist)
-	return GetClosest(self.ants, pos, dist)
+function api.ClosestAntNoStuck(pos, dist)
+	return GetClosest(self.ants, pos, dist, FilterOutStuckAnt)
 end
 
 function api.CountImportantNests()
@@ -182,7 +194,11 @@ function api.NearNest(pos, dist)
 end
 
 function api.NearFoodSource(pos, dist)
-	return GetClosest(self.foodSources, pos, dist)
+	return GetClosest(self.foodSources, pos, dist, FilterOutNectar)
+end
+
+function api.GetClosestAntGoodFoodFoodNoWrap(pos, dist)
+	return GetClosestNoWrap(self.foodSources, pos, dist, OnlyGood)
 end
 
 function api.GetClosestNonPoisonFoodNoWrap(pos, dist)
@@ -224,6 +240,12 @@ function api.Draw(drawQueue)
 	IterableMap.ApplySelf(self.spawners, "Draw", drawQueue)
 end
 
+function api.ShiftEverything(vector)
+	IterableMap.ApplySelf(self.nests, "ShiftPosition", vector)
+	IterableMap.ApplySelf(self.foodSources, "ShiftPosition", vector)
+	IterableMap.ApplySelf(self.spawners, "ShiftPosition", vector)
+end
+
 function api.GetSaveData()
 	local nestData = IterableMap.ApplySelfMapToList(self.nests, "WriteSaveData")
 	local foodData = IterableMap.ApplySelfMapToList(self.foodSources, "WriteSaveData")
@@ -247,7 +269,7 @@ function api.GetFoodAmount()
   return foodCount
   end
 
-function api.Initialize(world)
+function api.PreInitialize(world)
 	local levelData = LevelHandler.GetLevelData()
 	self = {
 		world = world,
@@ -260,7 +282,11 @@ function api.Initialize(world)
 		worldWidth = levelData.width,
 		worldHeight = levelData.height,
 	}
-	
+end
+
+function api.Initialize(world)
+	local levelData = LevelHandler.GetLevelData()
+
 	for i = 1, #levelData.nests do
 		local nest = levelData.nests[i]
 		api.AddNest(nest[1], nest[2], nest[3])

@@ -1,12 +1,16 @@
 
 
-local function NewNest(world, myDef, position, extraData)
+local function NewFoodSource(world, myDef, position, extraData)
 	local self = {}
 	self.pos = position
 	self.def = myDef
 	self.maxFood = (extraData and extraData.totalFood) or self.def.totalFood
 	if self.maxFood and not self.def.placementLater then
-		self.maxFood = self.maxFood * LevelHandler.GetLevelData().foodHealthMult
+		if self.def.foodType == "good" then
+			self.maxFood = self.maxFood * (LevelHandler.GetLevelData().tweaks.foodHealthMult or 1)
+		elseif self.def.foodType == "poison" then
+			self.maxFood = self.maxFood * (LevelHandler.GetLevelData().tweaks.poisonHealthMult or 1)
+		end
 	end
 	self.foodLeft = self.maxFood
 	
@@ -27,6 +31,9 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.Destroy()
+		if not self.destroyed then
+			EffectsHandler.SpawnFadeEffect(self.def.image, self.pos, self.def.scale, self.def.rotation, self.def.drawLayer, self.def.fadeTime or 1, self.def.color)
+		end
 		self.destroyed = true
 		if self.blocker then
 			self.blocker.Destroy()
@@ -34,7 +41,7 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.FoodTaken()
-		if self.maxFood and not LevelHandler.GetEditMode() then
+		if self.maxFood and not LevelHandler.GetEditMode() and not GameHandler.BlockHealthChanges() then
 			self.foodLeft = self.foodLeft - 1
 			if self.foodLeft <= 0 then
 				self.Destroy()
@@ -50,25 +57,35 @@ local function NewNest(world, myDef, position, extraData)
 		if self.destroyed then
 			return true
 		end
-		ScentHandler.AddScent("food", self.pos, self.def.scentRadius, dt*self.def.scentStrength)
+		if self.def.scentRadius then
+			ScentHandler.AddScent("food", self.pos, self.def.scentRadius, dt*self.def.scentStrength)
+		end
+	end
+	
+	function self.ShiftPosition(vector)
+		self.pos = util.Add(self.pos, vector)
 	end
 	
 	function self.WriteSaveData()
+		if self.def.ignoreSave then
+			return false
+		end
 		return {self.def.name, self.pos, extraData}
 	end
 	
 	function self.Draw(drawQueue)
+		if not self.def.drawLayer then
+			return
+		end
 		drawQueue:push({y=self.def.drawLayer; f=function()
+			local foodProp = self.maxFood and self.foodLeft/self.maxFood
 			if self.def.image then
-				DoodadHandler.DrawDoodad(self.def, self.pos, 1)
+				DoodadHandler.DrawDoodad(self.def, self.pos, 1, foodProp and (0.4 + 0.6*foodProp))
 			else
 				self.def.draw(self, drawQueue)
 			end
-			if self.maxFood then
-				local foodProp = self.foodLeft/self.maxFood
-				if foodProp < 1 then
-					InterfaceUtil.DrawBar(Global.HEALTH_BAR_COL, Global.HEALTH_BAR_BACK, foodProp, false, false, util.Add(self.pos, {-55, 30}), {110, 24})
-				end
+			if foodProp and foodProp < 1 then
+				InterfaceUtil.DrawBar(Global.HEALTH_BAR_COL, Global.HEALTH_BAR_BACK, foodProp, false, false, util.Add(self.pos, {-55, 30}), {110, 24})
 			end
 		end})
 	end
@@ -76,4 +93,4 @@ local function NewNest(world, myDef, position, extraData)
 	return self
 end
 
-return NewNest
+return NewFoodSource

@@ -24,7 +24,7 @@ local tuningConstant = 1.0 -- Multiplier for the base sample to set it to the co
 local noteEvents = {} -- Table to store cued note events
 local soundSources = {} -- Sound sources at particular harmonics
 
-local notePath = "resources/sounds/music/marimba-note-a#.ogg" -- Path to the note sound effect
+local notePath = "resources/sounds/music/marimba-note-a-sharp.ogg" -- Path to the note sound effect
 
 local musicTimer = -1
 
@@ -33,7 +33,6 @@ function api.computePolyrhythm(newTempo, newCount)
   tempo = newTempo or tempo
   rhythmGeneratorCount = newCount or rhythmGeneratorCount
   
-  -- TODO: HISTOGRAM CALCULATION - HARDCODED FOR NOW - SHOULD BE SENSITIVE TO RHYTHMGENERATORCOUNT AND GAME VALUES
   local histogram = {}
   
   for i=1,rhythmGeneratorCount,1 do
@@ -77,7 +76,7 @@ function api.computePolyrhythm(newTempo, newCount)
         soundSources[harmonic]:setPitch(harmonic * tuningConstant) -- set tuning for this source (once-off)
       end
       
-      soundSources[harmonic]:setVolume(v) -- set volume as required
+      soundSources[harmonic]:setVolume(v * Global.MUSIC_VOLUME * 0.6) -- set volume as required
       
       -- Set the sound to play N times every tick of the slowest rhythm generator
       for i=1,k,1 do

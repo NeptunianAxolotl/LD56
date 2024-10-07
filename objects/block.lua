@@ -14,8 +14,19 @@ local function NewBlock(world, blockDef, position)
 		}
 	end
 	
+	if self.def.foodType then
+		self.foodSource = AntHandler.AddFoodSource(self.def.foodType, util.CopyTable(self.pos))
+	end
+	
 	function self.Destroy()
 		self.destroyed = true
+		if self.foodSource then
+			self.foodSource.Destroy()
+		end
+	end
+	
+	function self.ShiftPosition(vector)
+		self.pos = util.Add(self.pos, vector)
 	end
 	
 	function self.Update(dt)
@@ -74,7 +85,7 @@ local function NewBlock(world, blockDef, position)
 				self.def.draw(self, drawQueue)
 			end
 		end})
-		if LevelHandler.GetEditMode() then
+		if LevelHandler.GetEditMode() or LevelHandler.GetDebugDraw() then
 			drawQueue:push({y=1000 + (self.pos[2] + self.pos[1])*0.0001; f=function()
 				if self.def.editColor then
 					love.graphics.setColor(self.def.editColor[1], self.def.editColor[2], self.def.editColor[3], 1)

@@ -6,6 +6,7 @@ local BlockDefs = require("defs/blockDefs")
 local DoodadDefs = require("defs/doodadDefs")
 local ItemDefs = require("defs/itemDefs")
 local EditDefs = require("defs/levelEditorPlacementDef")
+local SoundHandler = require("soundHandler")
 
 local function SnapMousePos(x, y)
 	return {math.floor((x + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID, math.floor((y + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID}
@@ -14,7 +15,7 @@ end
 local function ApplyRecharge(dt, name)
 	local itemDef = ItemDefs.defs[name]
 	if itemDef.maxCharges and self.charges[name] < itemDef.maxCharges then
-		local itemRechargeMult = LevelHandler.GetLevelData().itemRechargeMult
+		local itemRechargeMult = (LevelHandler.GetLevelData().tweaks.itemRechargeMult or 1)
 		self.recharge[name] = self.recharge[name] - dt * itemRechargeMult
 		if self.recharge[name] < 0 then
 			self.charges[name] = self.charges[name] + 1
@@ -58,6 +59,7 @@ local function DropScentCheck()
 		ScentHandler.AddScent("explore", mousePos, itemDef.effectRadius, itemDef.scentStrength)
 		ScentHandler.AddScent("food", mousePos, itemDef.effectRadius, itemDef.scentStrength)
 		api.UseCharge("scent")
+    SoundHandler.PlaySound("scent", false, 0, 0, false, false, 1, true)
 	end
 end
 
@@ -68,6 +70,7 @@ local function MopScentCheck()
 		ScentHandler.AddScent("explore", mousePos, itemDef.effectRadius, -itemDef.mopStrength)
 		ScentHandler.AddScent("food", mousePos, itemDef.effectRadius, -itemDef.mopStrength)
 		api.UseCharge("mop")
+    SoundHandler.PlaySound("mop", false, 0, 0, false, false, 1, true)
 	end
 end
 
@@ -222,7 +225,7 @@ local function DrawLevelTextAndItems()
 	end
 	
 	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 130
-	local shopItemsY = 400
+	local shopItemsY = 420
 	local mousePos = self.world.GetMousePositionInterface()
 	
 	for i = 1, #levelData.items do
@@ -253,24 +256,24 @@ local function DrawLevelVictoryState()
 	end
 	local levelData = LevelHandler.GetLevelData()
 	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 110
-	local shopItemsY = 855
+	local shopItemsY = 855 + 30
 	local mousePos = self.world.GetMousePositionInterface()
 	
 	if won then
 		love.graphics.setColor(0, 0, 0, 0.8)
 		Font.SetSize(3)
-		love.graphics.printf(levelData.gameWon or "The ants have been removed.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 700, Global.SHOP_WIDTH - 10, "left")
+		love.graphics.printf(levelData.gameWon or "The ants have been removed.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 480, Global.SHOP_WIDTH - 10, "left")
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 75, mousePos, "Next Level", false, true, false, 2, 12, false) or self.hoveredMenuAction
 	end
 	if lost then
-		love.graphics.printf(levelData.gameOver or "The ants ate too much food. Press Ctrl+R to restart.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 700, Global.SHOP_WIDTH - 10, "left")
+		love.graphics.printf(levelData.gameOver or "The ants ate too much food. Press Ctrl+R to restart.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 480, Global.SHOP_WIDTH - 10, "left")
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 75, mousePos, "Restart", false, true, false, 2, 12, false) or self.hoveredMenuAction
 	end
 end
 
 local function DrawMenu()
 	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 110
-	local shopItemsY = 950
+	local shopItemsY = 950 + 30
 	local mousePos = self.world.GetMousePositionInterface()
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 75, mousePos, "Menu", false, false, false, 2, 12, false) or self.hoveredMenuAction
 
@@ -278,7 +281,7 @@ local function DrawMenu()
 		return
 	end
 
-	local buttons = 11
+	local buttons = 12
 	local sections = 3
 	
 	if LevelHandler.GetEditMode() then
@@ -324,6 +327,12 @@ local function DrawMenu()
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Quit", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	offset = offset - 55
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Resume", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	offset = offset - 55
+	if GameHandler.GetSandboxMode() then
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Sandbox Mode: On", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	else
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Sandbox Mode: Off", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	end
 end
 
 function api.DrawInterface()
@@ -349,36 +358,45 @@ function api.DrawInterface()
 end
 
 function api.KeyPressed(key, scancode, isRepeat)
-	if tonumber(key) then
-		local levelData = LevelHandler.GetLevelData()
-		if levelData.items[tonumber(key)] then
-			self.currentItem = levelData.items[tonumber(key)]
-			return true
-		end
-	end
 	if LevelHandler.GetEditMode() then
 		if key == EditDefs.deletionKey then
 			self.currentItem = "editRemove"
 			self.placeType = false
+			return true
 		elseif key == EditDefs.rotationKey then
 			self.placeRotation = (self.placeRotation + 90)%360
+			return true
 		elseif key == EditDefs.otherRotateKey then
 			self.placeRotation = (self.placeRotation - 90)%360
+			return true
 		elseif EditDefs.blocks[key] then
 			self.currentItem = "editPlaceBlock"
 			self.placeType = EditDefs.blocks[key]
+			return true
 		elseif EditDefs.nests[key] then
 			self.currentItem = "editPlaceNest"
 			self.placeType = EditDefs.nests[key]
+			return true
 		elseif EditDefs.food[key] then
 			self.currentItem = "editPlaceFood"
 			self.placeType = EditDefs.food[key]
+			return true
 		elseif EditDefs.spawners[key] then
 			self.currentItem = "editPlaceSpawner"
 			self.placeType = EditDefs.spawners[key]
+			return true
 		elseif EditDefs.doodads[key] then
 			self.currentItem = "editPlaceDoodad"
 			self.placeType = EditDefs.doodads[key]
+			return true
+		end
+	end
+	local number = key and (tonumber(key) or tonumber(string.sub(key, 3, 3)))
+	if number then
+		local levelData = LevelHandler.GetLevelData()
+		if levelData.items[number] then
+			self.currentItem = levelData.items[number]
+			return true
 		end
 	end
 end
@@ -396,7 +414,9 @@ function HandleHoveredMenuAction()
 	elseif self.hoveredMenuAction == "Effects Louder" then
 		
 	elseif self.hoveredMenuAction == "Effects Louder" then
-		
+	
+	elseif self.hoveredMenuAction == "Sandbox Mode: On" or self.hoveredMenuAction == "Sandbox Mode: Off" then
+		GameHandler.ToggleSandboxMode()
 	elseif self.hoveredMenuAction == "Save Level" then
 		LevelHandler.OpenSaveMenu()
 	elseif self.hoveredMenuAction == "Load Level" then
@@ -442,6 +462,7 @@ function api.MousePressed(x, y, button)
 			BlockHandler.RemoveBlock(self.currentBlock)
 			if CanPlaceBlock(self.currentBlock.def, mousePos) or LevelHandler.GetEditMode() then
 				BlockHandler.SpawnBlock(blockType, mousePos)
+        SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 				self.currentBlock = false
 			else
 				self.currentBlock = BlockHandler.SpawnBlock(blockType, blockPos)
@@ -456,35 +477,44 @@ function api.MousePressed(x, y, button)
 	elseif self.currentItem == "editPlaceBlock" then
 		local mousePos = SnapMousePos(x, y)
 		BlockHandler.SpawnBlock(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editPlaceNest" then
 		local mousePos = SnapMousePos(x, y)
 		AntHandler.AddNest(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editPlaceFood" then
 		local mousePos = SnapMousePos(x, y)
 		AntHandler.AddFoodSource(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editPlaceSpawner" then
 		local mousePos = SnapMousePos(x, y)
 		AntHandler.AddSpawner(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editPlaceDoodad" then
 		local mousePos = SnapMousePos(x, y)
 		DoodadHandler.AddDoodad(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editRemove" then
 		local mousePos = {x, y}
 		if DoodadHandler.RemoveDoodads(mousePos) then
+      SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 			return true
 		end
 		local block = BlockHandler.GetBlockObjectAt(mousePos)
 		if block then
 			BlockHandler.RemoveBlock(block)
+      SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 			return true
 		end
 		AntHandler.DeleteObjectAt(mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "airhorn" then
 		if api.GetCharges("airhorn") > 0 then
 			local mousePos = {x, y}
 			AntHandler.DoFunctionToAntsInArea("ApplyAirhorn", mousePos, ItemDefs.defs.airhorn.effectRadius)
 			AntHandler.DoFunctionToCreaturesInArea("ApplyAirhorn", mousePos, ItemDefs.defs.airhorn.effectRadius)
 			api.UseCharge("airhorn")
+      SoundHandler.PlaySound("airhorn", false, 0, 0, false, false, 1, true)
 		end
 	elseif self.currentItem == "accelerate" then
 		if api.GetCharges("accelerate") > 0 then
@@ -492,17 +522,20 @@ function api.MousePressed(x, y, button)
 			AntHandler.DoFunctionToAntsInArea("ApplyAcceleration", mousePos, ItemDefs.defs.accelerate.effectRadius)
 			AntHandler.DoFunctionToCreaturesInArea("ApplyAcceleration", mousePos, ItemDefs.defs.accelerate.effectRadius)
 			api.UseCharge("accelerate")
+      SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 		end
 	elseif self.currentItem == "pickup" then
 		local mousePos = {x, y}
 		if self.heldAnt then
 			if AntHandler.DropAnt(mousePos, self.heldAnt) then
 				self.heldAnt = false
+        SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 			end
 		elseif api.GetCharges("pickup") > 0 then
 			self.heldAnt = AntHandler.PickupAnt(mousePos, ItemDefs.defs.pickup.effectRadius)
 			if self.heldAnt then
 				api.UseCharge("pickup")
+        SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 			end
 		end
 	elseif self.currentItem == "scent" then
@@ -517,6 +550,7 @@ function api.MousePressed(x, y, button)
 			local mousePos = {x, y}
 			AntHandler.AddFoodSource(itemDef.placeFoodType, mousePos)
 			api.UseCharge("place_food")
+      SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 		end
 	end
 end
@@ -532,7 +566,7 @@ function api.Initialize(world, levelData)
 	}
 	for i = 1, #ItemDefs.itemList do
 		local name = ItemDefs.itemList[i]
-		self.charges[name] = math.floor((ItemDefs.defs[name].maxCharges or 1) * (levelData.initialItemsProp))
+		self.charges[name] = math.floor((ItemDefs.defs[name].maxCharges or 1) * (levelData.tweaks.initialItemsProp or 1))
 		self.recharge[name] = 0
 	end
 end
