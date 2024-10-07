@@ -14,8 +14,8 @@ end
 local function ApplyRecharge(dt, name)
 	local itemDef = ItemDefs.defs[name]
 	if itemDef.maxCharges and self.charges[name] < itemDef.maxCharges then
-		local itemRehargeMult = LevelHandler.GetLevelData().itemRehargeMult
-		self.recharge[name] = self.recharge[name] - dt * itemRehargeMult
+		local itemRechargeMult = LevelHandler.GetLevelData().itemRechargeMult
+		self.recharge[name] = self.recharge[name] - dt * itemRechargeMult
 		if self.recharge[name] < 0 then
 			self.charges[name] = self.charges[name] + 1
 			self.recharge[name] = self.recharge[name] + itemDef.rechargeTime

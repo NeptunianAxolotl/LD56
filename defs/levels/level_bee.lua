@@ -11,7 +11,7 @@ local data = {
 	foodHealthMult = 1,
 	initialItemsProp = 0,
 	lifetimeMultiplier = 1,
-	itemRehargeMult = 0.5,
+	itemRechargeMult = 0.5,
 	items = {
 		"renovate",
 		"scent",

@@ -88,7 +88,7 @@ local globals = {
 		"humanName", "nextLevel", "prevLevel",  "width", "height",
 		"description",  "gameWon", "gameLost",
 		"mustRetainAtLeastThisMuchFood", "nestHealthMult", "foodHealthMult", "initialItemsProp",
-		"itemRehargeMult", "lifetimeMultiplier",
+		"itemRechargeMult", "lifetimeMultiplier",
 		"hints", "items", "spawners", "nests", "food", "blocks", "doodads"
 	},
 	SAVE_INLINE = {"pos", "size"},

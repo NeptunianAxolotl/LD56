@@ -10,6 +10,7 @@ local data = {
 	nestHealthMult = 1,
 	foodHealthMult = 1,
 	initialItemsProp = 1,
+	itemRechargeMult = 1,
 	lifetimeMultiplier = 1,
 	items = {
 		"renovate",
@@ -595,7 +596,7 @@ local data = {
 			},
 		},
 	},
-	itemRehargeMult = 1,
+	itemRechargeMult = 1,
 }
 
 return data
