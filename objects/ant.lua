@@ -91,7 +91,8 @@ local function NewAnt(world, creatureDef, position, size)
 			self.pos = world.GetMousePosition()
 			return
 		end
-		if world.GetGameOver() then
+		local over, won, lost = world.GetGameOver()
+		if won then
 			self.fadeRate = self.fadeRate or 0.5 + 4*math.random()
 			self.life = math.min(2, self.life) - dt * self.fadeRate
 		else

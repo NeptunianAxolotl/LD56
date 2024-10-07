@@ -72,7 +72,6 @@ function api.SetGameOver(hasWon, overType)
 		self.overType = overType
 	end
 end
-
 --------------------------------------------------
 -- Input
 --------------------------------------------------

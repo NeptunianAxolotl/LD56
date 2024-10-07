@@ -62,9 +62,10 @@ local function NewNest(world, myDef, position, extraData)
 				self.def.draw(self, drawQueue)
 			end
 			if self.maxFood then
-				Font.SetSize(2)
-				love.graphics.setColor(0, 0, 0, 0.5)
-				love.graphics.print(self.foodLeft, self.pos[1] - 10, self.pos[2] + 40)
+				local foodProp = self.foodLeft/self.maxFood
+				if foodProp < 1 then
+					InterfaceUtil.DrawBar(Global.HEALTH_BAR_COL, Global.HEALTH_BAR_BACK, foodProp, false, false, util.Add(self.pos, {-55, 30}), {110, 24})
+				end
 			end
 		end})
 	end

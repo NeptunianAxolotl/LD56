@@ -9,12 +9,16 @@ local function NewCreature(world, creatureDef, position, size)
 	self.stuckTime = false
 	self.def = creatureDef
 	
-	if self.def.init then
-		self.def.init(self)
-	end
-	
 	function self.Destroy()
 		self.destroyed = true
+	end
+	
+	function self.SetHomePosition(pos)
+		self.homePos = util.CopyTable(pos)
+	end
+	
+	if self.def.init then
+		self.def.init(self)
 	end
 	
 	function self.ApplyAirhorn(pos, radius, maxRadius)

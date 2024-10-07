@@ -4,7 +4,7 @@ local data = {
 	description = "Bees.",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
-	mustRetainAtLeastThisMuchFood = 0,
+	mustRetainAtLeastThisMuchFood = 1,
 	lifetimeMultiplier = 1,
 	width = 1800,
 	height = 1050,
@@ -20,6 +20,20 @@ local data = {
 			{
 				400,
 				620,
+			},
+		},
+		{
+			"single_bee",
+			{
+				1000,
+				460,
+			},
+		},
+		{
+			"single_bee",
+			{
+				800,
+				580,
 			},
 		},
 	},
@@ -208,13 +222,6 @@ local data = {
 			{
 				340,
 				500,
-			},
-		},
-		{
-			"wall_big",
-			{
-				220,
-				320,
 			},
 		},
 		{

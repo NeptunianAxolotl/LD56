@@ -7,7 +7,7 @@ local data = {
 	victoryNestValue = 1,
 	
 	image = "antsnest",
-	drawLayer = 30,
+	drawLayer = 35,
 	scale = 0.1,
 	fadeTime = 1.4,
 	

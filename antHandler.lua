@@ -16,26 +16,31 @@ local NewFoodSource = require("objects/foodSource")
 function api.SpawnAnt(defName, pos)
 	local new = NewAnt(self.world, CreatureDefs.defs[defName], pos)
 	IterableMap.Add(self.ants, new)
+	return new
 end
 
 function api.SpawnCreature(defName, pos)
 	local new = NewCreature(self.world, CreatureDefs.defs[defName], pos)
 	IterableMap.Add(self.creatures, new)
+	return new
 end
 
 function api.AddNest(defName, pos, extraData)
 	local nest = NewNest(self.world, NestDefs.defs[defName], pos, extraData)
 	IterableMap.Add(self.nests, nest)
+	return nest
 end
 
 function api.AddFoodSource(defName, pos, extraData)
 	local foodSource = NewFoodSource(self.world, FoodDefs.defs[defName], pos, extraData)
 	IterableMap.Add(self.foodSources, foodSource)
+	return foodSource
 end
 
 function api.AddSpawner(defName, pos, extraData)
 	local spawner = NewSpawner(self.world, SpawnerDefs.defs[defName], pos, extraData)
 	IterableMap.Add(self.spawners, spawner)
+	return spawner
 end
 
 local function FilterOutPoison(data)

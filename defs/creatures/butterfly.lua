@@ -18,7 +18,7 @@ local data = {
 	
 	flipTable = {-1, 1},
 	init = function (self)
-		self.homePos = util.CopyTable(self.pos)
+		self.SetHomePosition(self.pos)
 		self.enterTimer = 0
 		local levelData = LevelHandler.GetLevelData()
 		self.enterGoal = {levelData.width / 2, levelData.height / 2}

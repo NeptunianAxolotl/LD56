@@ -26,6 +26,7 @@ local spawners = {
 	kp7 = "single_spider",
 	kp8 = "many_bees",
 	kp9 = "many_butterfly",
+	kp6 = "single_bee",
 }
 
 local nests = {

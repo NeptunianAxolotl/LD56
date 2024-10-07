@@ -12,12 +12,12 @@ local data = {
 	pickTime = 0.8,
 	arriveDist = 30,
 	
-	scentRadius = 50,
-	scentStrength = 15,
+	scentRadius = 45,
+	scentStrength = 40,
 	
 	flipTable = {-1, 1},
 	init = function (self)
-		self.homePos = util.CopyTable(self.pos)
+		self.SetHomePosition(self.pos)
 	end,
 	
 	update = function (self, dt)
