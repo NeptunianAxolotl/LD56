@@ -2,9 +2,9 @@ local data = {
 	humanName = "Annoyance",
 	width = 1350,
 	height = 800,
-	description = "This room is too cramped for this many annoying bugs.",
-	gameWon = "The ants have been successfully removed.",
-	gameLost = "The ants ate all your food, you'll have to try again.",
+	description = "What is worse than a spider? Two spiders. This room is far too small for the number of bugs crammed in here.",
+	gameWon = "Amazing, there is one few type of bug infesting this room.",
+	gameLost = "Chaos wins.\n\nPress Ctrl+R to try again.",
 	mustRetainAtLeastThisMuchFood = 1,
 	tweaks = {
 		foodHealthMult = 1,
@@ -20,6 +20,9 @@ local data = {
 		"accelerate",
 		"pickup",
 		"mop",
+	},
+	itemRechargeMod = {
+		airhorn = 1.2,
 	},
 	spawners = {
 		{

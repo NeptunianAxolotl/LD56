@@ -9,8 +9,8 @@ local order = {
 	"rawberry",
 	"level5",
 	"hallway2",
-	"annoyance",
 	"level_bee",
+	"annoyance",
 	"scake",
 }
 

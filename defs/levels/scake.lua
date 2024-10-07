@@ -1,17 +1,17 @@
 local data = {
-	humanName = "Redecorating",
+	humanName = "Round the Bend",
 	width = 1350,
 	height = 900,
-	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
-	gameWon = "The ants have been successfully removed.",
-	gameLost = "The ants ate all your food, you'll have to try again.",
+	description = "Can ants navigate this maze and find the poison?\n\nCertainly.\n\nCan they do so without eating anything along the way?\n\nThat is where you come in.",
+	gameWon = "You killed all the ants, in every room. There are no more ants.\n\nThat button down there? Does nothing. However, there is a hard mode for each level.\n\nThanks for playing.",
+	gameLost = "Some of the food is gone, the rats will starve.\n\nPress Ctrl +R to try again.",
 	mustRetainAtLeastThisMuchFood = 4,
 	tweaks = {
 		foodHealthMult = 1,
 		initialItemsProp = 1,
 		itemRechargeMult = 1,
 		lifetimeMultiplier = 1,
-		nestHealthMult = 0.5,
+		nestHealthMult = 0.6,
 		nestSpawnRate = 1,
 	},
 	itemRechargeMod = {
