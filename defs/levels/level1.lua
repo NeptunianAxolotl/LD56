@@ -596,7 +596,6 @@ local data = {
 			},
 		},
 	},
-	itemRechargeMult = 1,
 }
 
 return data

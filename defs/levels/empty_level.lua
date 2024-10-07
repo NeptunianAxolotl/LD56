@@ -1,9 +1,16 @@
 local data = {
-	humanName = "Level 1",
-	nextLevel = "level2",
-	description = "Need a desc!",
-	width = 2600,
-	height = 1400,
+	humanName = "Redecorating",
+	width = 1350,
+	height = 800,
+	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
+	gameWon = "The ants have been successfully removed.",
+	gameLost = "The ants ate all your food, you'll have to try again.",
+	mustRetainAtLeastThisMuchFood = 0,
+	nestHealthMult = 1,
+	foodHealthMult = 1,
+	initialItemsProp = 1,
+	itemRechargeMult = 1,
+	lifetimeMultiplier = 1,
 	items = {
 		"renovate",
 		"airhorn",
@@ -21,8 +28,6 @@ local data = {
 	},
 	blocks = {
 	},
-	lifetimeMultiplier = 1,
-	zoom = 1.4,
 }
 
 return data

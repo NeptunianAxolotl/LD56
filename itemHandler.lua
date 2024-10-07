@@ -278,7 +278,7 @@ local function DrawMenu()
 		return
 	end
 
-	local buttons = 11
+	local buttons = 12
 	local sections = 3
 	
 	if LevelHandler.GetEditMode() then

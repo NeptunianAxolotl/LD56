@@ -147,7 +147,7 @@ function api.KeyPressed(key, scancode, isRepeat)
 	end
 	
 	if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		self.ToggleEditMode()
+		api.ToggleEditMode()
 		EffectsHandler.SpawnEffect("error_popup", {1000, 15}, {text = "Edit mode: " .. (self.editMode and "enabled" or "disbled"), velocity = {0, 4}})
 		return true
 	end
