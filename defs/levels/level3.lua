@@ -1,11 +1,11 @@
 local data = {
-	humanName = "Redecorating",
+	humanName = "Well Preserved",
 	width = 1400,
 	height = 950,
-	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
+	description = "Some people eat cake, others make sure it is the first thing you see when you enter the house. We don't judge, but our client would be distraught if anything were to happen.\n\nPerhaps pick the ants out with tweezers.",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
-	mustRetainAtLeastThisMuchFood = 0,
+	mustRetainAtLeastThisMuchFood = 1,
 	tweaks = {
 		foodHealthMult = 1,
 		initialItemsProp = 1,
@@ -16,18 +16,36 @@ local data = {
 	},
 	items = {
 		"renovate",
-		"airhorn",
 		"accelerate",
 		"pickup",
-		"scent",
-		"mop",
-		"place_food",
+		"airhorn",
 	},
 	spawners = {
 	},
 	nests = {
+		{
+			"basic_nest",
+			{
+				340,
+				660,
+			},
+		},
 	},
 	food = {
+		{
+			"basic_poison",
+			{
+				1080,
+				600,
+			},
+		},
+		{
+			"cake_food",
+			{
+				700,
+				400,
+			},
+		},
 	},
 	blocks = {
 		{
@@ -142,6 +160,20 @@ local data = {
 				1000,
 			},
 		},
+		{
+			"houseplant",
+			{
+				380,
+				240,
+			},
+		},
+		{
+			"houseplant",
+			{
+				1020,
+				240,
+			},
+		},
 	},
 	doodads = {
 		{
@@ -190,7 +222,273 @@ local data = {
 			"door_closed_270",
 			{
 				1220,
-				620,
+				640,
+			},
+		},
+		{
+			"wall_90",
+			{
+				280,
+				240,
+			},
+		},
+		{
+			"wall_90",
+			{
+				280,
+				340,
+			},
+		},
+		{
+			"wall_small_180",
+			{
+				240,
+				420,
+			},
+		},
+		{
+			"wall_small_180",
+			{
+				220,
+				420,
+			},
+		},
+		{
+			"wall_small_90",
+			{
+				180,
+				460,
+			},
+		},
+		{
+			"wall_small_90",
+			{
+				180,
+				820,
+			},
+		},
+		{
+			"wall_small_270",
+			{
+				1220,
+				460,
+			},
+		},
+		{
+			"wall_small_180",
+			{
+				1140,
+				420,
+			},
+		},
+		{
+			"wall_small_180",
+			{
+				1180,
+				420,
+			},
+		},
+		{
+			"wall_small_270",
+			{
+				1220,
+				820,
+			},
+		},
+		{
+			"wall_0",
+			{
+				1140,
+				860,
+			},
+		},
+		{
+			"wall_0",
+			{
+				1020,
+				860,
+			},
+		},
+		{
+			"wall_0",
+			{
+				860,
+				860,
+			},
+		},
+		{
+			"wall_0",
+			{
+				720,
+				860,
+			},
+		},
+		{
+			"wall_0",
+			{
+				600,
+				860,
+			},
+		},
+		{
+			"wall_0",
+			{
+				500,
+				860,
+			},
+		},
+		{
+			"wall_0",
+			{
+				360,
+				860,
+			},
+		},
+		{
+			"wall_0",
+			{
+				280,
+				860,
+			},
+		},
+		{
+			"wall_inner_90",
+			{
+				180,
+				860,
+			},
+		},
+		{
+			"wall_inner_0",
+			{
+				1220,
+				860,
+			},
+		},
+		{
+			"wall_inner_270",
+			{
+				1220,
+				420,
+			},
+		},
+		{
+			"wall_inner_180",
+			{
+				180,
+				420,
+			},
+		},
+		{
+			"wall_outer_90",
+			{
+				280,
+				420,
+			},
+		},
+		{
+			"wall_outer_180",
+			{
+				1120,
+				420,
+			},
+		},
+		{
+			"wall_270",
+			{
+				1120,
+				320,
+			},
+		},
+		{
+			"wall_270",
+			{
+				1120,
+				240,
+			},
+		},
+		{
+			"void",
+			{
+				1340,
+				200,
+			},
+		},
+		{
+			"void",
+			{
+				960,
+				-80,
+			},
+		},
+		{
+			"void",
+			{
+				580,
+				-80,
+			},
+		},
+		{
+			"void",
+			{
+				180,
+				-80,
+			},
+		},
+		{
+			"void",
+			{
+				60,
+				200,
+			},
+		},
+		{
+			"void",
+			{
+				-40,
+				580,
+			},
+		},
+		{
+			"void",
+			{
+				-40,
+				880,
+			},
+		},
+		{
+			"void",
+			{
+				300,
+				1080,
+			},
+		},
+		{
+			"void",
+			{
+				660,
+				1080,
+			},
+		},
+		{
+			"void",
+			{
+				1040,
+				1080,
+			},
+		},
+		{
+			"void",
+			{
+				1440,
+				840,
+			},
+		},
+		{
+			"void",
+			{
+				1440,
+				520,
 			},
 		},
 	},

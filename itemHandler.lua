@@ -222,7 +222,7 @@ local function DrawLevelTextAndItems()
 	end
 	
 	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 130
-	local shopItemsY = 400
+	local shopItemsY = 420
 	local mousePos = self.world.GetMousePositionInterface()
 	
 	for i = 1, #levelData.items do

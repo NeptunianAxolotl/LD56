@@ -1,16 +1,16 @@
 
 local data = {
 	foodType = "good",
-	foodImage = "cheese",
+	foodImage = "blackberry",
 	foodValue = 1,
-	totalFood = 80,
-	scentRadius = 100,
-	scentStrength = 1.5,
-	closestDistScale = 0.8,
+	totalFood = 200,
+	scentRadius = 180,
+	scentStrength = 1.6,
+	closestDistScale = 1.2,
 	blockerType = "placement_blocker_ignore_save",
 	defeatAvoidingFoodValue = 1,
 	
-	image = "cheese",
+	image = "cake",
 	drawLayer = 60,
 	scale = 0.1,
 
@@ -19,9 +19,6 @@ local data = {
 	update = function (self, dt)
 	end,
 	draw = function (self, drawQueue)
-		Font.SetSize(2)
-		love.graphics.setColor(0.2, 0.2, 0.2, 0.8)
-		love.graphics.print("Cake", self.pos[1] - 40, self.pos[2])
 	end,
 }
 
