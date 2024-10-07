@@ -113,7 +113,8 @@ local data = {
 		local chasespeed = 1
 
 		if closestAnt and not self.airhornEffect then
-			local toAnt = util.AngleFromPointToPointWithWrap(self.pos, closestAnt.pos)
+			local AngleFunc = LevelHandler.GetLevelData().worldWrap and util.AngleFromPointToPointWithWrap or util.AngleFromPointToPoint
+			local toAnt = AngleFunc(self.pos, closestAnt.pos)
 			local angleDiff = util.AngleSubtractShortest(toAnt, self.direction)
 			directionChange = directionChange + dt * angleDiff * 1000
 			

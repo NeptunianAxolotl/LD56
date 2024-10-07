@@ -1,4 +1,8 @@
 
+local function GetFoodSize(self)
+	local foodProp = self.maxFood and self.foodLeft/self.maxFood
+	return foodProp and (0.4 + 0.6*foodProp) or 1
+end
 
 local function NewFoodSource(world, myDef, position, extraData)
 	local self = {}
@@ -32,7 +36,9 @@ local function NewFoodSource(world, myDef, position, extraData)
 	
 	function self.Destroy()
 		if not self.destroyed then
-			EffectsHandler.SpawnFadeEffect(self.def.image, self.pos, self.def.scale, self.def.rotation, self.def.drawLayer, self.def.fadeTime or 1, self.def.color)
+			EffectsHandler.SpawnFadeEffect(
+				self.def.image, self.pos, self.def.scale * GetFoodSize(self),
+				self.def.rotation, self.def.drawLayer, self.def.fadeTime or 1, self.def.color)
 		end
 		self.destroyed = true
 		if self.blocker then
@@ -78,9 +84,8 @@ local function NewFoodSource(world, myDef, position, extraData)
 			return
 		end
 		drawQueue:push({y=self.def.drawLayer; f=function()
-			local foodProp = self.maxFood and self.foodLeft/self.maxFood
 			if self.def.image then
-				DoodadHandler.DrawDoodad(self.def, self.pos, 1, foodProp and (0.4 + 0.6*foodProp))
+				DoodadHandler.DrawDoodad(self.def, self.pos, 1, GetFoodSize(self))
 			else
 				self.def.draw(self, drawQueue)
 			end
