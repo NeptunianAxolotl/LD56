@@ -44,6 +44,7 @@ local food = {
 
 local doodads = {
 	a = "void",
+	l = "small_void",
 	d = "wall_inner",
 	f = "wall_outer",
 	c = "wall",
