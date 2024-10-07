@@ -98,7 +98,7 @@ function api.KeyPressed(key, scancode, isRepeat)
 end
 
 function api.MousePressed(x, y, button)
-	if GameHandler.MousePressed(x, y, button) then
+	if ItemHandler.MousePressedPrePause(x, y, button) then
 		return
 	end
 	if api.GetPaused() then

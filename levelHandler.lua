@@ -30,6 +30,19 @@ function api.GetDifficulty()
 	return self.difficulty
 end
 
+function api.ToggleEditMode()
+	self.editMode = not self.editMode
+	ItemHandler.EditModeToggled()
+end
+
+function api.OpenSaveMenu()
+	self.saveLevelGetName = true
+end
+
+function api.OpenLoadMenu()
+	self.loadingLevelGetName = true
+end
+
 function api.LoadLevel(name)
 	print("load level")
 	local contents = love.filesystem.read("levels/" .. name .. ".lua")
@@ -134,16 +147,16 @@ function api.KeyPressed(key, scancode, isRepeat)
 	end
 	
 	if key == "e" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		self.editMode = not self.editMode
+		self.ToggleEditMode()
 		EffectsHandler.SpawnEffect("error_popup", {1000, 15}, {text = "Edit mode: " .. (self.editMode and "enabled" or "disbled"), velocity = {0, 4}})
 		return true
 	end
 	if key == "l" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		self.loadingLevelGetName = true
+		api.OpenLoadMenu()
 		return true
 	end
 	if key == "k" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		self.saveLevelGetName = true
+		api.OpenSaveMenu()
 		return true
 	end
 	if key == "h" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
