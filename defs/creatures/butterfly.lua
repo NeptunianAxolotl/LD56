@@ -8,56 +8,55 @@ local data = {
 	airhornMult = 2,
 	drawLayer = 320,
 	
-	pickDist = 80,
-	pickTime = 0.8,
 	arriveDist = 40,
 	
-	scentRadius = 45,
-	scentStrength = 10,
+	mopRadius = 60,
+	mopStrength = 3,
+	
+	enterGoalTime = 3,
+	enterWanderTime = 20,
 	
 	flipTable = {-1, 1},
 	init = function (self)
 		self.homePos = util.CopyTable(self.pos)
+		self.enterTimer = 0
+		local levelData = LevelHandler.GetLevelData()
+		self.enterGoal = {levelData.width / 2, levelData.height / 2}
 	end,
 	
 	update = function (self, dt)
-		if self.hasFood then
-			ScentHandler.AddScent("food", self.pos, self.def.scentRadius, dt*self.def.scentStrength)
-		end
+		ScentHandler.AddScent("explore", self.pos, self.def.mopRadius, -self.def.mopStrength)
+		ScentHandler.AddScent("food", self.pos, self.def.mopRadius, -self.def.mopStrength)
 	end,
 	
 	draw = function (self, drawQueue)
 		if (self.direction + math.pi/2)%(math.pi*2) > math.pi then
-			Resources.DrawImage("bee", self.pos[1], self.pos[2], 0, 1, 1)
+			Resources.DrawImage("butterflyA", self.pos[1], self.pos[2], 0, 1, 1)
 		else
-			Resources.DrawImage("bee", self.pos[1], self.pos[2], 0, 1, self.def.flipTable)
+			Resources.DrawImage("butterflyA", self.pos[1], self.pos[2], 0, 1, self.def.flipTable)
 		end
 	end,
 	
 	GetSpeedAndDirection = function (self, dt)
 		local goal = false
+		local goalStrength = 0
 		if not self.airhornEffect then
-			if self.hasFood then
+			if self.leavingTimer then
+				self.leavingTimer = self.leavingTimer + dt
 				goal = self.homePos
+				goalStrength = 1200 * (self.leavingTimer / (30 + self.leavingTimer ))
 				if util.DistSq(self.pos, self.homePos) < self.def.arriveDist * self.def.arriveDist then
 					self.Destroy()
 				end
-			elseif self.pickupFoodTimer then
-				self.pickupFoodTimer = self.pickupFoodTimer - dt
-				if self.pickupFoodTimer < 0 then
-					self.pickupFoodTimer = false
-					local closestFood, foodDist = AntHandler.GetClosestNonPoisonFoodNoWrap(self.pos)
-					if foodDist and foodDist < self.def.pickDist then
-						self.hasFood = true
-					end
+			elseif self.enterTimer then
+				self.enterTimer = self.enterTimer + dt
+				if self.enterTimer < self.def.enterGoalTime then
+					goal = self.enterGoal
+					goalStrength = 1200 * (1 - self.enterTimer / self.def.enterGoalTime)
 				end
-				return 0, 0
-			else
-				local closestFood, foodDist = AntHandler.GetClosestNonPoisonFoodNoWrap(self.pos)
-				if foodDist and foodDist < self.def.pickDist then
-					self.pickupFoodTimer = self.def.pickTime
-				elseif closestFood then
-					goal = closestFood.pos
+				if self.enterTimer > self.def.enterWanderTime then
+					self.enterTimer = false
+					self.leavingTimer = 0
 				end
 			end
 		end
@@ -73,7 +72,7 @@ local data = {
 		if goal then
 			local toGoal = util.AngleFromPointToPoint(self.pos, goal)
 			local angleDiff = util.AngleSubtractShortest(toGoal, self.direction)
-			directionChange = directionChange + dt * angleDiff * 80
+			directionChange = directionChange + dt * angleDiff * goalStrength
 		end
 		
 		local speed = self.def.speed * self.speedMult * (self.accelMult or 1)
