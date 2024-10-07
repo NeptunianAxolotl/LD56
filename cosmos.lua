@@ -4,6 +4,7 @@ SoundHandler = require("soundHandler")
 MusicHandler = require("musicHandler")
 
 local LevelDefs = util.LoadDefDirectory("defs/levels")
+local levelOrder = require("defs/levelOrder")
 
 local self = {}
 local api = {}
@@ -41,22 +42,20 @@ end
 
 function api.SwitchLevel(goNext)
 	local nameKey = (goNext and "nextLevel") or "prevLevel"
-	local newLevelName = LevelDefs[self.inbuiltLevelName][nameKey]
+	local index = 1
+	for i = 1, #levelOrder do
+		if levelOrder[i] == self.inbuiltLevelName then
+			index = i
+			break
+		end
+	end
+	local newLevelName = (goNext and levelOrder[index + 1]) or ((not goNext) and levelOrder[index - 1])
 	if not newLevelName then
 		return
 	end
 	self.inbuiltLevelName = newLevelName
 	self.curLevelData = LevelDefs[self.inbuiltLevelName]
 	World.Initialize(api, self.curLevelData)
-end
-
-function api.TestSwitchLevel(goNext)
-	local nameKey = (goNext and "nextLevel") or "prevLevel"
-	local newLevelName = LevelDefs[self.inbuiltLevelName][nameKey]
-	if not newLevelName then
-		return false
-	end
-	return true
 end
 
 function api.GetScrollSpeeds()

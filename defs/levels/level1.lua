@@ -1,7 +1,5 @@
 local data = {
-	humanName = "Ant Removalists",
-	nextLevel = "level2",
-	width = 1350,
+	humanName = "Ant Removalists",	width = 1350,
 	height = 800,
 	description = "Poison is the only way to get rid of ants, but not when you hide it behind the couch!\n\nClick the tools below then click in the room to use them. Use the hand to move the couch, and the scent bottle to guide the ants.",
 	gameWon = "The ants have been successfully removed.",
@@ -599,6 +597,4 @@ local data = {
 			},
 		},
 	},
-}
-
-return data
+}return data

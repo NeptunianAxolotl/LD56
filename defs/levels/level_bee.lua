@@ -1,7 +1,5 @@
 local data = {
-	humanName = "Bee",
-	prevLevel = "hallway",
-	width = 1800,
+	humanName = "Bee",	width = 1800,
 	height = 1050,
 	description = "Bees.",
 	gameWon = "The ants have been successfully removed.",
@@ -773,6 +771,4 @@ local data = {
 			},
 		},
 	},
-}
-
-return data
+}return data

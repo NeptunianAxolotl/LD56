@@ -1,7 +1,5 @@
 local data = {
 	humanName = "Pet Spider",
-	nextLevel = "level3",
-	prevLevel = "level1",
 	width = 1350,
 	height = 880,
 	description = "Who thought buying a spider would help? Poison is the only way! But the spider is a nuisance, so try honking it or feeding it coffee.\n\nTools can be selected with the number keys on your keyboard",
@@ -487,6 +485,4 @@ local data = {
 			},
 		},
 	},
-}
-
-return data
+}return data

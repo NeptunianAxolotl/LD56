@@ -1,6 +1,6 @@
 
 local data = {
-	beeFrequency = 0.2,
+	beeFrequency = 0.12,
 
 	init = function (self)
 		AntHandler.SpawnCreature("butterfly", self.pos)

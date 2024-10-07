@@ -10,11 +10,11 @@ local data = {
 	
 	arriveDist = 30,
 	
-	mopRadius = 70,
-	mopStrength = 4,
+	mopRadius = 80,
+	mopStrength = 10,
 	
-	enterGoalTime = 3,
-	enterWanderTime = 20,
+	enterGoalTime = 4,
+	enterWanderTime = 22,
 
 	flipTable = {-1, 1},
 	init = function (self)
@@ -79,7 +79,7 @@ local data = {
 		else
 			directionChange = math.random()*3 - 1.5
 		end
-		directionChange = directionChange * 5
+		directionChange = directionChange * 4
 		
 		if goal then
 			local toGoal = util.AngleFromPointToPoint(self.pos, goal)

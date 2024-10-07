@@ -1,7 +1,5 @@
 local data = {
-	humanName = "test",
-	nextLevel = "level1",
-	width = 2600,
+	humanName = "test",	width = 2600,
 	height = 1400,
 	description = "The owner of this house hired you to deal with their ant problem, but your apprentice put the poison inside rather than near the nest! Worse, you were explicitly told not to touch the decorative cake in the front yard. Use a combination of furniture rearrangement, airhorns, and drugs, to send the health of the nest to zero before the cake suffers the same fate. (Press the number keys and click buttons)",
 	mustRetainAtLeastThisMuchFood = 0,
@@ -271,6 +269,4 @@ local data = {
 	doodads = {
 	},
 	zoom = 1.4,
-}
-
-return data
+}return data

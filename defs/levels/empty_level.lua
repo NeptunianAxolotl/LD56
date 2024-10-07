@@ -31,6 +31,4 @@ local data = {
 	},
 	blocks = {
 	},
-}
-
-return data
+}return data

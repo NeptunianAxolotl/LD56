@@ -1,7 +1,5 @@
 local data = {
 	humanName = "Level 4",
-	nextLevel = "level5",
-	prevLevel = "level3",
 	width = 1550,
 	height = 1020,
 	description = "This poison is cheap, it runs out.\n\nPlease leave the client with more than half of their pantry of cheese.\n\nTry the mop.",
@@ -963,6 +961,4 @@ local data = {
 			},
 		},
 	},
-}
-
-return data
+}return data

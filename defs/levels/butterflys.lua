@@ -494,6 +494,4 @@ local data = {
 			},
 		},
 	},
-}
-
-return data
+}return data

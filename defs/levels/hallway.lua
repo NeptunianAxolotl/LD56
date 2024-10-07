@@ -1,7 +1,5 @@
 local data = {
 	humanName = "Redecorating",
-	prevLevel = "level4",
-	nextLevel = "level_bee",
 	width = 1350,
 	height = 800,
 	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
@@ -973,6 +971,4 @@ local data = {
 			},
 		},
 	},
-}
-
-return data
+}return data

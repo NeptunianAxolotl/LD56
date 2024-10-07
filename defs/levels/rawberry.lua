@@ -2,7 +2,7 @@ local data = {
 	humanName = "Rawberry",
 	width = 1500,
 	height = 1000,
-	description = "Deport your ants to Kenya",
+	description = "Strawberry",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 0,
@@ -528,6 +528,4 @@ local data = {
 			},
 		},
 	},
-}
-
-return data
+}return data

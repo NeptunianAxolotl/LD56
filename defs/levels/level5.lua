@@ -1,13 +1,12 @@
 local data = {
 	humanName = "Level 5",
-	nextLevel = "hallway",
-	prevLevel = "level4",
 	width = 1550,
 	height = 1020,
 	description = ".",
 	gameWon = "",
 	gameLost = "The ants ate all your food, you'll have to try again.",
-	mustRetainAtLeastThisMuchFood = 2,
+	worldWrap = true,
+	mustRetainAtLeastThisMuchFood = 1,
 	tweaks = {
 		foodHealthMult = 0.4,
 		initialItemsProp = 1,
@@ -20,19 +19,275 @@ local data = {
 		"renovate",
 		"airhorn",
 		"accelerate",
-		"pickup",
-		"scent",
-		"mop",
 		"place_food",
 	},
 	spawners = {
+		{
+			"many_butterfly",
+			{
+				80,
+				380,
+			},
+		},
+		{
+			"single_spider",
+			{
+				880,
+				380,
+			},
+		},
 	},
 	nests = {
+		{
+			"basic_nest",
+			{
+				1260,
+				740,
+			},
+		},
 	},
 	food = {
+		{
+			"basic_poison",
+			{
+				380,
+				720,
+			},
+		},
+		{
+			"cake_food",
+			{
+				1140,
+				380,
+			},
+		},
 	},
 	blocks = {
+		{
+			"wall_big",
+			{
+				480,
+				1040,
+			},
+		},
+		{
+			"wall_big",
+			{
+				160,
+				1040,
+			},
+		},
+		{
+			"wall_big",
+			{
+				20,
+				740,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				580,
+				800,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				620,
+				800,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				620,
+				640,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				580,
+				640,
+			},
+		},
+		{
+			"wall_big",
+			{
+				20,
+				660,
+			},
+		},
+		{
+			"wall_big",
+			{
+				20,
+				100,
+			},
+		},
+		{
+			"wall_big",
+			{
+				-140,
+				380,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				80,
+				320,
+			},
+		},
+		{
+			"placement_blocker",
+			{
+				80,
+				460,
+			},
+		},
+		{
+			"fan_270",
+			{
+				700,
+				720,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1080,
+				1040,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1320,
+				1040,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1600,
+				880,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1600,
+				580,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1600,
+				280,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1100,
+				-40,
+			},
+		},
+		{
+			"wall_big",
+			{
+				1400,
+				-40,
+			},
+		},
+		{
+			"wall_big",
+			{
+				480,
+				-40,
+			},
+		},
+		{
+			"wall_big",
+			{
+				240,
+				-40,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				580,
+				560,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				620,
+				560,
+			},
+		},
+		{
+			"couch_90",
+			{
+				1340,
+				400,
+			},
+		},
+		{
+			"vase",
+			{
+				600,
+				420,
+			},
+		},
+		{
+			"rug_90",
+			{
+				780,
+				500,
+			},
+		},
+		{
+			"couch_0",
+			{
+				400,
+				200,
+			},
+		},
 	},
-}
-
-return data
+	doodads = {
+		{
+			"door_open_180",
+			{
+				780,
+				40,
+			},
+		},
+		{
+			"door_open_0",
+			{
+				780,
+				980,
+			},
+		},
+		{
+			"window_garden_90",
+			{
+				160,
+				380,
+			},
+		},
+		{
+			"window_open_90",
+			{
+				160,
+				380,
+			},
+		},
+	},
+}return data
