@@ -28,6 +28,19 @@ function api.GetViewRestriction()
 	return pointsToView
 end
 
+function api.BlockHealthChanges()
+	return self.world.GetGameOver() or self.sandboxMode
+end
+
+function api.GetSandboxMode()
+	return self.sandboxMode
+end
+
+function api.ToggleSandboxMode()
+	self.sandboxMode = not self.sandboxMode
+end
+
+
 --------------------------------------------------
 -- Updating
 --------------------------------------------------

@@ -325,7 +325,11 @@ local function DrawMenu()
 	offset = offset - 55
 	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Resume", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	offset = offset - 55
-	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Sandbox Mode: Off", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	if GameHandler.GetSandboxMode() then
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Sandbox Mode: On", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	else
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Sandbox Mode: Off", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	end
 end
 
 function api.DrawInterface()
@@ -398,7 +402,9 @@ function HandleHoveredMenuAction()
 	elseif self.hoveredMenuAction == "Effects Louder" then
 		
 	elseif self.hoveredMenuAction == "Effects Louder" then
-		
+	
+	elseif self.hoveredMenuAction == "Sandbox Mode: On" or self.hoveredMenuAction == "Sandbox Mode: Off" then
+		GameHandler.ToggleSandboxMode()
 	elseif self.hoveredMenuAction == "Save Level" then
 		LevelHandler.OpenSaveMenu()
 	elseif self.hoveredMenuAction == "Load Level" then

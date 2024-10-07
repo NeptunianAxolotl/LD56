@@ -9,7 +9,7 @@ local data = {
 	drawLayer = 320,
 	
 	pickDist = 80,
-	pickTime = 0.8,
+	pickTime = 0.28,
 	arriveDist = 30,
 	
 	scentRadius = 45,
@@ -51,6 +51,7 @@ local data = {
 					if foodDist and foodDist < self.def.pickDist then
 						self.hasFood = true
 						self.foodImage = closestFood.def.foodImage
+						closestFood.FoodTaken()
 					end
 				end
 				return 0, 0

@@ -34,7 +34,7 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.FoodTaken()
-		if self.maxFood and not LevelHandler.GetEditMode() then
+		if self.maxFood and not LevelHandler.GetEditMode() and not GameHandler.BlockHealthChanges() then
 			self.foodLeft = self.foodLeft - 1
 			if self.foodLeft <= 0 then
 				self.Destroy()

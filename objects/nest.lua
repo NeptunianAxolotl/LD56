@@ -38,7 +38,7 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.ApplyFood(foodType, foodValue)
-		if LevelHandler.GetEditMode() then
+		if LevelHandler.GetEditMode() or GameHandler.BlockHealthChanges() then
 			return
 		end
 		if foodType == "poison" then

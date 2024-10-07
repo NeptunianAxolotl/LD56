@@ -32,6 +32,7 @@ end
 
 function api.ToggleEditMode()
 	self.editMode = not self.editMode
+	self.debugDraw = false
 	ItemHandler.ReplaceActiveItem()
 end
 
