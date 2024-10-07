@@ -43,7 +43,7 @@ local function NewAnt(world, creatureDef, position, size)
 	
 	function self.ApplyFanPush(pos, left, right, top, bot, extraData)
 		local distFactor = BlockHandler.GetFanDistFactor(self.pos, left, right, top, bot, extraData.direction)
-		local distStrength = (0.7 + 0.3*distFactor)
+		local distStrength = (0.7 + 0.3*distFactor) * 3
 		if distFactor < 0.02 then
 			distStrength = distFactor - distFactor*10
 		elseif distFactor > 0.6 then
@@ -57,7 +57,7 @@ local function NewAnt(world, creatureDef, position, size)
 		
 		local angleToFan = util.AngleFromPointToPoint(self.pos, extraData.pos)
 		local angleDiff = util.AngleSubtractShortest(angleToFan, self.direction)
-		self.direction = self.direction - 0.1 * math.pow((2 -  math.abs(angleDiff)), 2) * (angleDiff + 0.000001) / (math.abs(angleDiff) + 0.000001) * extraData.dt
+		self.direction = self.direction - 0.4 * math.pow(math.max(0, 1.8 - math.abs(angleDiff)), 2) * (angleDiff + 0.000001) / (math.abs(angleDiff) + 0.000001) * extraData.dt
 		
 		if distFactor > 0.1 then
 			self.fanTimer = 0.15

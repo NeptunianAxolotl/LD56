@@ -135,7 +135,7 @@ function api.DoFunctionToAntsInRectangle(doFunc, left, right, top, bot, extraDat
 end
 
 function api.DoFunctionToCreaturesInRectangle(doFunc, left, right, top, bot, extraData)
-	IterableMap.Apply(self.ants, DoFunctionIfInRectangle, doFunc, left, right, top, bot, extraData)
+	IterableMap.Apply(self.creatures, DoFunctionIfInRectangle, doFunc, left, right, top, bot, extraData)
 end
 
 function api.PickupAnt(pos, radius)

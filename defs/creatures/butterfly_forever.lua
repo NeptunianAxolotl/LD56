@@ -1,6 +1,6 @@
 
 local data = {
-	speed = 65,
+	speed = 75,
 	turnCheckLength = 20,
 	turnCheckAngle = 0.6,
 	
@@ -10,8 +10,8 @@ local data = {
 	
 	arriveDist = 30,
 	
-	mopRadius = 60,
-	mopStrength = 3,
+	mopRadius = 70,
+	mopStrength = 4,
 
 	flipTable = {-1, 1},
 	init = function (self)
@@ -33,12 +33,12 @@ local data = {
 	
 	draw = function (self, drawQueue)
 
-		local butterflyImage = "butterflyA"
+		local butterflyImage = "butterfly_a"
 		if (self.wingtimer or 0) > 0.075 then
-			butterflyImage = "butterflyB"
+			butterflyImage = "butterfly_b"
 		end
 
-		local butterfly_scale = 1.4
+		local butterfly_scale = 1.1
 		if (self.direction + math.pi/2)%(math.pi*2) > math.pi then
 			Resources.DrawImage(butterflyImage, self.pos[1], self.pos[2], 0, 1, butterfly_scale)
 		else

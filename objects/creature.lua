@@ -30,6 +30,33 @@ local function NewCreature(world, creatureDef, position, size)
 		self.accelMult = 5 + 3 * (1 - radius / maxRadius)
 	end
 	
+	function self.ApplyFanPush(pos, left, right, top, bot, extraData)
+		if self.waittimer then
+			return
+		end
+		local mult = (self.def.pathingType == "ant" and 4) or 15
+		local distFactor = BlockHandler.GetFanDistFactor(self.pos, left, right, top, bot, extraData.direction)
+		local distStrength = (0.7 + 0.3*distFactor) * mult
+		if distFactor < 0.02 then
+			distStrength = distFactor - distFactor*10
+		elseif distFactor > 0.6 then
+			distStrength = distStrength + 6*(distFactor - 0.6)
+		end
+		local newPos = util.Add(self.pos, util.Mult(extraData.dt * distStrength * extraData.strength, extraData.pushVector))
+		TerrainHandler.WrapPosInPlace(newPos)
+		if not BlockHandler.BlockAt("ant", newPos) then
+			self.pos = newPos
+		end
+		
+		local angleToFan = util.AngleFromPointToPoint(self.pos, extraData.pos)
+		local angleDiff = util.AngleSubtractShortest(angleToFan, self.direction)
+		self.direction = self.direction - 0.4 * math.pow(math.max(0, 1.8 - math.abs(angleDiff)), 2) * (angleDiff + 0.000001) / (math.abs(angleDiff) + 0.000001) * extraData.dt
+		
+		if distFactor > 0.1 then
+			self.fanTimer = 0.15
+		end
+	end
+	
 	function self.GroundRectangleHitTest(pos, width, height)
 		return self.def.pathingType == "ant" and
 				self.pos[1] > pos[1] - width/2 and self.pos[1] < pos[1] + width/2 and
