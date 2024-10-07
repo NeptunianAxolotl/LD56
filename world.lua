@@ -72,6 +72,20 @@ function api.SetGameOver(hasWon, overType)
 		self.overType = overType
 	end
 end
+
+local function ToggleWinStateForDebug()
+	if self.gameLost then
+		self.gameLost = false
+		self.gameWon = false
+	elseif self.gameWon then
+		self.gameLost = true
+		self.gameWon = false
+	else
+		self.gameLost = false
+		self.gameWon = true
+	end
+end
+
 --------------------------------------------------
 -- Input
 --------------------------------------------------
@@ -85,6 +99,10 @@ function api.KeyPressed(key, scancode, isRepeat)
 	end
 	if key == "p" then
 		api.ToggleMenu()
+	end
+	if Global.TEST_CAN_TOGGLE_WIN_STATE and key == "w" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		ToggleWinStateForDebug()
+		return true
 	end
 	if GameHandler.KeyPressed and GameHandler.KeyPressed(key, scancode, isRepeat) then
 		return

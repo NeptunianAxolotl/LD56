@@ -37,6 +37,7 @@ local globals = {
 	TEST_WON = false,
 	TEST_LOST = false,
 	TEST_LEVEL_NAME = "test_level",
+	TEST_CAN_TOGGLE_WIN_STATE = true,
 	
 	WIN_FADE_TIME = 2,
 	BUTTON_FLASH_PERIOD = 0.6,

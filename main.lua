@@ -91,6 +91,6 @@ function love.load(arg)
 	Resources.LoadResources()
 	Cosmos.Initialize()
 	
-	love.filesystem.setIdentity("LD56", true)
+	love.filesystem.setIdentity("Deadly Trails", true)
 	love.window.maximize() -- Do not fullscreen since we lack an exit button.
 end
