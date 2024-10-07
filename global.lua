@@ -38,8 +38,8 @@ local globals = {
 	
 	TEST_WON = false,
 	TEST_LOST = false,
-	TEST_LEVEL_NAME = "empty_level",
-	TEST_CAN_TOGGLE_WIN_STATE = true,
+	TEST_LEVEL_NAME = false,
+	TEST_CAN_TOGGLE_WIN_STATE = false,
 	
 	WIN_FADE_TIME = 2,
 	BUTTON_FLASH_PERIOD = 0.6,
@@ -47,8 +47,8 @@ local globals = {
 	MOUSE_ITEM_SCALE = 0.7,
 	SHOP_IMAGE_SCALE = 0.9,
 	
-	MASTER_VOLUME = 0.75,
-	MUSIC_VOLUME = 0.02,
+	MASTER_VOLUME = 0.5,
+	MUSIC_VOLUME = 0.03,
 	DEFAULT_MUSIC_DURATION = 174.69,
 	CROSSFADE_TIME = 0,
 	

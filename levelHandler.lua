@@ -33,6 +33,9 @@ end
 function api.ToggleEditMode()
 	self.editMode = not self.editMode
 	self.debugDraw = false
+	if self.editMode then
+		self.hasHadEditMode = true
+	end
 	ItemHandler.ReplaceActiveItem()
 end
 
@@ -156,7 +159,7 @@ function api.KeyPressed(key, scancode, isRepeat)
 		api.OpenLoadMenu()
 		return true
 	end
-	if key == "g" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+	if key == "g" and self.hasHadEditMode and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
 		self.debugDraw = not self.debugDraw
 		return true
 	end
