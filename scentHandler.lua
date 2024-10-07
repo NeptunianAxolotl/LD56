@@ -65,6 +65,9 @@ function api.AddScent(name, pos, radius, newStrength)
 end
 
 function api.Update(dt)
+	if not GameHandler.GetLevelBegun() then
+		dt = dt*0.05
+	end
 	self.currentTime = self.currentTime + dt
 end
 

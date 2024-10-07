@@ -7,6 +7,9 @@ local NewBlock = require("objects/block")
 
 
 function api.Update(dt)
+	if not GameHandler.GetLevelBegun() then
+		dt = dt*0.05
+	end
 	IterableMap.ApplySelf(self.blocks, "Update", dt)
 end
 

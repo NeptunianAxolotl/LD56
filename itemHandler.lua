@@ -124,8 +124,15 @@ local function CanPlaceBlock(def, pos)
 	return true
 end
 
+function api.SetCurrentItem(newItem)
+	if newItem then
+		GameHandler.BeginLevel()
+	end
+	self.currentItem = newItem
+end
+
 function api.ReplaceActiveItem()
-	self.currentItem = false
+	api.SetCurrentItem(false)
 	self.currentBlock = false
 end
 
@@ -360,7 +367,7 @@ end
 function api.KeyPressed(key, scancode, isRepeat)
 	if LevelHandler.GetEditMode() then
 		if key == EditDefs.deletionKey then
-			self.currentItem = "editRemove"
+			api.SetCurrentItem("editRemove")
 			self.placeType = false
 			return true
 		elseif key == EditDefs.rotationKey then
@@ -370,23 +377,23 @@ function api.KeyPressed(key, scancode, isRepeat)
 			self.placeRotation = (self.placeRotation - 90)%360
 			return true
 		elseif EditDefs.blocks[key] then
-			self.currentItem = "editPlaceBlock"
+			api.SetCurrentItem("editPlaceBlock")
 			self.placeType = EditDefs.blocks[key]
 			return true
 		elseif EditDefs.nests[key] then
-			self.currentItem = "editPlaceNest"
+			api.SetCurrentItem("editPlaceNest")
 			self.placeType = EditDefs.nests[key]
 			return true
 		elseif EditDefs.food[key] then
-			self.currentItem = "editPlaceFood"
+			api.SetCurrentItem("editPlaceFood")
 			self.placeType = EditDefs.food[key]
 			return true
 		elseif EditDefs.spawners[key] then
-			self.currentItem = "editPlaceSpawner"
+			api.SetCurrentItem("editPlaceSpawner")
 			self.placeType = EditDefs.spawners[key]
 			return true
 		elseif EditDefs.doodads[key] then
-			self.currentItem = "editPlaceDoodad"
+			api.SetCurrentItem("editPlaceDoodad")
 			self.placeType = EditDefs.doodads[key]
 			return true
 		end
@@ -395,7 +402,7 @@ function api.KeyPressed(key, scancode, isRepeat)
 	if number then
 		local levelData = LevelHandler.GetLevelData()
 		if levelData.items[number] then
-			self.currentItem = levelData.items[number]
+			api.SetCurrentItem(levelData.items[number])
 			return true
 		end
 	end
@@ -446,9 +453,9 @@ end
 function api.MousePressed(x, y, button)
 	if self.hoveredItem then
 		if self.currentItem == self.hoveredItem then
-			self.currentItem = false
+			api.SetCurrentItem(false)
 		else
-			self.currentItem = self.hoveredItem
+			api.SetCurrentItem(self.hoveredItem)
 		end
 		self.currentBlock = false
 		return

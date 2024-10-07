@@ -40,6 +40,13 @@ function api.ToggleSandboxMode()
 	self.sandboxMode = not self.sandboxMode
 end
 
+function api.BeginLevel()
+	self.levelBegun = true
+end
+
+function api.GetLevelBegun()
+	return self.levelBegun
+end
 
 --------------------------------------------------
 -- Updating

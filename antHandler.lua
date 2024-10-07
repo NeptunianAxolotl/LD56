@@ -224,6 +224,9 @@ function api.DeleteObjectAt(pos)
 end
 
 function api.Update(dt)
+	if not GameHandler.GetLevelBegun() then
+		dt = dt*0.05
+	end
 	IterableMap.ApplySelf(self.ants, "Update", dt)
 	IterableMap.ApplySelf(self.creatures, "Update", dt)
 	IterableMap.ApplySelf(self.nests, "Update", dt)
