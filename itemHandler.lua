@@ -303,11 +303,11 @@ local function DrawLevelVictoryState()
 	if won then
 		love.graphics.setColor(0, 0, 0, 0.8)
 		Font.SetSize(3)
-		love.graphics.printf(levelData.gameWon or "The ants have been removed.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 480, Global.SHOP_WIDTH - 10, "left")
+		love.graphics.printf(levelData.gameWon or "The ants have been removed.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 560, Global.SHOP_WIDTH - 10, "left")
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 75, mousePos, "Next Level", false, true, false, 2, 12, false) or self.hoveredMenuAction
 	end
 	if lost then
-		love.graphics.printf(levelData.gameOver or "The ants ate too much food. Press Ctrl+R to restart.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 480, Global.SHOP_WIDTH - 10, "left")
+		love.graphics.printf(levelData.gameLost or "The ants ate too much food. Press Ctrl+R to restart.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 560, Global.SHOP_WIDTH - 10, "left")
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 75, mousePos, "Restart", false, true, false, 2, 12, false) or self.hoveredMenuAction
 	end
 end

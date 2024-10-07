@@ -2,9 +2,10 @@ local data = {
 	humanName = "Pet Spider",
 	width = 1350,
 	height = 880,
-	description = "Who thought buying a spider would help? Poison is the only way! But the spider is a nuisance, so try honking it or feeding it coffee.\n\nTools can be selected with the number keys on your keyboard",
-	gameWon = "The ants have been successfully removed.",
-	gameLost = "The ants ate all your food, you'll have to try again.",
+	description = "A spider?? Spiders don't help! Only poison fully removes ants. If the spider is too much of a nuisance, try honking it or feeding it coffee.\n\nTools can be selected with the number keys on your keyboard",
+
+	gameWon = "The ants are all gone, no thanks to that spider.",
+	gameLost = "How did you even see this? Losing this level should be literally impossible.",
 	mustRetainAtLeastThisMuchFood = 0,
 	tweaks = {
 		foodHealthMult = 1,

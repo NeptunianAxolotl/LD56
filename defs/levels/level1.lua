@@ -1,9 +1,10 @@
 local data = {
-	humanName = "Ant Removalists",	width = 1350,
+	humanName = "Ant Removalists",
+	width = 1350,
 	height = 800,
-	description = "Poison is the only way to get rid of ants, but not when you hide it behind the couch!\n\nClick the tools below then click in the room to use them. Use the hand to move the couch, and the scent bottle to guide the ants.",
-	gameWon = "The ants have been successfully removed.",
-	gameLost = "The ants ate all your food, you'll have to try again.",
+	description = "Poison. That is how we exterminate ants. But it doesn't work when you hide it behind the couch!\n\nClick a tool below then click the room. Use the hand to move the couch, and the scent bottle to guide ants to poison.",
+	gameWon = "A good first job. All the ants are gone.",
+	gameLost = "How did you even see this? Losing this level should be literally impossible.",
 	mustRetainAtLeastThisMuchFood = 0,
 	tweaks = {
 		nestHealthMult = 1,
