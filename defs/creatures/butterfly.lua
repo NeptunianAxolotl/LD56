@@ -1,6 +1,6 @@
 
 local data = {
-	speed = 65,
+	speed = 75,
 	turnCheckLength = 20,
 	turnCheckAngle = 0.6,
 	
@@ -10,8 +10,8 @@ local data = {
 	
 	arriveDist = 30,
 	
-	mopRadius = 60,
-	mopStrength = 3,
+	mopRadius = 70,
+	mopStrength = 4,
 	
 	enterGoalTime = 3,
 	enterWanderTime = 20,
