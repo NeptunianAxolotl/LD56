@@ -1,26 +1,20 @@
 
 EffectsHandler = require("effectsHandler")
-DialogueHandler = require("dialogueHandler")
 TerrainHandler = require("terrainHandler")
-ShadowHandler = require("shadowHandler")
 
 ItemHandler = require("itemHandler")
 BlockHandler = require("blockHandler")
 AntHandler = require("antHandler")
 ScentHandler = require("scentHandler")
 LevelHandler = require("levelHandler")
-PlayerHandler = require("playerHandler")
 DoodadHandler = require("doodadHandler")
 
 InterfaceUtil = require("utilities/interfaceUtilities")
 Delay = require("utilities/delay")
 
-local PhysicsHandler = require("physicsHandler")
 CameraHandler = require("cameraHandler")
 Camera = require("utilities/cameraUtilities")
 
-ChatHandler = require("chatHandler")
-DeckHandler = require("deckHandler")
 GameHandler = require("gameHandler") -- Handles the gamified parts of the game, such as score, progress and interface.
 
 local PriorityQueue = require("include/PriorityQueue")
@@ -123,10 +117,6 @@ function api.MousePressed(x, y, button)
 		return
 	end
 	local uiX, uiY = self.interfaceTransform:inverse():transformPoint(x, y)
-	
-	if DialogueHandler.MousePressedInterface(uiX, uiY, button) then
-		return
-	end
 	x, y = CameraHandler.GetCameraTransform():inverse():transformPoint(x, y)
 	
 	-- Send event to game components
@@ -226,16 +216,10 @@ function api.Update(dt)
 	self.lifetime = self.lifetime + dt
 	Delay.Update(dt)
 	InterfaceUtil.Update(dt)
-	PlayerHandler.Update(dt)
 	BlockHandler.Update(dt)
 	ItemHandler.Update(dt)
 	AntHandler.Update(dt)
 	ScentHandler.Update(dt)
-	--ShadowHandler.Update(api)
-	
-	PhysicsHandler.Update(dt)
-
-	ChatHandler.Update(dt)
 	EffectsHandler.Update(dt)
 	UpdateCamera(dt)
 end
@@ -252,9 +236,7 @@ function api.Draw()
 		d.f()
 	end
 	
-	--ShadowHandler.DrawGroundShadow(self.cameraTransform)
 	EffectsHandler.Draw(drawQueue)
-	PlayerHandler.Draw(drawQueue)
 	TerrainHandler.Draw(drawQueue)
 	BlockHandler.Draw(drawQueue)
 	ItemHandler.Draw(drawQueue)
@@ -269,7 +251,6 @@ function api.Draw()
 		if not d then break end
 		d.f()
 	end
-	--ShadowHandler.DrawVisionShadow(CameraHandler.GetCameraTransform())
 	
 	local windowX, windowY = love.window.getMode()
 	local aspectRatio = Global.VIEW_WIDTH/Global.VIEW_HEIGHT
@@ -286,8 +267,6 @@ function api.Draw()
 	-- Draw interface
 	GameHandler.DrawInterface()
 	EffectsHandler.DrawInterface()
-	DialogueHandler.DrawInterface()
-	ChatHandler.DrawInterface()
 	ItemHandler.DrawInterface()
 	LevelHandler.DrawInterface()
 	
@@ -309,13 +288,7 @@ function api.Initialize(cosmos, levelData)
 	Delay.Initialise()
 	InterfaceUtil.Initialize()
 	EffectsHandler.Initialize(api)
-	
 	LevelHandler.Initialize(api, levelData)
-	PhysicsHandler.Initialize(api)
-	PlayerHandler.Initialize(api)
-	ChatHandler.Initialize(api)
-	DialogueHandler.Initialize(api)
-	
 	AntHandler.PreInitialize(api)
 	
 	TerrainHandler.Initialize(api, levelData)
@@ -324,9 +297,6 @@ function api.Initialize(cosmos, levelData)
 	AntHandler.Initialize(api)
 	ScentHandler.Initialize(api)
 	DoodadHandler.Initialize(api)
-	--ShadowHandler.Initialize(api)
-	
-	DeckHandler.Initialize(api)
 	GameHandler.Initialize(api)
 	
 	local padding = {left = 0, right = Global.SHOP_WIDTH / Global.VIEW_WIDTH, top = 0, bot = 0}

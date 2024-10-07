@@ -36,9 +36,9 @@ local data = {
 	
 	draw = function (self, drawQueue)
 
-		local butterflyImage = "butterflyA"
+		local butterflyImage = "butterfly_a"
 		if (self.wingtimer or 0) > 0.075 then
-			butterflyImage = "butterflyB"
+			butterflyImage = "butterfly_b"
 		end
 
 		local butterfly_scale = 1.4
