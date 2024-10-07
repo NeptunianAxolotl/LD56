@@ -2,7 +2,7 @@ local data = {
 	humanName = "Level 5",
 	width = 1550,
 	height = 1020,
-	description = "Open Window",
+	description = ".",
 	gameWon = "",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	worldWrap = true,
@@ -57,17 +57,10 @@ local data = {
 			},
 		},
 		{
-			"basic_food",
+			"cake_food",
 			{
-				1160,
-				320,
-			},
-		},
-		{
-			"basic_food",
-			{
-				1160,
-				460,
+				1140,
+				380,
 			},
 		},
 	},
@@ -154,6 +147,13 @@ local data = {
 			{
 				80,
 				460,
+			},
+		},
+		{
+			"fan_270",
+			{
+				700,
+				720,
 			},
 		},
 		{
@@ -290,17 +290,17 @@ local data = {
 			},
 		},
 		{
-			"fan_270",
+			"flying_door_vert",
 			{
-				1020,
-				400,
+				160,
+				420,
 			},
 		},
 		{
-			"houseplant",
+			"flying_door_vert",
 			{
-				1000,
-				800,
+				160,
+				320,
 			},
 		},
 	},
