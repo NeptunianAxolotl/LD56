@@ -1,10 +1,10 @@
 local data = {
-	humanName = "Redecorating",
+	humanName = "Resident Spider",
 	nextLevel = "level3",
 	prevLevel = "level1",
 	width = 1350,
 	height = 880,
-	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
+	description = "Who thought a pet spider would help? Poison is the only way! But the spider is a nuisance, so try honking it or feeding it coffee.\n\nTools can be selected with the number keys on your keyboard",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 0,
@@ -19,8 +19,8 @@ local data = {
 	},
 	items = {
 		"renovate",
-		"airhorn",
 		"accelerate",
+		"airhorn",
 	},
 	spawners = {
 		{

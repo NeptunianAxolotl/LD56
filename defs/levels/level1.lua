@@ -1,9 +1,9 @@
 local data = {
-	humanName = "Redecorating",
+	humanName = "Ant Removalists",
 	nextLevel = "level2",
 	width = 1350,
 	height = 800,
-	description = "Poison solves any ant infestation, but someone foolishly put it behind the couch.\n - Use the Hammer to free a path.\n - Use the scent tool to guide the ants.\nClick a tool to select it, then click in the room.",
+	description = "Poison is the only way to get rid of ants, but not when you hide it behind the couch!\n\nClick the tools below then click in the room to use them. Use the hand to move the couch, and the scent bottle to guide the ants.",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 0,
