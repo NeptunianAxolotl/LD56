@@ -1,29 +1,32 @@
-
 local self = {}
 local api = {}
 
-local function InitializeScent(name, linger)
+local function InitializeScent(name, linger, red, green, blue)
+	local levelData = LevelHandler.GetLevelData()
+	local width = math.floor(levelData.width / Global.SCENT_GRID_SIZE)
+	local height = math.floor(levelData.height / Global.SCENT_GRID_SIZE)
+	local imageData = love.image.newImageData(width, height)
+
+	imageData:mapPixel(function(x,y, r,g,b,a)
+		return red, green, blue, a
+	end)
+
+	local strength = {}
+
+	for idx = 1, height * width do
+		strength[idx] = 0
+	end
+
 	local scent = {
-		strength = {},
-		lastTouch = {},
+		strength = strength,
 		gridSize = Global.SCENT_GRID_SIZE,
 		linger = linger,
+		imageData = imageData,
+		image = love.graphics.newImage(imageData),
+		width = width,
+		height = height
 	}
 	self.scents[name] = scent
-end
-
-function api.GetScentRawPos(name, x, y)
-	x, y = TerrainHandler.WrapGrid(x, y)
-	local scent = self.scents[name]
-	if not scent.strength[x] then
-		return 0
-	end
-	local strength = scent.strength[x][y] or 0
-	if strength == 0 then
-		return 0
-	end
-	local touch = scent.lastTouch[x][y]
-	return strength * math.pow(scent.linger, self.currentTime - touch)
 end
 
 function api.GetScent(name, pos, canBeBlocked)
@@ -31,9 +34,8 @@ function api.GetScent(name, pos, canBeBlocked)
 		return 0
 	end
 	local scent = self.scents[name]
-	local x = math.floor(pos[1]/scent.gridSize)
-	local y = math.floor(pos[2]/scent.gridSize)
-	return api.GetScentRawPos(name, x, y)
+	local x, y = TerrainHandler.WrapGrid(math.floor(pos[1]/scent.gridSize), math.floor(pos[2]/scent.gridSize))
+	return scent.strength[1+y*scent.width+x]
 end
 
 function api.AddScent(name, pos, radius, newStrength)
@@ -44,21 +46,21 @@ function api.AddScent(name, pos, radius, newStrength)
 	local y = math.floor(pos[2]/scent.gridSize)
 	local gridRad = radius/scent.gridSize
 	local gridRadSq = gridRad*gridRad
-	for i = math.floor(x - gridRad), math.ceil(x + gridRad) do
-		for j = math.floor(y - gridRad), math.ceil(y + gridRad) do
+
+	local scent_strength = scent.strength
+	local width = scent.width
+
+	for j = math.floor(y - gridRad), math.ceil(y + gridRad) do
+		for i = math.floor(x - gridRad), math.ceil(x + gridRad) do
 			local iw, jw = TerrainHandler.WrapGrid(i, j)
 			local distSq = (xFrac - i)*(xFrac - i) + (yFrac - j)*(yFrac - j)
 			if distSq < gridRadSq then
-				local existing = api.GetScentRawPos(name, i, j)
-				if not scent.strength[iw] then
-					scent.strength[iw] = {}
-					scent.lastTouch[iw] = {}
+				local idx = 1+iw+jw*width
+				local existing = scent_strength[idx]
+				scent_strength[idx] = existing + newStrength * (1 - distSq / gridRadSq)
+				if scent_strength[idx] < 0 then
+					scent_strength[idx] = 0
 				end
-				scent.strength[iw][jw] = existing + newStrength * (1 - distSq / gridRadSq)
-				if scent.strength[iw][jw] < 0 then
-					scent.strength[iw][jw] = 0
-				end
-				scent.lastTouch[iw][jw] = self.currentTime
 			end
 		end
 	end
@@ -68,29 +70,39 @@ function api.Update(dt)
 	if not GameHandler.GetLevelBegun() then
 		dt = dt*0.05
 	end
-	self.currentTime = self.currentTime + dt
-end
 
-local function DrawScent(name, red, green, blue, alpha, strengthScale)
-	local scale = self.scents[name].gridSize
-	local levelData = LevelHandler.GetLevelData()
-	local width = math.floor(levelData.width / Global.SCENT_GRID_SIZE) - 1
-	local height = math.floor(levelData.height / Global.SCENT_GRID_SIZE) - 1
-	for x = 0, width do
-		for y = 0, height do
-			local strength = api.GetScentRawPos(name, x, y)
-			if strength > 0 then
-				love.graphics.setColor(red, green, blue, alpha * strength / (strengthScale + strength))
-				love.graphics.rectangle("fill", x*scale, y*scale, scale, scale, 0, 0, 0)
-			end
+	for name, scent in pairs(self.scents) do
+		local decayBy = math.pow(scent.linger, dt)
+
+		local scent_strength = scent.strength
+		for idx = 1, scent.height * scent.width do
+			scent_strength[idx] = scent_strength[idx] * decayBy
 		end
 	end
 end
 
+local function DrawScent(name, alpha, strengthScale)
+	local scent = self.scents[name]
+	local width = scent.width
+
+	local imageData = scent.imageData
+	local scent_strength = scent.strength
+
+	imageData:mapPixel(function(x,y, r,g,b,a)
+		local strength = scent_strength[1+y*scent.width+x]
+		return r, g, b, (alpha * strength / (strengthScale + strength))
+	end)
+
+	local image = scent.image
+	image:replacePixels(imageData)
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.draw(image, 0, 0, 0, scent.gridSize)
+end
+
 function api.Draw(drawQueue)
 	drawQueue:push({y=30; f=function()
-		DrawScent("explore", 1, 0, 0, 0.8, 6)
-		DrawScent("food", 0, 0.5, 1, 0.6, 10)
+		DrawScent("explore", 0.8, 6)
+		DrawScent("food", 0.6, 10)
 	end})
 end
 
@@ -100,8 +112,8 @@ function api.Initialize(world)
 		currentTime = 0,
 		scents = {},
 	}
-	InitializeScent("explore", Global.EXPLORE_DECAY)
-	InitializeScent("food", Global.FOOD_DECAY)
+	InitializeScent("explore", Global.EXPLORE_DECAY, 1, 0, 0)
+	InitializeScent("food", Global.FOOD_DECAY, 0, 0.5, 1)
 end
 
 return api
