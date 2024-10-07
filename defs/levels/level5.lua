@@ -16,7 +16,6 @@ local data = {
 		nestSpawnRate = 1,
 	},
 	itemMods = {
-		
 	},
 	items = {
 		"renovate",
@@ -26,7 +25,7 @@ local data = {
 	},
 	spawners = {
 		{
-			"many_butterfly",
+			"many_bees",
 			{
 				80,
 				380,
@@ -260,6 +259,34 @@ local data = {
 			{
 				280,
 				200,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				660,
+				980,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				900,
+				980,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				660,
+				40,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				920,
+				40,
 			},
 		},
 	},
@@ -757,64 +784,15 @@ local data = {
 		{
 			"small_void",
 			{
-				660,
-				0,
-			},
-		},
-		{
-			"small_void",
-			{
-				700,
-				0,
-			},
-		},
-		{
-			"small_void",
-			{
-				740,
-				0,
-			},
-		},
-		{
-			"small_void",
-			{
-				780,
-				0,
-			},
-		},
-		{
-			"small_void",
-			{
-				820,
-				0,
-			},
-		},
-		{
-			"small_void",
-			{
-				860,
-				0,
-			},
-		},
-		{
-			"small_void",
-			{
-				900,
-				0,
-			},
-		},
-		{
-			"small_void",
-			{
-				940,
-				0,
-			},
-		},
-		{
-			"small_void",
-			{
 				980,
 				0,
+			},
+		},
+		{
+			"void_long_270",
+			{
+				800,
+				-80,
 			},
 		},
 	},

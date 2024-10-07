@@ -9,7 +9,13 @@ for name, def in pairs(doodads) do
 			local rotName = name .. "_" .. i
 			local newDef = util.CopyTable(def)
 			newDef.name = rotName
-			newDef.rotation = i * math.pi / 180
+			if newDef.image then
+				newDef.rotation = i * math.pi / 180
+			else
+				if i == 90 or i == 270 then
+					newDef.width, newDef.height = newDef.height, newDef.width
+				end
+			end
 			newDoodads[rotName] = newDef
 		end
 	else

@@ -69,6 +69,7 @@ local rotateable = {
 	window_closed = true,
 	window_open = true,
 	window_garden = true,
+	void_long = true,
 	
 	couch = true,
 	rug = true,
