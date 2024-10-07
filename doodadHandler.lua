@@ -5,9 +5,15 @@ local NewDoodad = require("objects/doodad")
 local self = {}
 local api = {}
 
-function api.DrawDoodad(def, pos, alpha)
+function api.DrawDoodad(def, pos, alpha, changeScale)
 	if def.image then
-		Resources.DrawImage(def.image, pos[1], pos[2], def.rotation, false, (def.flip and {-def.scale, def.scale} or def.scale))
+		local scale = false
+		if def.flip then
+			scale = {-1*(def.scale or 1) * (changeScale or 1), (def.scale or 1) * (changeScale or 1)}
+		else
+			scale = (def.scale or 1) * (changeScale or 1)
+		end
+		Resources.DrawImage(def.image, pos[1], pos[2], def.rotation, alpha, scale)
 	else
 		love.graphics.setColor(0, 0, 0, 1)
 		love.graphics.rectangle("fill", pos[1] - def.width/2, pos[2] - def.height/2, def.width, def.height)

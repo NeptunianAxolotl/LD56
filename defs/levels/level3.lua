@@ -1,5 +1,7 @@
 local data = {
 	humanName = "Well Preserved",
+	nextLevel = "level4",
+	prevLevel = "level2",
 	width = 1400,
 	height = 950,
 	description = "Some people eat cake, others make sure it is the first thing you see when you enter the house. We don't judge, but our client would be distraught if anything were to happen.\n\nPerhaps pick the ants out with tweezers.",

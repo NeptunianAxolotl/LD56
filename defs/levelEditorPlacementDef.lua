@@ -39,7 +39,8 @@ local nests = {
 local food = {
 	kp1 = "basic_food",
 	kp2 = "basic_poison",
-	kp5 = "cake_food",
+	kp3 = "limited_poison",
+	kp0 = "cake_food",
 }
 
 local doodads = {
