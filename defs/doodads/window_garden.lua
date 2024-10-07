@@ -1,6 +1,6 @@
 
 local data = {
-	image = "window_garden",
+	image = "window_open",
 	drawLayer = 300,
 	rotation = math.pi/2,
 	flip = false,

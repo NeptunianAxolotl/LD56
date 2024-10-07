@@ -121,6 +121,10 @@ function api.KeyPressed(key, scancode, isRepeat)
 		api.TakeScreenshot()
 		return true
 	end
+	if key == "q" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		api.LoadLevelByTable(LevelDefs[Global.TEST_LEVEL_NAME])
+		return true
+	end
 	if key == "n" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
 		api.SwitchLevel(true)
 		return true

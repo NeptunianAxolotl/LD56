@@ -1,6 +1,6 @@
 local data = {
-	width = 408,
-	height = 408,
+	width = 400,
+	height = 400,
 	drawLayer = 400,
 }
 

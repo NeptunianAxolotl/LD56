@@ -22,6 +22,9 @@ local data = {
 	end,
 	draw = function (self, drawQueue)
 		local alpha = ((self.stuckTime or 0) > 0.5 and math.max(0.06, (1 - (self.stuckTime - 0.5)*6))) or 1
+		if self.life and self.fadeRate then
+			alpha = alpha * self.life / Global.WIN_FADE_TIME
+		end
 		Resources.DrawImage(self.def.image, self.pos[1], self.pos[2], self.direction, alpha, self.def.scale, self.def.color)
 		if self.hasFood == "poison" then
 			Resources.DrawImage("green_ant", self.pos[1], self.pos[2], self.direction, 0.8*alpha, 1.4)

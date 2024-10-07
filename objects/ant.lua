@@ -19,9 +19,10 @@ local function NewAnt(world, creatureDef, position, size)
 	end
 	
 	function self.Destroy()
-		if not self.destroyed then
-			EffectsHandler.SpawnFadeEffect(self.def.image, self.pos, self.def.scale, self.direction, self.def.drawLayer, 0.4, self.def.color)
-		end
+		-- Seems slow
+		--if not self.destroyed and not self.fadeRate then
+		--	EffectsHandler.SpawnFadeEffect(self.def.image, self.pos, self.def.scale, self.direction, self.def.drawLayer, 0.4, self.def.color)
+		--end
 		self.destroyed = true
 	end
 	
@@ -94,7 +95,7 @@ local function NewAnt(world, creatureDef, position, size)
 		local over, won, lost = world.GetGameOver()
 		if won then
 			self.fadeRate = self.fadeRate or 0.5 + 4*math.random()
-			self.life = math.min(2, self.life) - dt * self.fadeRate
+			self.life = math.min(Global.WIN_FADE_TIME, self.life) - dt * self.fadeRate
 		else
 			self.life = self.life - dt * LevelHandler.GetLifeRateMultiplier()
 		end

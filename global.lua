@@ -36,9 +36,11 @@ local globals = {
 	
 	TEST_WON = false,
 	TEST_LOST = false,
+	TEST_LEVEL_NAME = "test_level",
 	
+	WIN_FADE_TIME = 2,
 	BUTTON_FLASH_PERIOD = 0.6,
-	PLANK_SCALE = 0.65,
+	PLANK_SCALE = 0.52,
 	MOUSE_ITEM_SCALE = 0.7,
 	SHOP_IMAGE_SCALE = 0.9,
 	
@@ -85,7 +87,8 @@ local globals = {
 	SAVE_ORDER = {
 		"humanName", "nextLevel", "prevLevel",  "width", "height",
 		"description",  "gameWon", "gameLost",
-		"mustRetainAtLeastThisMuchFood", "nestHealthMult", "foodHealthMult", "initialItemsProp", "lifetimeMultiplier",
+		"mustRetainAtLeastThisMuchFood", "nestHealthMult", "foodHealthMult", "initialItemsProp",
+		"itemRehargeMult", "lifetimeMultiplier",
 		"hints", "items", "spawners", "nests", "food", "blocks", "doodads"
 	},
 	SAVE_INLINE = {"pos", "size"},

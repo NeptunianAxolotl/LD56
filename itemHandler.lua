@@ -199,7 +199,6 @@ function api.Draw(drawQueue)
 end
 
 local function DrawLevelTextAndItems()
-	self.hoveredItem = false
 	InterfaceUtil.DrawPanel(Global.VIEW_WIDTH - Global.SHOP_WIDTH, -1000, Global.SHOP_WIDTH * 10, Global.VIEW_HEIGHT + 2000, 12)
 
 	local levelData = LevelHandler.GetLevelData()
@@ -243,34 +242,88 @@ local function DrawLevelTextAndItems()
 end
 
 local function DrawLevelVictoryState()
-	self.hoveredEndLevelAction = false
-	
 	local gameOver, won, lost = self.world.GetGameOver()
 	if not gameOver or LevelHandler.GetEditMode() then
 		return
 	end
 	local levelData = LevelHandler.GetLevelData()
-	
 	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 110
-	local shopItemsY = 400
-	local shopItemsY = 950
+	local shopItemsY = 855
 	local mousePos = self.world.GetMousePositionInterface()
 	
 	if won then
 		love.graphics.setColor(0, 0, 0, 0.8)
 		Font.SetSize(3)
 		love.graphics.printf(levelData.gameWon or "The ants have been removed.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 700, Global.SHOP_WIDTH - 10, "left")
-		self.hoveredEndLevelAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 80, mousePos, "Next Level", false, true, false, 2, 16, false) or self.hoveredEndLevelAction
+		self.hovereMenuAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 75, mousePos, "Next Level", false, true, false, 2, 12, false) or self.hovereMenuAction
 	end
 	if lost then
 		love.graphics.printf(levelData.gameOver or "The ants ate too much food. Press Ctrl+R to restart.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 700, Global.SHOP_WIDTH - 10, "left")
-		self.hoveredEndLevelAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 80, mousePos, "Restart", false, true, false, 2, 16, false) or self.hoveredEndLevelAction
+		self.hovereMenuAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 75, mousePos, "Restart", false, true, false, 2, 12, false) or self.hovereMenuAction
 	end
 end
 
+local function DrawMenu()
+	self.hovereMenuAction = false
+	
+	local shopItemsX = Global.VIEW_WIDTH - Global.SHOP_WIDTH*0.5 - 110
+	local shopItemsY = 950
+	local mousePos = self.world.GetMousePositionInterface()
+	self.hovereMenuAction = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 220, 75, mousePos, "Menu", false, false, false, 2, 12, false) or self.hovereMenuAction
+
+	if not self.world.GetPaused() then
+		return
+	end
+
+	local overX = Global.VIEW_WIDTH*0.84
+	local overWidth = Global.VIEW_WIDTH*0.16
+	local overY = Global.VIEW_HEIGHT*0.1
+	local overHeight = Global.VIEW_HEIGHT*0.7
+	InterfaceUtil.DrawPanel(overX, overY, overWidth, overHeight*1.12)
+	
+	local offset = overY + 20
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Toggle Music", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Music Louder", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Music Softer", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Effects Louder", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Effects Softer", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	
+	offset = offset + 20
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Toggle Edge Scroll", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Scroll Speed Up", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Scroll Speed Down", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	
+	offset = offset + 20
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Switch to Sandbox", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Switch to Base", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Switch to Hard", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Switch to Hardest", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset + 55
+	
+	local offset = overY + overHeight*1.12 - 20 - 45
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Quit", false, false, false, 3, 8, 4) or self.hovereMenuAction
+	offset = offset - 55
+	self.hovereMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Restart", false, false, false, 3, 8, 4) or self.hovereMenuAction
+end
+
 function api.DrawInterface()
+	self.hoveredItem = false
+	self.hovereMenuAction = false
+	
 	DrawLevelTextAndItems()
 	DrawLevelVictoryState()
+	DrawMenu()
 	if self.currentItem and not self.currentBlock then
 		local itemDef = ItemDefs.defs[self.currentItem]
 		if itemDef then
@@ -332,10 +385,10 @@ function api.MousePressed(x, y, button)
 		return
 	end
 	
-	if self.hoveredEndLevelAction then
-		if self.hoveredEndLevelAction == "Next Level" then
+	if self.hovereMenuAction then
+		if self.hovereMenuAction == "Next Level" then
 			self.world.GetCosmos().SwitchLevel(true)
-		elseif self.hoveredEndLevelAction == "Restart" then
+		elseif self.hovereMenuAction == "Restart" then
 			self.world.Restart()
 		end
 		return

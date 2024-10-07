@@ -1,8 +1,8 @@
 
 local data = {
 	shopImage = "shop_tweezers",
-	maxCharges = 2,
-	rechargeTime = 1,
+	maxCharges = 3,
+	rechargeTime = 0.9,
 	effectRadius = 50,
 }
 

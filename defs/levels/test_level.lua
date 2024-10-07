@@ -5,6 +5,11 @@ local data = {
 	width = 2600,
 	height = 1400,
 	lifetimeMultiplier = 1,
+	mustRetainAtLeastThisMuchFood = 0,
+	nestHealthMult = 1,
+	foodHealthMult = 1,
+	initialItemsProp = 1,
+	lifetimeMultiplier = 1,
 	hints = {
 		{
 			pos = {1800, 200},

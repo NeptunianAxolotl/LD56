@@ -1,17 +1,17 @@
 local data = {
 	humanName = "Bee",
 	nextLevel = "level2",
+	width = 1800,
+	height = 1050,
 	description = "Bees.",
 	gameWon = "The ants have been successfully removed.",
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 1,
-	lifetimeMultiplier = 1,
-	width = 1800,
-	height = 1050,
 	nestHealthMult = 1,
 	foodHealthMult = 1,
-	itemRehargeMult = 0.5,
 	initialItemsProp = 0,
+	lifetimeMultiplier = 1,
+	itemRehargeMult = 0.5,
 	items = {
 		"renovate",
 		"scent",
@@ -20,10 +20,10 @@ local data = {
 	},
 	spawners = {
 		{
-			"many_bees",
+			"single_bee",
 			{
-				400,
-				620,
+				800,
+				580,
 			},
 		},
 		{
@@ -34,10 +34,10 @@ local data = {
 			},
 		},
 		{
-			"single_bee",
+			"many_bees",
 			{
-				800,
-				580,
+				380,
+				700,
 			},
 		},
 	},
@@ -62,18 +62,11 @@ local data = {
 			"basic_food",
 			{
 				1160,
-				460,
+				480,
 			},
 		},
 	},
 	blocks = {
-		{
-			"flying_door_vert",
-			{
-				480,
-				640,
-			},
-		},
 		{
 			"wall_hor",
 			{
@@ -86,13 +79,6 @@ local data = {
 			{
 				420,
 				540,
-			},
-		},
-		{
-			"placement_blocker",
-			{
-				380,
-				640,
 			},
 		},
 		{
@@ -257,17 +243,10 @@ local data = {
 			},
 		},
 		{
-			"wall_big",
+			"rug_0",
 			{
-				340,
-				840,
-			},
-		},
-		{
-			"wall_big",
-			{
-				160,
-				720,
+				860,
+				540,
 			},
 		},
 		{
@@ -306,10 +285,80 @@ local data = {
 			},
 		},
 		{
-			"rug_0",
+			"placement_blocker",
 			{
+				380,
+				680,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				480,
 				860,
-				540,
+			},
+		},
+		{
+			"wall_filler",
+			{
+				480,
+				580,
+			},
+		},
+		{
+			"wall_hor",
+			{
+				380,
+				580,
+			},
+		},
+		{
+			"wall_hor",
+			{
+				260,
+				580,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				220,
+				660,
+			},
+		},
+		{
+			"wall_vert",
+			{
+				220,
+				700,
+			},
+		},
+		{
+			"flying_door_vert",
+			{
+				480,
+				660,
+			},
+		},
+		{
+			"flying_door_vert",
+			{
+				480,
+				720,
+			},
+		},
+		{
+			"wall_big",
+			{
+				300,
+				940,
+			},
+		},
+		{
+			"wall_big",
+			{
+				180,
+				740,
 			},
 		},
 	},
@@ -322,24 +371,24 @@ local data = {
 			},
 		},
 		{
-			"wall_180",
+			"door_closed_180",
 			{
-				620,
+				760,
 				140,
 			},
 		},
 		{
-			"wall_180",
+			"wall_small_180",
 			{
-				740,
-				140,
+				1380,
+				300,
 			},
 		},
 		{
-			"wall_180",
+			"wall_small_180",
 			{
-				880,
-				140,
+				1340,
+				300,
 			},
 		},
 		{
@@ -448,10 +497,10 @@ local data = {
 			},
 		},
 		{
-			"wall_90",
+			"wall_180",
 			{
-				480,
-				780,
+				540,
+				140,
 			},
 		},
 		{
@@ -518,10 +567,10 @@ local data = {
 			},
 		},
 		{
-			"wall_small_90",
+			"wall_180",
 			{
-				480,
-				700,
+				1240,
+				300,
 			},
 		},
 		{
@@ -637,10 +686,10 @@ local data = {
 			},
 		},
 		{
-			"void",
+			"wall_small_180",
 			{
-				260,
-				720,
+				1140,
+				300,
 			},
 		},
 		{
@@ -686,10 +735,10 @@ local data = {
 			},
 		},
 		{
-			"door_closed_180",
+			"window_closed_270",
 			{
-				1240,
-				300,
+				1400,
+				600,
 			},
 		},
 		{
@@ -700,38 +749,24 @@ local data = {
 			},
 		},
 		{
-			"wall_small_180",
+			"window_open_90",
 			{
-				1140,
-				300,
+				480,
+				700,
 			},
 		},
 		{
-			"wall_small_180",
+			"window_garden_90",
 			{
-				1340,
-				300,
+				480,
+				700,
 			},
 		},
 		{
-			"wall_small_180",
+			"void",
 			{
-				1380,
-				300,
-			},
-		},
-		{
-			"window_closed_180",
-			{
-				740,
-				140,
-			},
-		},
-		{
-			"window_closed_270",
-			{
-				1400,
-				600,
+				260,
+				720,
 			},
 		},
 	},
