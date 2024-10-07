@@ -260,6 +260,13 @@ local function DrawLevelTextAndItems()
 		love.graphics.printf(levelData.description, Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 100, Global.SHOP_WIDTH - 10, "left")
 	end
 	
+	if LevelHandler.GetEditMode() then
+		love.graphics.setColor(0, 0, 0, 0.8)
+		Font.SetSize(3)
+		love.graphics.printf("Welcome to edit mode. Keyboard keys select items. Press all of them and check the top left to see what they do.\n - Q deletes blocks\n - Z and X rotates some blocks\n - The numpad contains creature spawners, food, and nests.\n\nLevel dimension and items are edited in the file manually.\n\nPress Ctrl+E to leave edit mode.", Global.VIEW_WIDTH - Global.SHOP_WIDTH + 20, 420, Global.SHOP_WIDTH - 10, "left")
+		return
+	end
+	
 	local gameOver, won, lost = self.world.GetGameOver()
 	if gameOver then
 		return
