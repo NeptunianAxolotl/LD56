@@ -8,11 +8,11 @@ local data = {
 	gameLost = "The ants ate all your food, you'll have to try again.",
 	mustRetainAtLeastThisMuchFood = 1,
 	tweaks = {
-		nestHealthMult = 1,
 		foodHealthMult = 1,
 		initialItemsProp = 0,
-		lifetimeMultiplier = 1,
 		itemRechargeMult = 0.5,
+		lifetimeMultiplier = 1,
+		nestHealthMult = 1,
 		nestSpawnRate = 1,
 	},
 	items = {
@@ -55,17 +55,17 @@ local data = {
 	},
 	food = {
 		{
-			"basic_poison",
-			{
-				1100,
-				840,
-			},
-		},
-		{
 			"basic_food",
 			{
 				1160,
 				480,
+			},
+		},
+		{
+			"basic_poison",
+			{
+				1200,
+				820,
 			},
 		},
 	},
@@ -267,10 +267,10 @@ local data = {
 			},
 		},
 		{
-			"houseplant",
+			"vase",
 			{
-				960,
-				260,
+				1300,
+				400,
 			},
 		},
 		{
@@ -278,13 +278,6 @@ local data = {
 			{
 				1220,
 				160,
-			},
-		},
-		{
-			"vase",
-			{
-				1280,
-				860,
 			},
 		},
 		{
@@ -362,6 +355,13 @@ local data = {
 			{
 				180,
 				740,
+			},
+		},
+		{
+			"houseplant",
+			{
+				960,
+				260,
 			},
 		},
 	},

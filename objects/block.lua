@@ -14,8 +14,15 @@ local function NewBlock(world, blockDef, position)
 		}
 	end
 	
+	if self.def.foodType then
+		self.foodSource = AntHandler.AddFoodSource(self.def.foodType, util.CopyTable(self.pos))
+	end
+	
 	function self.Destroy()
 		self.destroyed = true
+		if self.foodSource then
+			self.foodSource.Destroy()
+		end
 	end
 	
 	function self.Update(dt)

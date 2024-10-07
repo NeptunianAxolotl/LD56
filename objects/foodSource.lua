@@ -1,6 +1,6 @@
 
 
-local function NewNest(world, myDef, position, extraData)
+local function NewFoodSource(world, myDef, position, extraData)
 	local self = {}
 	self.pos = position
 	self.def = myDef
@@ -47,17 +47,26 @@ local function NewNest(world, myDef, position, extraData)
 	end
 	
 	function self.Update(dt)
+		print(self.def.foodType)
 		if self.destroyed then
 			return true
 		end
-		ScentHandler.AddScent("food", self.pos, self.def.scentRadius, dt*self.def.scentStrength)
+		if self.def.scentRadius then
+			ScentHandler.AddScent("food", self.pos, self.def.scentRadius, dt*self.def.scentStrength)
+		end
 	end
 	
 	function self.WriteSaveData()
+		if self.def.ignoreSave then
+			return false
+		end
 		return {self.def.name, self.pos, extraData}
 	end
 	
 	function self.Draw(drawQueue)
+		if not self.def.drawLayer then
+			return
+		end
 		drawQueue:push({y=self.def.drawLayer; f=function()
 			if self.def.image then
 				DoodadHandler.DrawDoodad(self.def, self.pos, 1)
@@ -76,4 +85,4 @@ local function NewNest(world, myDef, position, extraData)
 	return self
 end
 
-return NewNest
+return NewFoodSource

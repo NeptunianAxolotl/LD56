@@ -298,9 +298,11 @@ function api.Initialize(cosmos, levelData)
 	ChatHandler.Initialize(api)
 	DialogueHandler.Initialize(api)
 	
+	AntHandler.PreInitialize(api)
+	
 	TerrainHandler.Initialize(api, levelData)
-	BlockHandler.Initialize(api)
 	ItemHandler.Initialize(api, levelData)
+	BlockHandler.Initialize(api)
 	AntHandler.Initialize(api)
 	ScentHandler.Initialize(api)
 	DoodadHandler.Initialize(api)

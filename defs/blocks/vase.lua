@@ -3,6 +3,7 @@ local data = {
 	width = 100,
 	height = 90,
 	blockTypes = {"placement", "ant"},
+	foodType = "bee_food",
 	canBeMoved = true,
 	
 	image = "vase",

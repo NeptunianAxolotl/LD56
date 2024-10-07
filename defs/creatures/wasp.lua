@@ -18,7 +18,6 @@ local data = {
 	flipTable = {-1, 1},
 	init = function (self)
 		self.SetHomePosition(self.pos)
-		self.wantNectar = true
 	end,
 	
 	update = function (self, dt)
@@ -29,7 +28,7 @@ local data = {
 	
 	draw = function (self, drawQueue)
 		local flip = ((self.direction + math.pi/2)%(math.pi*2) < math.pi)
-		Resources.DrawImage("bee", self.pos[1], self.pos[2], 0, 1, flip and self.def.flipTable)
+		Resources.DrawImage("wasp", self.pos[1], self.pos[2], 0, 1, flip and self.def.flipTable)
 		if self.hasFood and self.foodImage then
 			local foodPos = util.Add(self.pos, {(flip and 1 or -1) * 12, 12})
 			Resources.DrawImage(self.foodImage, foodPos[1], foodPos[2], 0, 1, flip and {-0.04, 0.04} or 0.04)
@@ -38,9 +37,6 @@ local data = {
 	
 	GetSpeedAndDirection = function (self, dt)
 		local goal = false
-		
-		local SearchFunc = self.wantNectar and AntHandler.GetClosestNonPoisonFoodNoWrap or AntHandler.GetClosestAntGoodFoodFoodNoWrap
-		
 		if not self.airhornEffect then
 			if self.hasFood then
 				goal = self.homePos
@@ -51,20 +47,16 @@ local data = {
 				self.pickupFoodTimer = self.pickupFoodTimer - dt
 				if self.pickupFoodTimer < 0 then
 					self.pickupFoodTimer = false
-					local closestFood, foodDist = SearchFunc(self.pos)
+					local closestFood, foodDist = AntHandler.GetClosestNonPoisonFoodNoWrap(self.pos)
 					if foodDist and foodDist < self.def.pickDist then
-						if closestFood.def.foodType == "nectar" then
-							self.wantNectar = false
-						else
-							self.hasFood = true
-							self.foodImage = closestFood.def.foodImage
-							closestFood.FoodTaken()
-						end
+						self.hasFood = true
+						self.foodImage = closestFood.def.foodImage
+						closestFood.FoodTaken()
 					end
 				end
 				return 0, 0
 			else
-				local closestFood, foodDist = SearchFunc(self.pos)
+				local closestFood, foodDist = AntHandler.GetClosestNonPoisonFoodNoWrap(self.pos)
 				if foodDist and foodDist < self.def.pickDist then
 					self.pickupFoodTimer = self.def.pickTime
 				elseif closestFood then
