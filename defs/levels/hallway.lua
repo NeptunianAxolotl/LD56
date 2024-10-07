@@ -9,7 +9,7 @@ local data = {
 	tweaks = {
 		foodHealthMult = 1,
 		initialItemsProp = 1,
-		itemRechargeMult = 1,
+		itemRechargeMult = 0.8,
 		lifetimeMultiplier = 1,
 		nestHealthMult = 1,
 		nestSpawnRate = 1,
@@ -18,10 +18,7 @@ local data = {
 		"renovate",
 		"airhorn",
 		"accelerate",
-		"pickup",
 		"scent",
-		"mop",
-		"place_food",
 	},
 	spawners = {
 		{
@@ -50,10 +47,17 @@ local data = {
 			},
 		},
 		{
-			"basic_food",
+			"strawberry_food",
 			{
-				940,
+				920,
 				680,
+			},
+		},
+		{
+			"strawberry_food",
+			{
+				420,
+				120,
 			},
 		},
 	},
@@ -434,6 +438,13 @@ local data = {
 			{
 				1460,
 				80,
+			},
+		},
+		{
+			"houseplant",
+			{
+				800,
+				420,
 			},
 		},
 	},
@@ -970,5 +981,14 @@ local data = {
 				580,
 			},
 		},
+		{
+			"wall_inner_270",
+			{
+				1320,
+				0,
+			},
+		},
 	},
-}return data
+}
+
+return data

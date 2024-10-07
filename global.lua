@@ -36,7 +36,6 @@ local globals = {
 	HEALTH_BAR_COL = {13/255, 180/255, 80/255},
 	HEALTH_BAR_BACK = {200/255, 11/255, 00/255},
 	
-	
 	TEST_WON = false,
 	TEST_LOST = false,
 	TEST_LEVEL_NAME = "empty_level",
