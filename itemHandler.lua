@@ -6,6 +6,7 @@ local BlockDefs = require("defs/blockDefs")
 local DoodadDefs = require("defs/doodadDefs")
 local ItemDefs = require("defs/itemDefs")
 local EditDefs = require("defs/levelEditorPlacementDef")
+local SoundHandler = require("soundHandler")
 
 local function SnapMousePos(x, y)
 	return {math.floor((x + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID, math.floor((y + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID}
@@ -58,6 +59,7 @@ local function DropScentCheck()
 		ScentHandler.AddScent("explore", mousePos, itemDef.effectRadius, itemDef.scentStrength)
 		ScentHandler.AddScent("food", mousePos, itemDef.effectRadius, itemDef.scentStrength)
 		api.UseCharge("scent")
+    SoundHandler.PlaySound("scent", false, 0, 0, false, false, 1, true)
 	end
 end
 
@@ -68,6 +70,7 @@ local function MopScentCheck()
 		ScentHandler.AddScent("explore", mousePos, itemDef.effectRadius, -itemDef.mopStrength)
 		ScentHandler.AddScent("food", mousePos, itemDef.effectRadius, -itemDef.mopStrength)
 		api.UseCharge("mop")
+    SoundHandler.PlaySound("mop", false, 0, 0, false, false, 1, true)
 	end
 end
 
@@ -459,6 +462,7 @@ function api.MousePressed(x, y, button)
 			BlockHandler.RemoveBlock(self.currentBlock)
 			if CanPlaceBlock(self.currentBlock.def, mousePos) or LevelHandler.GetEditMode() then
 				BlockHandler.SpawnBlock(blockType, mousePos)
+        SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 				self.currentBlock = false
 			else
 				self.currentBlock = BlockHandler.SpawnBlock(blockType, blockPos)
@@ -473,35 +477,44 @@ function api.MousePressed(x, y, button)
 	elseif self.currentItem == "editPlaceBlock" then
 		local mousePos = SnapMousePos(x, y)
 		BlockHandler.SpawnBlock(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editPlaceNest" then
 		local mousePos = SnapMousePos(x, y)
 		AntHandler.AddNest(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editPlaceFood" then
 		local mousePos = SnapMousePos(x, y)
 		AntHandler.AddFoodSource(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editPlaceSpawner" then
 		local mousePos = SnapMousePos(x, y)
 		AntHandler.AddSpawner(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editPlaceDoodad" then
 		local mousePos = SnapMousePos(x, y)
 		DoodadHandler.AddDoodad(MaybeRotatePlacement(self.placeType), mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "editRemove" then
 		local mousePos = {x, y}
 		if DoodadHandler.RemoveDoodads(mousePos) then
+      SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 			return true
 		end
 		local block = BlockHandler.GetBlockObjectAt(mousePos)
 		if block then
 			BlockHandler.RemoveBlock(block)
+      SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 			return true
 		end
 		AntHandler.DeleteObjectAt(mousePos)
+    SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
 	elseif self.currentItem == "airhorn" then
 		if api.GetCharges("airhorn") > 0 then
 			local mousePos = {x, y}
 			AntHandler.DoFunctionToAntsInArea("ApplyAirhorn", mousePos, ItemDefs.defs.airhorn.effectRadius)
 			AntHandler.DoFunctionToCreaturesInArea("ApplyAirhorn", mousePos, ItemDefs.defs.airhorn.effectRadius)
 			api.UseCharge("airhorn")
+      SoundHandler.PlaySound("airhorn", false, 0, 0, false, false, 1, true)
 		end
 	elseif self.currentItem == "accelerate" then
 		if api.GetCharges("accelerate") > 0 then
@@ -509,17 +522,20 @@ function api.MousePressed(x, y, button)
 			AntHandler.DoFunctionToAntsInArea("ApplyAcceleration", mousePos, ItemDefs.defs.accelerate.effectRadius)
 			AntHandler.DoFunctionToCreaturesInArea("ApplyAcceleration", mousePos, ItemDefs.defs.accelerate.effectRadius)
 			api.UseCharge("accelerate")
+      SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 		end
 	elseif self.currentItem == "pickup" then
 		local mousePos = {x, y}
 		if self.heldAnt then
 			if AntHandler.DropAnt(mousePos, self.heldAnt) then
 				self.heldAnt = false
+        SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 			end
 		elseif api.GetCharges("pickup") > 0 then
 			self.heldAnt = AntHandler.PickupAnt(mousePos, ItemDefs.defs.pickup.effectRadius)
 			if self.heldAnt then
 				api.UseCharge("pickup")
+        SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 			end
 		end
 	elseif self.currentItem == "scent" then
@@ -534,6 +550,7 @@ function api.MousePressed(x, y, button)
 			local mousePos = {x, y}
 			AntHandler.AddFoodSource(itemDef.placeFoodType, mousePos)
 			api.UseCharge("place_food")
+      SoundHandler.PlaySound("food_drop", false, 0, 0, false, false, 1, true)
 		end
 	end
 end
