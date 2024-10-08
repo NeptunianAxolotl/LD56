@@ -17,6 +17,7 @@ local difficultyRechargeMap = {
 	1,
 	0.75,
 	0.5,
+	0.5,
 }
 
 local moddedMaxChargesDifficultyMod = {
@@ -24,12 +25,25 @@ local moddedMaxChargesDifficultyMod = {
 	1,
 	0.75,
 	0.45,
+	1,
+}
+
+local generalMaxChargesDifficultyMod = {
+	false,
+	false,
+	false,
+	false,
+	0.5,
 }
 
 local function GetMaxCharges(name)
 	local maxCharges = (ItemDefs.defs[name].maxCharges or 1)
 	if self.levelData.maxItemMod then
 		maxCharges = math.floor(1 + maxCharges * (self.levelData.maxItemMod[name] or 1) * moddedMaxChargesDifficultyMod[self.world.GetDifficulty()])
+	end
+	local generalMod = generalMaxChargesDifficultyMod[self.world.GetDifficulty()]
+	if generalMod then
+		maxCharges = math.floor(1 + (maxCharges - 1) * generalMod)
 	end
 	return maxCharges
 end
@@ -374,6 +388,8 @@ local function DrawMenu()
 	elseif difficulty == 3 then
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Insane Mode", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	elseif difficulty == 4 then
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Insaner Mode", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	elseif difficulty == 5 then
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Reset Difficulty", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	end
 	offset = offset + 55
@@ -472,6 +488,8 @@ function HandleHoveredMenuAction()
 		self.world.GetCosmos().SetDifficulty(3)
 	elseif self.hoveredMenuAction == "Insane Mode" then
 		self.world.GetCosmos().SetDifficulty(4)
+	elseif self.hoveredMenuAction == "Insaner Mode" then
+		self.world.GetCosmos().SetDifficulty(5)
 	elseif self.hoveredMenuAction == "Reset Difficulty" then
 		self.world.GetCosmos().SetDifficulty(1)
 	elseif self.hoveredMenuAction == "Sandbox Mode: On" or self.hoveredMenuAction == "Sandbox Mode: Off" then
