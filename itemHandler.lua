@@ -19,7 +19,7 @@ local difficultyRechargeMap = {
 	0.5,
 }
 
-local difficultyItemsMap = {
+local moddedMaxChargesDifficultyMod = {
 	1.2,
 	1,
 	0.75,
@@ -29,7 +29,7 @@ local difficultyItemsMap = {
 local function GetMaxCharges(name)
 	local maxCharges = (ItemDefs.defs[name].maxCharges or 1)
 	if self.levelData.maxItemMod then
-		maxCharges = math.floor(1 + maxCharges * (self.levelData.maxItemMod[name] or 1) * difficultyItemsMap[self.world.GetDifficulty()])
+		maxCharges = math.floor(1 + maxCharges * (self.levelData.maxItemMod[name] or 1) * moddedMaxChargesDifficultyMod[self.world.GetDifficulty()])
 	end
 	return maxCharges
 end
