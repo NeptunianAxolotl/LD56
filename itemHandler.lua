@@ -12,59 +12,15 @@ local function SnapMousePos(x, y)
 	return {math.floor((x + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID, math.floor((y + Global.EDIT_GRID/2)/Global.EDIT_GRID)*Global.EDIT_GRID}
 end
 
-local difficultyRechargeMap = {
-	1.6,
-	1,
-	0.75,
-	0.5,
-	0.5,
-}
-
-local moddedMaxChargesDifficultyMod = {
-	1.2,
-	1,
-	0.75,
-	0.45,
-	1,
-}
-
-local generalMaxChargesDifficultyMod = {
-	false,
-	false,
-	false,
-	false,
-	0.5,
-}
-
-local function GetMaxCharges(name)
-	local maxCharges = (ItemDefs.defs[name].maxCharges or 1)
-	if self.levelData.maxItemMod then
-		maxCharges = math.floor(1 + maxCharges * (self.levelData.maxItemMod[name] or 1) * moddedMaxChargesDifficultyMod[self.world.GetDifficulty()])
-	end
-	local generalMod = generalMaxChargesDifficultyMod[self.world.GetDifficulty()]
-	if generalMod then
-		maxCharges = math.floor(1 + (maxCharges - 1) * generalMod)
-	end
-	return maxCharges
-end
-
-local function GetRechargeTimeMod(name)
-	local recharge = (LevelHandler.GetLevelData().tweaks.itemRechargeMult or 1) * difficultyRechargeMap[self.world.GetDifficulty()]
-	if self.levelData.itemRechargeMod then
-		recharge = recharge * (self.levelData.itemRechargeMod[name] or 1)
-	end
-	return recharge
-end
-
 local function ApplyRecharge(dt, name)
 	local itemDef = ItemDefs.defs[name]
-	if itemDef.maxCharges and self.charges[name] < GetMaxCharges(name) then
-		self.recharge[name] = self.recharge[name] - dt * GetRechargeTimeMod(name)
+	if itemDef.maxCharges and self.charges[name] < GameHandler.GetMaxCharges(name) then
+		self.recharge[name] = self.recharge[name] - dt * GameHandler.GetRechargeTimeMod(name)
 		if self.recharge[name] < 0 then
 			self.charges[name] = self.charges[name] + 1
 			self.recharge[name] = self.recharge[name] + itemDef.rechargeTime
-			if self.charges[name] > GetMaxCharges(name) then
-				self.charges[name] = GetMaxCharges(name)
+			if self.charges[name] > GameHandler.GetMaxCharges(name) then
+				self.charges[name] = GameHandler.GetMaxCharges(name)
 			end
 		end
 	end
@@ -290,8 +246,9 @@ local function DrawLevelTextAndItems()
 	local shopItemsY = 420
 	local mousePos = self.world.GetMousePositionInterface()
 	
-	for i = 1, #levelData.items do
-		local name = levelData.items[i]
+	local availibleItems = GameHandler.GetItems()
+	for i = 1, #availibleItems do
+		local name = availibleItems[i]
 		local itemDef = ItemDefs.defs[name]
 		local selectedItem = self.currentItem == name
 		self.hoveredItem = InterfaceUtil.DrawButton(shopItemsX, shopItemsY, 120, 120, mousePos, name, selectedItem, false, true, false, false, false) or self.hoveredItem
@@ -343,7 +300,7 @@ local function DrawMenu()
 		return
 	end
 
-	local buttons = 11
+	local buttons = 12
 	local sections = 3
 	
 	if LevelHandler.GetEditMode() then
@@ -404,6 +361,8 @@ local function DrawMenu()
 	else
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Sandbox Mode: Off", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	end
+	offset = offset - 55
+	self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Toggle All Items", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 end
 
 function api.DrawInterface()
@@ -464,9 +423,10 @@ function api.KeyPressed(key, scancode, isRepeat)
 	end
 	local number = key and (tonumber(key) or tonumber(string.sub(key, 3, 3)))
 	if number then
-		local levelData = LevelHandler.GetLevelData()
-		if levelData.items[number] then
-			api.SetCurrentItem(levelData.items[number])
+		local availibleItems = GameHandler.GetItems()
+		if availibleItems[number] then
+			local levelData = LevelHandler.GetLevelData()
+			api.SetCurrentItem(availibleItems[number])
 			return true
 		end
 	end
@@ -492,6 +452,8 @@ function HandleHoveredMenuAction()
 		self.world.GetCosmos().SetDifficulty(5)
 	elseif self.hoveredMenuAction == "Reset Difficulty" then
 		self.world.GetCosmos().SetDifficulty(1)
+	elseif self.hoveredMenuAction == "Toggle All Items" then
+		self.world.GetCosmos().ToggleAllItemsMode()
 	elseif self.hoveredMenuAction == "Sandbox Mode: On" or self.hoveredMenuAction == "Sandbox Mode: Off" then
 		GameHandler.ToggleSandboxMode()
 	elseif self.hoveredMenuAction == "Save Level" then
@@ -644,7 +606,7 @@ function api.Initialize(world, levelData)
 	}
 	for i = 1, #ItemDefs.itemList do
 		local name = ItemDefs.itemList[i]
-		self.charges[name] = math.floor(GetMaxCharges(name) * (levelData.tweaks.initialItemsProp or 1))
+		self.charges[name] = math.floor(GameHandler.GetMaxCharges(name) * (levelData.tweaks.initialItemsProp or 1))
 		self.recharge[name] = 0
 	end
 end

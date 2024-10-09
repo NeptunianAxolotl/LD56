@@ -1,11 +1,20 @@
 
 local items = util.LoadDefDirectory("defs/items")
-local itemList = {}
 
 for name, def in pairs(items) do
 	def.name = name
-	itemList[#itemList + 1] = name
 end
+
+local itemList = {
+	"renovate",
+	"airhorn",
+	"accelerate",
+	"pickup",
+	"scent",
+	"mop",
+	"place_food",
+}
+
 local data = {
 	defs = items,
 	itemList = itemList,

@@ -277,12 +277,12 @@ function api.Draw()
 	love.graphics.replaceTransform(self.emptyTransform)
 end
 
-function api.Initialize(cosmos, levelData, difficulty)
+function api.Initialize(cosmos, levelData, difficultyData)
 	self = {}
 	util.SetDefaultWrap(levelData.width, levelData.height)
 	
 	self.cosmos = cosmos
-	self.difficulty = difficulty
+	self.difficulty = difficultyData.difficulty
 	self.cameraTransform = love.math.newTransform()
 	self.interfaceTransform = love.math.newTransform()
 	self.emptyTransform = love.math.newTransform()
@@ -292,6 +292,8 @@ function api.Initialize(cosmos, levelData, difficulty)
 	Delay.Initialise()
 	InterfaceUtil.Initialize()
 	EffectsHandler.Initialize(api)
+	
+	GameHandler.Initialize(api, levelData)
 	LevelHandler.Initialize(api, levelData)
 	AntHandler.PreInitialize(api)
 	
@@ -301,7 +303,6 @@ function api.Initialize(cosmos, levelData, difficulty)
 	AntHandler.Initialize(api)
 	ScentHandler.Initialize(api)
 	DoodadHandler.Initialize(api)
-	GameHandler.Initialize(api)
 	
 	local padding = {left = 0, right = Global.SHOP_WIDTH / Global.VIEW_WIDTH, top = 0, bot = 0}
 	CameraHandler.Initialize(api, levelData, padding)

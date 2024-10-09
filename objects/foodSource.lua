@@ -11,9 +11,9 @@ local function NewFoodSource(world, myDef, position, extraData)
 	self.maxFood = (extraData and extraData.totalFood) or self.def.totalFood
 	if self.maxFood and not self.def.placementLater then
 		if self.def.foodType == "good" then
-			self.maxFood = self.maxFood * (LevelHandler.GetLevelData().tweaks.foodHealthMult or 1)
+			self.maxFood = self.maxFood * GameHandler.GetFoodHealthMult()
 		elseif self.def.foodType == "poison" then
-			self.maxFood = self.maxFood * (LevelHandler.GetLevelData().tweaks.poisonHealthMult or 1)
+			self.maxFood = self.maxFood * GameHandler.GetPoisonHealthMult()
 		end
 	end
 	self.foodLeft = self.maxFood
@@ -47,7 +47,7 @@ local function NewFoodSource(world, myDef, position, extraData)
 	end
 	
 	function self.FoodTaken()
-		if self.maxFood and not LevelHandler.GetEditMode() and not GameHandler.BlockHealthChanges() then
+		if self.maxFood and ((not LevelHandler.GetEditMode() and not GameHandler.BlockHealthChanges()) or self.def.placementLater) then
 			self.foodLeft = self.foodLeft - 1
 			if self.foodLeft <= 0 then
 				self.Destroy()
@@ -83,7 +83,7 @@ local function NewFoodSource(world, myDef, position, extraData)
 		if not self.def.drawLayer then
 			return
 		end
-		drawQueue:push({y=self.def.drawLayer; f=function()
+		drawQueue:push({y=self.def.drawLayer + self.pos[1]*0.000001 + self.pos[2]*0.0001; f=function()
 			if self.def.image then
 				DoodadHandler.DrawDoodad(self.def, self.pos, 1, GetFoodSize(self))
 			else

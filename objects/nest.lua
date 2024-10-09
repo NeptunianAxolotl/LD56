@@ -6,7 +6,7 @@ local function NewNest(world, myDef, position, extraData)
 	self.def = myDef
 	self.maxHealth = (extraData and extraData.health) or self.def.health
 	if self.maxHealth and not self.def.placementLater then
-		self.maxHealth = self.maxHealth * (LevelHandler.GetLevelData().tweaks.nestHealthMult or 1)
+		self.maxHealth = self.maxHealth * GameHandler.GetNestHealthMult()
 	end
 	self.health = self.maxHealth
 	self.spawnTimer = 1 / self.def.spawnFrequency

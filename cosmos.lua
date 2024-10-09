@@ -38,26 +38,47 @@ end
 function api.GetMusicVolume()
 	return self.musicVolume
 end
+
 --------------------------------------------------
--- Resets etc
+-- Difficulty Modifiers
 --------------------------------------------------
 
 function api.SetDifficulty(newDifficulty)
-	self.difficulty = newDifficulty
+	self.levelModData.difficulty = newDifficulty
 	api.RestartWorld()
 end
 
 function api.GetDifficulty()
-	return self.difficulty
+	return self.levelModData.difficulty
 end
 
+function api.ToggleAllItemsMode()
+	self.levelModData.allItemsMode = not self.levelModData.allItemsMode
+end
+
+function api.GetAllItemsMode()
+	return self.levelModData.allItemsMode
+end
+
+function api.GetSandboxMode()
+	return self.levelModData.sandboxMode
+end
+
+function api.SaveSandboxMode(newSandboxMode)
+	self.levelModData.sandboxMode = newSandboxMode
+end
+
+--------------------------------------------------
+-- Resets
+--------------------------------------------------
+
 function api.RestartWorld()
-	World.Initialize(api, self.curLevelData, self.difficulty)
+	World.Initialize(api, self.curLevelData, self.levelModData)
 end
 
 function api.LoadLevelByTable(levelTable)
 	self.curLevelData = levelTable
-	World.Initialize(api, self.curLevelData, self.difficulty)
+	World.Initialize(api, self.curLevelData, self.levelModData)
 end
 
 function api.SwitchLevel(goNext)
@@ -74,7 +95,7 @@ function api.SwitchLevel(goNext)
 	end
 	self.inbuiltLevelName = newLevelName
 	self.curLevelData = LevelDefs[self.inbuiltLevelName]
-	World.Initialize(api, self.curLevelData, self.difficulty)
+	World.Initialize(api, self.curLevelData, self.levelModData)
 end
 
 function api.GetScrollSpeeds()
@@ -143,6 +164,10 @@ function api.KeyPressed(key, scancode, isRepeat)
 		api.LoadLevelByTable(LevelDefs[Global.TEST_LEVEL_NAME])
 		return true
 	end
+	if key == "h" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		api.SetDifficulty(self.levelModData.difficulty%5 + 1)
+		return true
+	end
 	if key == "n" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
 		api.SwitchLevel(true)
 		return true
@@ -184,7 +209,11 @@ function api.Initialize()
 		inbuiltLevelName = Global.INIT_LEVEL,
 		musicEnabled = true,
 		musicVolume = 1,
-		difficulty = 1,
+		levelModData = {
+			difficulty = 1,
+			allItemsMode = false,
+			sandboxMode = false,
+		},
 		mouseScrollSpeed = Global.MOUSE_SCROLL_MULT,
 		keyScrollSpeed = Global.KEYBOARD_SCROLL_MULT,
 		grabInput = Global.MOUSE_SCROLL_MULT > 0,
@@ -193,7 +222,7 @@ function api.Initialize()
 	MusicHandler.Initialize(api)
 	SoundHandler.Initialize(api)
 	BGMHandler.Initialize(api)
-	World.Initialize(api, self.curLevelData, self.difficulty)
+	World.Initialize(api, self.curLevelData, self.levelModData)
 end
 
 return api
