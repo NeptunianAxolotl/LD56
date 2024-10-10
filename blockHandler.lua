@@ -85,8 +85,9 @@ function api.FreeToPlaceAt(cacheType, defName, pos)
 	if left < 0 or right > self.worldWidth or top < 0 or bot > self.worldHeight then
 		return false
 	end
-	for i = left, right do
-		for j = top, bot do
+	local leftGrid, rightGrid, topGrid, botGrid = api.GetBlockBounds(pos, defName, Global.BLOCK_CACHE_GRID_SIZE)
+	for i = leftGrid, rightGrid do
+		for j = topGrid, botGrid do
 			if cache[i] and cache[i][j] then
 				return false
 			end
