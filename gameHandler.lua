@@ -20,6 +20,7 @@ local difficultyRechargeMap = {
 	0.75,
 	0.5,
 	0.5,
+	0.35,
 }
 
 local moddedMaxChargesDifficultyMod = {
@@ -27,6 +28,7 @@ local moddedMaxChargesDifficultyMod = {
 	1,
 	0.75,
 	0.45,
+	1,
 	1,
 }
 
@@ -36,6 +38,7 @@ local generalMaxChargesDifficultyMod = {
 	false,
 	false,
 	0.5,
+	0.35,
 }
 
 local nestHealthMultAndFoodDivisor = {
@@ -44,6 +47,7 @@ local nestHealthMultAndFoodDivisor = {
 	false,
 	false,
 	1.8,
+	2,
 }
 
 function api.GetMaxCharges(name)

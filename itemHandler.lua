@@ -347,6 +347,8 @@ local function DrawMenu()
 	elseif difficulty == 4 then
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Insaner Mode", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	elseif difficulty == 5 then
+		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Insanest Mode", false, false, false, 3, 8, 4) or self.hoveredMenuAction
+	elseif difficulty == 6 then
 		self.hoveredMenuAction = InterfaceUtil.DrawButton(overX + 20, offset, 270, 45, mousePos, "Reset Difficulty", false, false, false, 3, 8, 4) or self.hoveredMenuAction
 	end
 	offset = offset + 55
@@ -450,6 +452,8 @@ function HandleHoveredMenuAction()
 		self.world.GetCosmos().SetDifficulty(4)
 	elseif self.hoveredMenuAction == "Insaner Mode" then
 		self.world.GetCosmos().SetDifficulty(5)
+	elseif self.hoveredMenuAction == "Insanest Mode" then
+		self.world.GetCosmos().SetDifficulty(6)
 	elseif self.hoveredMenuAction == "Reset Difficulty" then
 		self.world.GetCosmos().SetDifficulty(1)
 	elseif self.hoveredMenuAction == "Toggle All Items" then
