@@ -484,40 +484,7 @@ function api.MousePressedPrePause(x, y, button)
 		HandleHoveredMenuAction()
 		return
 	end
-end
-
-function api.MousePressed(x, y, button)
-	if self.hoveredItem then
-		if self.currentItem == self.hoveredItem then
-			api.SetCurrentItem(false)
-		else
-			api.SetCurrentItem(self.hoveredItem)
-		end
-		self.currentBlock = false
-		return
-	end
-	
-	if self.currentItem == "renovate" then
-		local mousePos = {x, y}
-		if self.currentBlock then
-			local blockType = self.currentBlock.def.name
-			local blockPos = self.currentBlock.pos
-			BlockHandler.RemoveBlock(self.currentBlock)
-			if CanPlaceBlock(self.currentBlock.def, mousePos) or LevelHandler.GetEditMode() then
-				BlockHandler.SpawnBlock(blockType, mousePos)
-        SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
-				self.currentBlock = false
-			else
-				self.currentBlock = BlockHandler.SpawnBlock(blockType, blockPos)
-			end
-		else
-			local block = BlockHandler.GetBlockObjectAt(mousePos)
-			if block and (block.def.canBeMoved or LevelHandler.GetEditMode()) then
-				self.currentBlock = block
-				return true
-			end
-		end
-	elseif self.currentItem == "editPlaceBlock" then
+	if self.currentItem == "editPlaceBlock" then
 		local mousePos = SnapMousePos(x, y)
 		BlockHandler.SpawnBlock(MaybeRotatePlacement(self.placeType), mousePos)
     SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
@@ -551,6 +518,40 @@ function api.MousePressed(x, y, button)
 		end
 		AntHandler.DeleteObjectAt(mousePos)
     SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
+	end
+end
+
+function api.MousePressed(x, y, button)
+	if self.hoveredItem then
+		if self.currentItem == self.hoveredItem then
+			api.SetCurrentItem(false)
+		else
+			api.SetCurrentItem(self.hoveredItem)
+		end
+		self.currentBlock = false
+		return
+	end
+	
+	if self.currentItem == "renovate" then
+		local mousePos = {x, y}
+		if self.currentBlock then
+			local blockType = self.currentBlock.def.name
+			local blockPos = self.currentBlock.pos
+			BlockHandler.RemoveBlock(self.currentBlock)
+			if CanPlaceBlock(self.currentBlock.def, mousePos) or LevelHandler.GetEditMode() then
+				BlockHandler.SpawnBlock(blockType, mousePos)
+        SoundHandler.PlaySound("hammer", false, 0, 0, false, false, 1, true)
+				self.currentBlock = false
+			else
+				self.currentBlock = BlockHandler.SpawnBlock(blockType, blockPos)
+			end
+		else
+			local block = BlockHandler.GetBlockObjectAt(mousePos)
+			if block and (block.def.canBeMoved or LevelHandler.GetEditMode()) then
+				self.currentBlock = block
+				return true
+			end
+		end
 	elseif self.currentItem == "airhorn" then
 		if api.GetCharges("airhorn") > 0 then
 			local mousePos = {x, y}

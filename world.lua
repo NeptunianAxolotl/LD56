@@ -114,15 +114,15 @@ function api.KeyPressed(key, scancode, isRepeat)
 end
 
 function api.MousePressed(x, y, button)
+	local uiX, uiY = self.interfaceTransform:inverse():transformPoint(x, y)
+	x, y = CameraHandler.GetCameraTransform():inverse():transformPoint(x, y)
+	
 	if ItemHandler.MousePressedPrePause(x, y, button) then
 		return
 	end
 	if api.GetPaused() then
 		return
 	end
-	local uiX, uiY = self.interfaceTransform:inverse():transformPoint(x, y)
-	x, y = CameraHandler.GetCameraTransform():inverse():transformPoint(x, y)
-	
 	-- Send event to game components
 	if ItemHandler.MousePressed(x, y, button) then
 		return true
